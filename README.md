@@ -16,6 +16,12 @@ The rest of the documentation assume `Ellyb` is referring to an instance of the 
 
 ## What's included
 
+- [Assertions](#assertions)
+- [Color](#color)
+- [ColorManager](#colormanager)
+- [Logger](#logger)
+- [ModulesManagement](#modulesmanagement)
+
 ### Assertions
 
 ```lua
@@ -37,7 +43,7 @@ assert(Assertions.isType(myFrame, "Button", "myFrame"));
 
 #### Assertions.isOfTypes(variable, expectedTypes, variableName)
 
-Check if a variable is of one of the expected type.
+Check if a variable is of one of the expected types.
 
 ```lua
 assert(Assertions.isType(myVar, {"string", "number", "table"}, "myVar"));
@@ -59,3 +65,15 @@ Check if a variable is not empty. This means `nil`, an empty string `""` or an e
 ```lua
 assert(Assertions.isNotEmpty(myTable, "myTable"));
 ```
+
+### Color
+
+[WIP]
+
+### ColorManager
+
+[WIP]
+
+### ModulesManagement
+
+[WIP]

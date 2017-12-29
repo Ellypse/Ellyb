@@ -37,6 +37,7 @@ local function OnLoad(Ellyb)
         local isOfExpectedType = variableType == expectedType;
         if not isOfExpectedType then
             -- Special check for frames. If a variable is a table, it could be a Frame.
+            -- TODO Make it so the error message is different and give the Widget's type instead of variable type
             if variableType == "table" and type(variable.IsObjectType) == "function" and variable:IsObjectType(expectedType) then
                 return true;
             else
@@ -81,6 +82,7 @@ local function OnLoad(Ellyb)
                 end
                 expectedTypesString = expectedTypesString .. expectedType;
             end
+            -- TODO Make it so the error message is different and give the Widget's type instead of variable type
             return false, format(DEBUG_WRONG_VARIABLE_TYPES, variableName, variableType, expectedTypesString);
         else
             return true;
