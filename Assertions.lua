@@ -20,7 +20,9 @@ local function OnLoad(Ellyb)
 	-- Error messages
 	local DEBUG_NIL_VARIABLE = [[Unexpected nil variable "%s".]];
 	local DEBUG_WRONG_VARIABLE_TYPE = [[Invalid variable type "%2$s" for variable "%1$s", expected "%3$s".]];
+	local DEBUG_WRONG_WIDGET_TYPE = [[Invalid Widget type "%2$s" for variable "%1$s", expected a "%3$s".]];
 	local DEBUG_WRONG_VARIABLE_TYPES = [[Invalid variable type "%2$s" for variable "%1$s", expected one of (%3$s).]];
+	local DEBUG_WRONG_WIDGET_TYPES = [[Invalid Widget type "%2$s" for variable "%1$s", expected one of (%3$s).]];
 	local DEBUG_EMPTY_VARIABLE = [[Variable "%s" cannot be empty.]];
 
 	---Check if a variable is of the expected type ("number", "boolean", "string")
@@ -38,8 +40,12 @@ local function OnLoad(Ellyb)
 		if not isOfExpectedType then
 			-- Special check for frames. If a variable is a table, it could be a Frame.
 			-- TODO Make it so the error message is different and give the Widget's type instead of variable type
-			if variableType == "table" and type(variable.IsObjectType) == "function" and variable:IsObjectType(expectedType) then
-				return true;
+			if variableType == "table" and type(variable.IsObjectType) == "function" then
+				if variable:IsObjectType(expectedType) then
+					return true;
+				else
+					return false, format(DEBUG_WRONG_WIDGET_TYPE, variableName, variableType, expectedType);
+				end
 			else
 				return false, format(DEBUG_WRONG_VARIABLE_TYPE, variableName, variableType, expectedType);
 			end
@@ -82,8 +88,11 @@ local function OnLoad(Ellyb)
 				end
 				expectedTypesString = expectedTypesString .. expectedType;
 			end
-			-- TODO Make it so the error message is different and give the Widget's type instead of variable type
-			return false, format(DEBUG_WRONG_VARIABLE_TYPES, variableName, variableType, expectedTypesString);
+			if isUIObject then
+				return false, format(DEBUG_WRONG_WIDGET_TYPES, variableName, variableType, expectedTypesString);
+			else
+				return false, format(DEBUG_WRONG_VARIABLE_TYPES, variableName, variableType, expectedTypesString);
+			end
 		else
 			return true;
 		end
