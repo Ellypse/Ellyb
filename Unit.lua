@@ -8,6 +8,8 @@ local UnitVehicleSeatCount = UnitVehicleSeatCount;
 local UnitExists = UnitExists;
 local UnitCanAttack = UnitCanAttack;
 local UnitFullName = UnitFullName;
+local UnitInParty = UnitInParty;
+local UnitInRaid = UnitInRaid;
 local strsplit = strsplit;
 
 ---@param Ellyb Ellyb @ Instance of the library
@@ -76,7 +78,7 @@ local function OnLoad(Ellyb)
 	---Check if the unit can be mounted (has a multi seated mount, is in the same group/raid, has seats available, etc.)
 	---@return boolean isMountable @ Returns true if the unit can be mounted
 	function Unit:IsMountable()
-		return UnitVehicleSeatCount(_private[self].rawUnitID) and UnitVehicleSeatCount(_private[self].rawUnitID) > 0 and (_private[self].rawUnitID(unit) or _private[self].rawUnitID(unit))
+		return UnitVehicleSeatCount(_private[self].rawUnitID) and UnitVehicleSeatCount(_private[self].rawUnitID) > 0 and (UnitInParty(_private[self].rawUnitID) or UnitInRaid(_private[self].rawUnitID))
 	end
 end
 
