@@ -7,12 +7,10 @@ local tostring = tostring;
 local tConcat = table.concat;
 local assert = assert;
 local string = string;
-local match = string.match;
 local random = math.random;
 local date = date;
 local tinsert = table.insert;
 local pcall = pcall;
-local strconcat = strconcat;
 local strtrim = strtrim;
 local gsub = string.gsub;
 local type = type;
@@ -44,7 +42,7 @@ local function OnLoad(Ellyb, env)
 			toStringedMessages[k] = tostring(v);
 		end
 		-- Concat the table of string values with the separator
-		return tConcat(toStringedMessages, " ");
+		return tConcat(toStringedMessages, customSeparator);
 	end
 
 	-- Only used for French related stuff, it's okay if non-latin characters are not here
@@ -57,7 +55,7 @@ local function OnLoad(Ellyb, env)
 	---@return boolean isAVowel @ True if the letter is a vowel
 	function Strings.isAVowel(letter)
 		assert(Ellyb.Assertions.isType(letter, "string", "letter"));
-		return VOWELS[letter] == true;
+		return VOWELS[letter] ~= nil;
 	end
 
 	---@param text string
@@ -124,7 +122,7 @@ local function OnLoad(Ellyb, env)
 	---@return string ID @ An ID that is not already used inside this table
 	function Strings.generateUniqueID(table)
 		local ID = Strings.generateID();
-		while table[ID] do
+		while table[ID] ~= nil do
 			ID = Strings.generateID();
 		end
 		return ID;
