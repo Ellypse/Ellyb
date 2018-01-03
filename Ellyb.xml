@@ -3,11 +3,15 @@
 	<Script file="middleclass.lua" />
 
 	<Script file="Ellyb.lua" />
+	<Script file="ModulesManagement.lua" />
 	<Script file="Assertions.lua" />
 	<Script file="Color.lua" />
 	<Script file="ColorManager.lua" />
     <Include file="LogsFrame.xml" />
 	<Script file="Logger.lua" />
+	<Script file="Tables.lua" />
 	<Script file="Cursor.lua" />
+	<Script file="Strings.lua" />
+	<Script file="GameEvents.lua" />
 
 </Ui>

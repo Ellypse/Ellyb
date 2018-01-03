@@ -62,7 +62,7 @@ local function OnLoad(Ellyb)
 			blue = tonumber(sub(hexadecimalCode, 7, 8), 16)
 		end
 
-		return self.convertColorBytesToBits(red, green, blue, alpha);
+		return Ellyb.ColorManager.convertColorBytesToBits(red, green, blue, alpha);
 	end
 
 	--- Get the associated Color for the given class.
@@ -95,7 +95,7 @@ local function OnModulesLoaded(Ellyb)
 	local Color = Ellyb.Color;
 
 	-- We create a bunch of common Color constants to be quickly available everywhere
-	-- The Colors are :Freeze()d so they can't be altered
+	-- The Colors are frozen so they cannot be altered
 
 	-- Common colors
 	ColorManager.ORANGE = Color(255, 153, 0):Freeze();

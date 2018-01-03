@@ -4,6 +4,7 @@ local _, Ellyb = ...;
 -- WoW imports
 local format = string.format;
 local uppercase = string.upper;
+local setmetatable = setmetatable;
 
 ---@param Ellyb Ellyb
 local function OnLoad(Ellyb)
@@ -169,7 +170,7 @@ local function OnLoad(Ellyb)
 		return Ellyb.Color(self:GetRGBA());
 	end
 
-	local HEXADECIMAL_COLOR_PATTERN = "%.2x%.2x%.2x%.2x";
+	local HEXADECIMAL_COLOR_PATTERN = "%.2x%.2x%.2x";
 	local HEXADECIMAL_COLOR_PATTERN_WITH_ALPHA = "%.2x" .. HEXADECIMAL_COLOR_PATTERN;
 	---@param optional doNotIncludeAlpha boolean @ Set to true if the color code should not have the alpha
 	---@return string HexadecimalColor @ Generate an hexadecimal representation of the code (`FFAABBCC`);
@@ -187,7 +188,7 @@ local function OnLoad(Ellyb)
 	---@param text string @ The text to be colored
 	---@return string coloredText @ A colored representation of the given text
 	function Color:WrapTextInColorCode(text)
-		return format(COLOR_CODE_PATTERN, self:GenerateHexColor(), text);
+		return format(COLOR_CODE_PATTERN, self:GenerateHexadecimalColor(), text);
 	end
 end
 

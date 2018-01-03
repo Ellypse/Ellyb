@@ -29,10 +29,16 @@ end
 --- Load a new instance of the registered modules into an instance of the library passed.
 ---@param libraryInstance Ellyb @ An instance of the Ellyb library
 function ModulesManagement:LoadModules(libraryInstance)
+	-- Create a private environment shared by both the moduleDeclaration and onModulesLoadedCallback
+	-- So that onModulesLoadedCallbacks can instantiate variables in moduleDeclaration
+	local privateEnvironments = {};
+
 	for moduleName, moduleDeclaration in pairs(modules) do
-		moduleDeclaration(libraryInstance);
+		privateEnvironments[moduleName] = {};
+		moduleDeclaration(libraryInstance, privateEnvironments[moduleName]);
 	end
+
 	for moduleName, onModulesLoadedCallback in pairs(onModulesLoadedCallbacks) do
-		onModulesLoadedCallback(libraryInstance);
+		onModulesLoadedCallback(libraryInstance, privateEnvironments[moduleName]);
 	end
 end
