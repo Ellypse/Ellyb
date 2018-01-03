@@ -11,6 +11,8 @@ local wipe = wipe;
 local next = next;
 local format = string.format;
 local assert = assert;
+local setmetatable = setmetatable;
+local _G = _G;
 
 ---@param Ellyb Ellyb @ Instance of the library
 ---@param env table @ Private environment
@@ -41,9 +43,6 @@ local function OnLoad(Ellyb, env)
 	local function dumpKey(key)
 		return DUMPCOLOR2:WrapTextInColorCode(key);
 	end
-
-	local OPENING_TABLE = DUMPCOLOR3:WrapTextInColorCode("{");
-	local CLOSING_TABLE = DUMPCOLOR3:WrapTextInColorCode("}");
 
 	---@param table table @ The table we want to print
 	---@param level number @ The current recursivity level, used for indentation
@@ -86,13 +85,14 @@ local function OnLoad(Ellyb, env)
 		if table then
 			tableDump(table, 1, withCount);
 		end
+		Logger:Show();
 	end
 
 	---Make use of WoW's shiny new table inspector window to inspect a table programatically
 	---@param table table @ The table we want to inspect in WoW's table inspector
 	function Tables.inspect(table)
-		UIParentLoadAddOn("Blizzard_DebugTools");
-		DisplayTableInspectorWindow(table);
+		_G.UIParentLoadAddOn("Blizzard_DebugTools");
+		_G.DisplayTableInspectorWindow(table);
 	end
 
 	--- Recursively copy all content from a table to another one.
@@ -204,6 +204,9 @@ local function OnModulesLoaded(Ellyb, env)
 	DUMPCOLOR2 = Ellyb.Color("00ff00");
 	DUMPCOLOR3 = Ellyb.Color("ffff00");
 	DUMPCOLOR4 = Ellyb.Color("ff9900");
+
+	OPENING_TABLE = DUMPCOLOR3:WrapTextInColorCode("{");
+	CLOSING_TABLE = DUMPCOLOR3:WrapTextInColorCode("}");
 end
 
 Ellyb.ModulesManagement:RegisterNewModule("Tables", OnLoad, OnModulesLoaded);
