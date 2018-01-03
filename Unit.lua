@@ -47,7 +47,7 @@ local function OnLoad(Ellyb)
 
 	---@return string unitID @ Returns the unit ID in the format PlayerName-ServerName
 	function Unit:GetUnitID()
-		local playerName, realm = UnitFullName(unit);
+		local playerName, realm = UnitFullName(_private[self].rawUnitID);
 		if not playerName or playerName:len() == 0 or playerName == UNKNOWNOBJECT then
 			return nil;
 		end
