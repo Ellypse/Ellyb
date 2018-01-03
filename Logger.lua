@@ -45,6 +45,19 @@ local function OnLoad(Ellyb)
 		SEVERE = "SEVERE",
 	}
 
+	---@return Color
+	local function getColorForLevel(level)
+		if level == Logger.LEVELS.SEVERE then
+			return Ellyb.ColorManager.RED;
+		elseif level == Logger.LEVELS.WARNING then
+			return Ellyb.ColorManager.ORANGE;
+		elseif level == Logger.LEVELS.DEBUG then
+			return Ellyb.ColorManager.CYAN;
+		else
+			return Ellyb.ColorManager.WHITE;
+		end
+	end
+
 	--- Constructor
 	---@param moduleName string @ The name of the module initializing the Logger
 	function Logger:initialize(moduleName)
@@ -58,9 +71,10 @@ local function OnLoad(Ellyb)
 		return _private[self].moduleName;
 	end
 
-	local LOG_HEADER_FORMAT = "[%s - %S]: ";
+	local LOG_HEADER_FORMAT = "[%s - %s]: ";
 	function Logger:GetLogHeader(logLevel)
-		return format(LOG_HEADER_FORMAT, Ellyb.ColorManager.ORANGE(self:GetModuleName()), logLevel);
+		local color = getColorForLevel(logLevel);
+		return format(LOG_HEADER_FORMAT, Ellyb.ColorManager.ORANGE(self:GetModuleName()), color(logLevel));
 	end
 
 	function Logger:Log(level, ...)
@@ -92,7 +106,7 @@ local function OnLoad(Ellyb)
 			local logText = Ellyb.ColorManager.GREY(log:GetText());
 			local logHeader = self:GetLogHeader(log.level);
 			local lineNumber = format("[%03d]", index);
-			text = text .. Ellyb.ColorManager.GREY(lineNumber) .. log .. "\n";
+			text = text .. Ellyb.ColorManager.GREY(lineNumber) .. logHeader .. logText .. "\n";
 		end
 		Text:SetText(text);
 		LogFrame:Show();
