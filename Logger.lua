@@ -92,11 +92,11 @@ local function OnLoad(Ellyb)
 			local logText = Ellyb.ColorManager.GREY(log:GetText());
 			local logHeader = self:GetLogHeader(log.level);
 			local lineNumber = format("[%03d]", index);
-			text = text .. Ellyb.ColorManager.GREY("[" .. lineNumber .. "]") .. logHeader .. logText .. "\n";
+			text = text .. Ellyb.ColorManager.GREY(lineNumber) .. log .. "\n";
 		end
 		Text:SetText(text);
 		LogFrame:Show();
 	end
 end
 
-Ellyb.ModulesManagement:RegisterNewModule("ColorManager", OnLoad);
+Ellyb.ModulesManagement:RegisterNewModule("Logger", OnLoad);
