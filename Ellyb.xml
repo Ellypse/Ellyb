@@ -3,6 +3,7 @@
 	<Script file="middleclass.lua" />
 
 	<Script file="Ellyb.lua" />
+	<Script file="ModulesManagement.lua" />
 	<Script file="Assertions.lua" />
 	<Script file="Color.lua" />
 	<Script file="ColorManager.lua" />

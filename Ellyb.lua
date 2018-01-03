@@ -34,13 +34,16 @@ function _G.Ellyb(addonName)
 	return newLibraryInstance;
 end
 
-function Ellyb:Test()
+function EllybTest()
 
-	local lib = _G.Ellyb();
+	local lib = _G.Ellyb("Test");
 
 	local Logger = lib.Logger("Test");
-	for i = 0, 100 do
-		Logger:Log("This is a test", i, true, { r = 1 }, lib.ColorManager.TWITTER);
+	for i = 0, 30 do
+		Logger:Info("This is a test", i, true, { r = 1 }, lib.ColorManager.TWITTER);
+		Logger:Debug("This is a test", i, true, { r = 1 }, lib.ColorManager.TWITTER);
+		Logger:Severe("This is a test", i, true, { r = 1 }, lib.ColorManager.TWITTER);
+		Logger:Warning("This is a test", i, true, { r = 1 }, lib.ColorManager.TWITTER);
 	end
 
 	Logger:Show();

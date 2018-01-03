@@ -62,7 +62,7 @@ local function OnLoad(Ellyb)
 			blue = tonumber(sub(hexadecimalCode, 7, 8), 16)
 		end
 
-		return self.convertColorBytesToBits(red, green, blue, alpha);
+		return Ellyb.ColorManager.convertColorBytesToBits(red, green, blue, alpha);
 	end
 
 	--- Get the associated Color for the given class.
