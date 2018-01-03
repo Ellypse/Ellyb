@@ -10,6 +10,7 @@
     <Include file="LogsFrame.xml" />
 	<Script file="Logger.lua" />
 	<Script file="Tables.lua" />
+	<Script file="Strings.lua" />
 	<Script file="GameEvents.lua" />
 
 </Ui>
