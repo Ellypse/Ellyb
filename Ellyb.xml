@@ -8,5 +8,6 @@
 	<Script file="ColorManager.lua" />
     <Include file="LogsFrame.xml" />
 	<Script file="Logger.lua" />
+	<Script file="Strings.lua" />
 
 </Ui>
