@@ -13,8 +13,6 @@ local strsplit = strsplit;
 ---@param Ellyb Ellyb @ Instance of the library
 local function OnLoad(Ellyb)
 
-	local _, playerRealmName = UnitFullName("player");
-
 	---@class Unit : Object
 	local Unit = Ellyb.class("Unit");
 	Ellyb.Unit = Unit;
@@ -52,6 +50,7 @@ local function OnLoad(Ellyb)
 			return nil;
 		end
 		if not realm then
+			local _, playerRealmName = UnitFullName("player");
 			realm = playerRealmName;
 		end
 		return playerName .. "-" .. realm;
