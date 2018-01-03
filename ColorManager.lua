@@ -95,7 +95,7 @@ local function OnModulesLoaded(Ellyb)
 	local Color = Ellyb.Color;
 
 	-- We create a bunch of common Color constants to be quickly available everywhere
-	-- The Colors are :Freeze()d so they can't be altered
+	-- The Colors are frozen so they cannot be altered
 
 	-- Common colors
 	ColorManager.ORANGE = Color(255, 153, 0):Freeze();

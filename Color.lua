@@ -4,6 +4,7 @@ local _, Ellyb = ...;
 -- WoW imports
 local format = string.format;
 local uppercase = string.upper;
+local setmetatable = setmetatable;
 
 ---@param Ellyb Ellyb
 local function OnLoad(Ellyb)
