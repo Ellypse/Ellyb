@@ -34,9 +34,9 @@ function _G.Ellyb(addonName)
 	return newLibraryInstance;
 end
 
-function Ellyb:Test()
+function EllybTest()
 
-	local lib = _G.Ellyb();
+	local lib = _G.Ellyb("Test");
 
 	local Logger = lib.Logger("Test");
 	for i = 0, 100 do

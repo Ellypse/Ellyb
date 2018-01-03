@@ -39,7 +39,7 @@ local function OnLoad(Ellyb)
 		for _, arg in pairs({ ... }) do
 			text = text .. tostring(arg) .. " ";
 		end
-		text = Ellyb.Logger.LOG_COLOR(text);
+		text = Ellyb.ColorManager.GREY(text);
 		text = self:GetLogHeader() .. text;
 		insert(_private[self].logs, text);
 	end
@@ -50,11 +50,11 @@ local function OnLoad(Ellyb)
 		local text = "";
 		for index, log in pairs(_private[self].logs) do
 			local lineNumber = format("[%03d]", index);
-			text = text .. Ellyb.ColorManager.GREY("[" .. lineNumber .. "]") .. log .. "\n";
+			text = text .. Ellyb.ColorManager.GREY(lineNumber) .. log .. "\n";
 		end
 		Text:SetText(text);
 		LogFrame:Show();
 	end
 end
 
-Ellyb.ModulesManagement:RegisterNewModule("ColorManager", OnLoad);
+Ellyb.ModulesManagement:RegisterNewModule("Logger", OnLoad);
