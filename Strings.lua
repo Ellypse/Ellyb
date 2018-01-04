@@ -1,7 +1,7 @@
 ---@type Ellyb
 local _, Ellyb = ...;
 
--- WoW imports
+-- Lua imports
 local pairs = pairs;
 local tostring = tostring;
 local tConcat = table.concat;
@@ -14,6 +14,9 @@ local pcall = pcall;
 local strtrim = strtrim;
 local gsub = string.gsub;
 local type = type;
+
+-- WoW imports
+local IsMacClient = IsMacClient();
 
 ---@param Ellyb Ellyb @ Instance of the library
 ---@param env table @ Private environment
@@ -190,6 +193,40 @@ local function OnLoad(Ellyb, env)
 			end
 		end
 		return text
+	end
+
+	local SHORTCUT_SEPARATOR = IsMacClient and  "-" or " + ";
+
+	Strings.KEYBOARD_SHORTCUTS = {
+		CTRL = "Ctrl",
+		ALT = "Alt",
+		SHIFT = "Shift",
+	}
+
+	local MAC_SHORT_EQUIVALENCE = {
+		[Strings.KEYBOARD_SHORTCUTS.CTRL] = "Command",
+		[Strings.KEYBOARD_SHORTCUTS.ALT] = "Option",
+		[Strings.KEYBOARD_SHORTCUTS.SHIFT] = "Shift",
+	}
+
+	function Strings.keyboardShortcut(...)
+		local shortcutComponents = { ... };
+
+		return tConcat(shortcutComponents, SHORTCUT_SEPARATOR);
+	end
+
+	function Strings.systemKeyboardShortcut(...)
+		local shortcutComponents = { ... };
+
+		if IsMacClient then -- Replace shortcut components
+			for index, component in pairs(shortcutComponents) do
+				if MAC_SHORT_EQUIVALENCE[component] then
+					shortcutComponents[index] = MAC_SHORT_EQUIVALENCE[component];
+				end
+			end
+		end
+
+		return tConcat(shortcutComponents, SHORTCUT_SEPARATOR);
 	end
 
 end

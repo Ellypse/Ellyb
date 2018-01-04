@@ -15,5 +15,6 @@
 	<Script file="Unit.lua" />
 
 	<Include file="Cursor\Cursor.xml" />
+	<Include file="UI\UI.xml" />
 
 </Ui>
