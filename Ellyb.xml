@@ -13,5 +13,6 @@
 	<Script file="Cursor.lua" />
 	<Script file="Strings.lua" />
 	<Script file="GameEvents.lua" />
+	<Script file="Unit.lua" />
 
 </Ui>

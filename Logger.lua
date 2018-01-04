@@ -80,6 +80,10 @@ local function OnLoad(Ellyb)
 	function Logger:Log(level, ...)
 		local log = Log(level, ...);
 		insert(_private[self].logs, log);
+
+		if LogFrame:IsShown() then
+			self:Show();
+		end
 	end
 
 	function Logger:Debug(...)

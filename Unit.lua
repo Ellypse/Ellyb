@@ -8,12 +8,12 @@ local UnitVehicleSeatCount = UnitVehicleSeatCount;
 local UnitExists = UnitExists;
 local UnitCanAttack = UnitCanAttack;
 local UnitFullName = UnitFullName;
+local UnitInParty = UnitInParty;
+local UnitInRaid = UnitInRaid;
 local strsplit = strsplit;
 
 ---@param Ellyb Ellyb @ Instance of the library
 local function OnLoad(Ellyb)
-
-	local _, playerRealmName = UnitFullName("player");
 
 	---@class Unit : Object
 	local Unit = Ellyb.class("Unit");
@@ -47,11 +47,12 @@ local function OnLoad(Ellyb)
 
 	---@return string unitID @ Returns the unit ID in the format PlayerName-ServerName
 	function Unit:GetUnitID()
-		local playerName, realm = UnitFullName(unit);
+		local playerName, realm = UnitFullName(_private[self].rawUnitID);
 		if not playerName or playerName:len() == 0 or playerName == UNKNOWNOBJECT then
 			return nil;
 		end
 		if not realm then
+			local _, playerRealmName = UnitFullName("player");
 			realm = playerRealmName;
 		end
 		return playerName .. "-" .. realm;
@@ -77,7 +78,7 @@ local function OnLoad(Ellyb)
 	---Check if the unit can be mounted (has a multi seated mount, is in the same group/raid, has seats available, etc.)
 	---@return boolean isMountable @ Returns true if the unit can be mounted
 	function Unit:IsMountable()
-		return UnitVehicleSeatCount(_private[self].rawUnitID) and UnitVehicleSeatCount(_private[self].rawUnitID) > 0 and (_private[self].rawUnitID(unit) or _private[self].rawUnitID(unit))
+		return UnitVehicleSeatCount(_private[self].rawUnitID) and UnitVehicleSeatCount(_private[self].rawUnitID) > 0 and (UnitInParty(_private[self].rawUnitID) or UnitInRaid(_private[self].rawUnitID))
 	end
 end
 
