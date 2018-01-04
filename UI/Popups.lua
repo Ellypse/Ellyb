@@ -20,6 +20,9 @@ local function OnLoad(Ellyb, env)
 	---@type Frame
 	local URLPopup = _G.Ellyb_StaticPopOpenUrl;
 
+	--- Open a popup with an autofocused text field to let the user copy the URL
+	---@param url string @ The URL we want to let the user copy
+	---@param customText string @ A custom text to display, instead of the default hint to copy the URL
 	function Popups:OpenURL(url, customText)
 		URLPopup.Text:SetText(customText or format(COPY_LINK, Ellyb.ColorManager.ORANGE(copyShortcut), Ellyb.ColorManager.ORANGE(pasteShortcut)));
 		URLPopup.Url:SetText(url);

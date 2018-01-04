@@ -209,12 +209,19 @@ local function OnLoad(Ellyb, env)
 		[Strings.KEYBOARD_SHORTCUTS.SHIFT] = "Shift",
 	}
 
+	--- Format a keyboard shortcut with the appropriate separators according to the user operating system
+	---@param ... string[]
+	---@return string keyboardShortcut
 	function Strings.keyboardShortcut(...)
 		local shortcutComponents = { ... };
 
 		return tConcat(shortcutComponents, SHORTCUT_SEPARATOR);
 	end
 
+	--- Format a keyboard shortcut with the appropriate separators according to the user operating system
+	--- Will also convert Ctrl into Command and Alt into Option for Mac users.
+	---@param ... string[]
+	---@return string keyboardShortcut
 	function Strings.systemKeyboardShortcut(...)
 		local shortcutComponents = { ... };
 
