@@ -37,7 +37,12 @@ local function OnLoad(Ellyb, env)
 	end
 
 	CursorFrame:SetScript("OnUpdate", function(self)
-		if shouldHideOnUnitChanged and not Mouseover:Exists() then
+		if Mouseover:Exists() then
+			self.unitID = Mouseover:GetUnitID();
+		else
+			self.unitID = nil;
+		end
+		if shouldHideOnUnitChanged and not self.unitID then
 			self:Hide();
 			shouldHideOnUnitChanged = false;
 		else
@@ -64,6 +69,7 @@ local function OnLoad(Ellyb, env)
 
 	---Hide the cursor texture
 	function Cursor:ClearIcon()
+		CursorFrame.unitID = nil;
 		CursorFrame:Hide();
 	end
 
@@ -78,29 +84,34 @@ local function OnLoad(Ellyb, env)
 	end
 
 	local clickTimestamp;
-	local clickedUnitID;
+	local clickUnitID;
 
 	-- Hook function called on right-click start on player
 	hooksecurefunc("TurnOrActionStart", function()
-		clickedUnitID = Mouseover:GetUnitID();
+		CursorFrame.actionStarted = true;
+		clickUnitID = CursorFrame.unitID;
 		clickTimestamp = time();
 	end)
 
 	-- Hook function called when right-click is released
 	hooksecurefunc("TurnOrActionStop", function()
-		if not clickedUnitID or not clickTimestamp then
+		CursorFrame.actionStarted = false;
+		if not clickTimestamp or not clickUnitID then
 			return
 		end
 
 		-- If the right-click is maintained longer than 1 second, consider it a drag and not a click, ignore it
 		if time() - clickTimestamp < 1 then
 			-- Check that the user wasn't actually moving (very fast) the camera and the cursor still is on the targeted unit
-			if Mouseover:Exists() and clickedUnitID == Mouseover:GetUnitID() then
+			if Target:GetUnitID() == clickUnitID then
 				for _, callback in pairs(onUnitRightClickedCallbacks) do
-					callback();
+					callback(clickUnitID);
 				end
 			end
 		end
+
+		clickUnitID = nil;
+		clickTimestamp = nil;
 	end)
 
 end
@@ -111,6 +122,7 @@ local function OnModulesLoad(Ellyb, env)
 
 	Logger = Ellyb.Logger("Cursor");
 	Mouseover = Ellyb.Unit("mouseover");
+	Target = Ellyb.Unit("target");
 end
 
 Ellyb.ModulesManagement:RegisterNewModule("Cursor", OnLoad, OnModulesLoad);
