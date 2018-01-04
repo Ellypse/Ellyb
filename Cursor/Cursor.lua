@@ -28,8 +28,7 @@ local function OnLoad(Ellyb, env)
 	local Icon = CursorFrame.Icon;
 
 	local DEFAULT_ANCHOR_X, DEFAULT_ANCHOR_Y = 33, -3;
-
-	CursorFrame:Show();
+	local shouldHideOnUnitChanged = false;
 
 	function CursorFrame:PlaceOnCursor()
 		local scale = 1 / UIParent:GetEffectiveScale();
@@ -38,7 +37,12 @@ local function OnLoad(Ellyb, env)
 	end
 
 	CursorFrame:SetScript("OnUpdate", function(self)
-		self:PlaceOnCursor();
+		if shouldHideOnUnitChanged and not Mouseover:Exists() then
+			self:Hide();
+			shouldHideOnUnitChanged = false;
+		else
+			self:PlaceOnCursor();
+		end
 	end);
 
 	---Set the icon texture attached to the cursor
@@ -52,6 +56,10 @@ local function OnLoad(Ellyb, env)
 		Icon:SetPoint("TOPLEFT", x or DEFAULT_ANCHOR_X, y or DEFAULT_ANCHOR_Y);
 		CursorFrame:PlaceOnCursor();
 		CursorFrame:Show();
+	end
+
+	function Cursor:HideOnUnitChanged()
+		shouldHideOnUnitChanged = true;
 	end
 
 	---Hide the cursor texture
