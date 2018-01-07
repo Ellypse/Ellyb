@@ -52,7 +52,7 @@ local function OnLoad(Ellyb, env)
 	---Unregister a previously registered callback using the handler ID given at registration
 	---@param handlerID string @ The handler ID of a previsouly registered callback that we want to unregister
 	function GameEvents.unregisterHandler(handlerID)
-		assert(Ellyb.Assertions.isType(handlerID, "handlerID"));
+		assert(Ellyb.Assertions.isType(handlerID, "string", "handlerID"));
 
 		-- Look for the handler ID through all the events
 		for event, eventTab in pairs(REGISTERED_EVENTS) do
