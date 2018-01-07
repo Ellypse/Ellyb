@@ -105,7 +105,8 @@ local function OnModulesLoaded(Ellyb)
 	ColorManager.BLUE = Color(0, 0, 1):Freeze();
 	ColorManager.GREEN = Color(0, 1, 0):Freeze();
 	ColorManager.RED = Color(1, 0, 0):Freeze();
-	ColorManager.PURPLE = Color(1, 0, 1):Freeze();
+	ColorManager.PURPLE = Color(0.5, 0, 1):Freeze();
+	ColorManager.PINK = Color(1, 0, 1):Freeze();
 	ColorManager.BLACK = Color(0, 0, 0):Freeze();
 	ColorManager.GREY = Color("#CCC"):Freeze();
 
