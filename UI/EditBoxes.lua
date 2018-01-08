@@ -4,6 +4,20 @@ local _, Ellyb = ...;
 ---@class Ellyb_EditBoxMixin : EditBox
 Ellyb_EditBoxMixin = {};
 
+function Ellyb_EditBoxMixin:SetReadOnly(readOnly)
+	if readOnly == nil then
+		readOnly = true;
+	end
+	self:SetAttribute("readOnly", readOnly);
+end
+
+function Ellyb_EditBoxMixin:SetSelectTextOnFocus(selectTextOnFocus)
+	if selectTextOnFocus == nil then
+		selectTextOnFocus = true;
+	end
+	self:SetAttribute("selectTextOnFocus", selectTextOnFocus);
+end
+
 function Ellyb_EditBoxMixin:OnEditFocusGained()
 	if self:GetAttribute("selectTextOnFocus") then
 		self:HighlightText();
