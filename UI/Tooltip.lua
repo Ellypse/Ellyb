@@ -3,8 +3,6 @@ local _, Ellyb = ...;
 
 local insert = table.insert;
 
----@type GameTooltip
-local GameTooltip = GameTooltip;
 
 ---@class Tooltip : Object
 local Tooltip = Ellyb.class("TooltipContent");
@@ -67,49 +65,4 @@ end
 
 function Tooltip:Hide()
 	GameTooltip:Hide();
-end
-
-function Tooltip:Show()
-	if not self.tooltipContent:GetTitle() then
-		return false;
-	end
-	GameTooltip:ClearLines();
-	GameTooltip:SetOwner(self, self.tooltipContent.GetAnchor());
-	GameTooltip:SetText(self.tooltipContent:GetTitle(), self.tooltipContent:GetTitleColor());
-	for _, line in pairs(self.tooltipContent:GetLines()) do
-		GameTooltip:AddLine(line.text, (line.customColor and line.customColor:GetRGBA()));
-	end
-	GameTooltip:Show();
-	return true;
-end
-
----@class Ellyb_TooltipedFrameMixin : Frame
-Ellyb_TooltipedFrameMixin = {};
-
-function Ellyb_TooltipedFrameMixin:OnLoad()
-	self.tooltip = Tooltip();
-end
-
-function Ellyb_TooltipedFrameMixin:GetTooltip()
-	return self.tooltip;
-end
-
---- Function called before the tooltip is shown.
---- Can be used in frames that needs dynamic tooltips, so that the tooltip content is changed before the tooltip is shown
----@param tooltip Tooltip
-function Ellyb_TooltipedFrameMixin:OnTooltipShow(tooltip)
-
-end
-
-function Ellyb_TooltipedFrameMixin:OnEnter()
-	if self.tooltip then
-		self:OnTooltipShow(self.tooltip);
-		self.tooltipIsShown = self.tooltip:Show();
-	end
-end
-
-function Ellyb_TooltipedFrameMixin:OnLeave()
-	if self.tooltipIsShown then
-		self.tooltip:Hide();
-	end
 end
