@@ -183,6 +183,13 @@ local function OnLoad(Ellyb)
 		end
 	end
 
+	--- Compatibility with Blizzard stuff
+	---@param optional doNotIncludeAlpha boolean @ Set to true if the color code should not have the alpha
+	---@return string HexadecimalColor @ Generate an hexadecimal representation of the code (`FFAABBCC`);
+	function Color:GenerateHexColor(...)
+		return self:GenerateHexadecimalColor(...);
+	end
+
 	local COLOR_CODE_PATTERN = "|c%s%s|r";
 	--- Wrap a given text between the UI escape sequenced necessary to get the text colored in the current Color
 	---@param text string @ The text to be colored
