@@ -236,6 +236,11 @@ local function OnLoad(Ellyb, env)
 		return tConcat(shortcutComponents, SHORTCUT_SEPARATOR);
 	end
 
+	Strings.COMMON_SHORTCUTS = {
+		COPY = Strings.systemKeyboardShortcut(Strings.KEYBOARD_SHORTCUTS.CTRL, "C"),
+		PASTE = Strings.systemKeyboardShortcut(Strings.KEYBOARD_SHORTCUTS.CTRL, "V"),
+	}
+
 end
 
 Ellyb.ModulesManagement:RegisterNewModule("Strings", OnLoad);
