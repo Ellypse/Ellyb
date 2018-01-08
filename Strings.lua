@@ -195,59 +195,6 @@ local function OnLoad(Ellyb, env)
 		return text
 	end
 
-	local SHORTCUT_SEPARATOR = IsMacClient and  "-" or " + ";
-
-	Strings.KEYBOARD_SHORTCUTS = {
-		CTRL = "Ctrl",
-		ALT = "Alt",
-		SHIFT = "Shift",
-	}
-
-	local MAC_SHORT_EQUIVALENCE = {
-		[Strings.KEYBOARD_SHORTCUTS.CTRL] = "Command",
-		[Strings.KEYBOARD_SHORTCUTS.ALT] = "Option",
-		[Strings.KEYBOARD_SHORTCUTS.SHIFT] = "Shift",
-	}
-
-	--- Format a keyboard shortcut with the appropriate separators according to the user operating system
-	---@param ... string[]
-	---@return string keyboardShortcut
-	function Strings.keyboardShortcut(...)
-		local shortcutComponents = { ... };
-
-		return tConcat(shortcutComponents, SHORTCUT_SEPARATOR);
-	end
-
-	--- Format a keyboard shortcut with the appropriate separators according to the user operating system
-	--- Will also convert Ctrl into Command and Alt into Option for Mac users.
-	---@param ... string[]
-	---@return string keyboardShortcut
-	function Strings.systemKeyboardShortcut(...)
-		local shortcutComponents = { ... };
-
-		if IsMacClient then -- Replace shortcut components
-			for index, component in pairs(shortcutComponents) do
-				if MAC_SHORT_EQUIVALENCE[component] then
-					shortcutComponents[index] = MAC_SHORT_EQUIVALENCE[component];
-				end
-			end
-		end
-
-		return tConcat(shortcutComponents, SHORTCUT_SEPARATOR);
-	end
-
-	Strings.COMMON_SHORTCUTS = {
-		COPY = Strings.systemKeyboardShortcut(Strings.KEYBOARD_SHORTCUTS.CTRL, "C"),
-		PASTE = Strings.systemKeyboardShortcut(Strings.KEYBOARD_SHORTCUTS.CTRL, "V"),
-	}
-
-	Strings.CLICKS = {
-		CLICK = "Click",
-		RIGHT_CLICK = "Right-Click",
-		LEFT_CLICK = "Left-Click",
-		MIDDLE_CLICK = "Middle-Click",
-	}
-
 end
 
 Ellyb.ModulesManagement:RegisterNewModule("Strings", OnLoad);

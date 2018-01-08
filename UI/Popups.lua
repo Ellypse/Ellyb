@@ -32,7 +32,7 @@ local function OnLoad(Ellyb, env)
 		if not customShortcutInstructions then
 			customShortcutInstructions = COPY_LINK;
 		end
-		popupText = popupText .. format(customShortcutInstructions, Ellyb.Strings.COMMON_SHORTCUTS.COPY, Ellyb.Strings.COMMON_SHORTCUTS.PASTE);
+		popupText = popupText .. format(customShortcutInstructions, Ellyb.System.SHORTCUTS.COPY, Ellyb.System.SHORTCUTS.PASTE);
 		URLPopup.Text:SetText(popupText);
 		URLPopup.Url:SetText(url);
 		URLPopup:Show();
