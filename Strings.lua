@@ -241,6 +241,13 @@ local function OnLoad(Ellyb, env)
 		PASTE = Strings.systemKeyboardShortcut(Strings.KEYBOARD_SHORTCUTS.CTRL, "V"),
 	}
 
+	Strings.CLICKS = {
+		CLICK = "Click",
+		RIGHT_CLICK = "Right-Click",
+		LEFT_CLICK = "Left-Click",
+		MIDDLE_CLICK = "Middle-Click",
+	}
+
 end
 
 Ellyb.ModulesManagement:RegisterNewModule("Strings", OnLoad);
