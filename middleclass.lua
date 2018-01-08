@@ -116,6 +116,7 @@ local function _includeMixin(aClass, mixin)
   return aClass
 end
 
+---@class Object
 local DefaultMixin = {
   __tostring   = function(self) return "instance of " .. tostring(self.class) end,
 

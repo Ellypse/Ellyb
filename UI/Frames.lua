@@ -1,7 +1,7 @@
 ---@type Ellyb
 local _, Ellyb = ...;
 
----@type Frame
+---@class Ellyb_MovableFrameMixin : Frame
 Ellyb_MovableFrameMixin = {};
 
 function Ellyb_MovableFrameMixin:OnLoad()

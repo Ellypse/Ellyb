@@ -1,7 +1,7 @@
 ---@type Ellyb
 local _, Ellyb = ...;
 
----@type EditBox
+---@class Ellyb_EditBoxMixin : EditBox
 Ellyb_EditBoxMixin = {};
 
 function Ellyb_EditBoxMixin:OnEditFocusGained()
