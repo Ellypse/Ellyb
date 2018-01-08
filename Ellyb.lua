@@ -9,6 +9,7 @@ local EllybMixin = {};
 
 EllybMixin.DEBUG_MODE = true;
 EllybMixin.class = Ellyb.class;
+EllybMixin.addOnName = UNKNOWN;
 
 local instancesPerAddOns = {};
 
@@ -16,16 +17,18 @@ local instancesPerAddOns = {};
 ---Will create a new instance if there isn't one yet, or return the existing instance if one was created previously.
 ---If no name is given, an anonymous instance will be created every time.
 ---@return Ellyb
----@param optional addonName string @ The name of the add-on using the library.
-function _G.Ellyb(addonName)
+---@param optional addOnName string @ The name of the add-on using the library.
+function _G.Ellyb(addOnName)
 	local newLibraryInstance;
-	if addonName then
-		if not instancesPerAddOns[addonName] then
+	if addOnName then
+		if not instancesPerAddOns[addOnName] then
+			---@type Ellyb
 			newLibraryInstance = CreateFromMixins(EllybMixin);
+			newLibraryInstance.addOnName = addOnName;
 			Ellyb.ModulesManagement:LoadModules(newLibraryInstance);
-			instancesPerAddOns[addonName] = newLibraryInstance;
+			instancesPerAddOns[addOnName] = newLibraryInstance;
 		else
-			newLibraryInstance = instancesPerAddOns[addonName];
+			newLibraryInstance = instancesPerAddOns[addOnName];
 		end
 	else
 		newLibraryInstance = CreateFromMixins(EllybMixin);
