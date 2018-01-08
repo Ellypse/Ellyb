@@ -190,6 +190,12 @@ local function OnLoad(Ellyb)
 		return self:GenerateHexadecimalColor(...);
 	end
 
+	local START_OF_COLOR_CODE_PATTERN = "|c%s";
+	---@return string colorCodeStartSequence @ Returns the start code of the UI escape sequence to color text
+	function Color:GetColorCodeStartSequence()
+		return format(START_OF_COLOR_CODE_PATTERN, self:GenerateHexColor());
+	end
+
 	local COLOR_CODE_PATTERN = "|c%s%s|r";
 	--- Wrap a given text between the UI escape sequenced necessary to get the text colored in the current Color
 	---@param text string @ The text to be colored
