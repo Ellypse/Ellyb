@@ -98,17 +98,17 @@ local function OnModulesLoaded(Ellyb)
 	-- The Colors are frozen so they cannot be altered
 
 	-- Common colors
+	ColorManager.RED = Color(1, 0, 0):Freeze();
 	ColorManager.ORANGE = Color(255, 153, 0):Freeze();
-	ColorManager.WHITE = Color(1, 1, 1):Freeze();
 	ColorManager.YELLOW = Color(1, 0.75, 0):Freeze();
+	ColorManager.GREEN = Color(0, 1, 0):Freeze();
 	ColorManager.CYAN = Color(0, 1, 1):Freeze();
 	ColorManager.BLUE = Color(0, 0, 1):Freeze();
-	ColorManager.GREEN = Color(0, 1, 0):Freeze();
-	ColorManager.RED = Color(1, 0, 0):Freeze();
 	ColorManager.PURPLE = Color(0.5, 0, 1):Freeze();
 	ColorManager.PINK = Color(1, 0, 1):Freeze();
-	ColorManager.BLACK = Color(0, 0, 0):Freeze();
+	ColorManager.WHITE = Color(1, 1, 1):Freeze();
 	ColorManager.GREY = Color("#CCC"):Freeze();
+	ColorManager.BLACK = Color(0, 0, 0):Freeze();
 
 	-- Classes colors
 	ColorManager.HUNTER = Color(RAID_CLASS_COLORS.HUNTER):Freeze();
