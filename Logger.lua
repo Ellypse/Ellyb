@@ -64,6 +64,8 @@ local function OnLoad(Ellyb)
 		_private[self] = {};
 		_private[self].moduleName = moduleName;
 		_private[self].logs = {};
+
+		self:Info(moduleName .. " loaded.");
 	end
 
 	---@return string moduleName @ Returns the name of the Logger's module

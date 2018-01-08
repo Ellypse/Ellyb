@@ -14,7 +14,6 @@ local IsTrialAccount = IsTrialAccount();
 ---@param env table @ Private environment
 local function OnLoad(Ellyb, env)
 
-	---@class System
 	local System = {};
 	Ellyb.System = System;
 
