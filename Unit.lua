@@ -1,5 +1,5 @@
 ---@type Ellyb
-local _, Ellyb = ...;
+local Ellyb = LibStub:GetLibrary("Ellyb");
 
 -- WoW imports
 local UnitGUID = UnitGUID;

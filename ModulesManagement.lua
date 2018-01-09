@@ -1,10 +1,10 @@
----@type Ellyb
-local _, Ellyb = ...;
+---@type Ellyb_PrivateAPI
+local _, Ellyb_PrivateAPI = ...;
 
 --- Modules Management
 --- Handles the registration of the libraries modules
 local ModulesManagement = {};
-Ellyb.ModulesManagement = ModulesManagement;
+Ellyb_PrivateAPI.ModulesManagement = ModulesManagement;
 
 local format = string.format;
 local pairs = pairs;
@@ -20,14 +20,16 @@ local MODULE_ALREADY_EXISTS_ERROR_MESSAGE = "A module named %s has already been 
 ---@param optional onModulesLoaded function @ A callback that will be executed when all the modules have been loaded
 function ModulesManagement:RegisterNewModule(moduleName, moduleDeclaration, onModulesLoaded)
 	assert(not modules[moduleName], format(MODULE_ALREADY_EXISTS_ERROR_MESSAGE, moduleName));
+
 	modules[moduleName] = moduleDeclaration;
+
 	if onModulesLoaded then
 		onModulesLoadedCallbacks[moduleName] = onModulesLoaded;
 	end
 end
 
 --- Load a new instance of the registered modules into an instance of the library passed.
----@param libraryInstance Ellyb @ An instance of the Ellyb library
+---@param libraryInstance Ellyb_PrivateAPI @ An instance of the Ellyb library
 function ModulesManagement:LoadModules(libraryInstance)
 	-- Create a private environment shared by both the moduleDeclaration and onModulesLoadedCallback
 	-- So that onModulesLoadedCallbacks can instantiate variables in moduleDeclaration
