@@ -16,8 +16,8 @@ local _private = setmetatable({}, { __mode = "k" });
 function Tooltip:initialize(parent)
 	_private[self] = {};
 	_private[self].content = {};
+	_private[self].tempContent = {};
 	_private[self].parent = parent;
-	_private[self].tooltipFrame = GameTooltip;
 	_private[self].onShowCallbacks = {};
 end
 
@@ -87,12 +87,28 @@ function Tooltip:AddLine(text, customColor)
 	return self;
 end
 
+function Tooltip:AddTempLine(text, customColor)
+	insert(_private[self].tempContent, {
+		text = text,
+		customColor = customColor,
+	});
+	return self;
+end
+
 function Tooltip:GetLines()
 	return _private[self].content;
 end
 
+function Tooltip:GetTempLines()
+	return _private[self].tempContent;
+end
+
 function Tooltip:ClearLines()
 	_private[self].content = {};
+end
+
+function Tooltip:ClearTempLines()
+	_private[self].tempContent = {};
 end
 
 function Tooltip:SetLines(lines)
@@ -120,7 +136,7 @@ end
 
 ---@return GameTooltip
 function Tooltip:GetTooltipFrame()
-	return _private[self].tooltip;
+	return _private[self].tooltip or GameTooltip;
 end
 
 function Tooltip:OnShow(callback)
@@ -137,6 +153,11 @@ function Tooltip:Show()
 		end
 	end
 
+	-- Do not show the tooltip if no title was defined yet
+	if not self:GetTitle() then
+		return
+	end
+
 	local tooltip = self:GetTooltipFrame();
 	tooltip:ClearLines();
 	tooltip:SetOwner(self:GetParent(), self:GetAnchor(), self:GetOffset());
@@ -147,9 +168,15 @@ function Tooltip:Show()
 		tooltip:AddLine(line.text);
 	end
 
+	-- Insert all the lines inside the tooltip
+	for _, line in pairs(self:GetTempLines()) do
+		tooltip:AddLine(line.text);
+	end
+
 	tooltip:Show();
 end
 
 function Tooltip:Hide()
 	self:GetTooltipFrame():Hide();
+	self:ClearTempLines();
 end

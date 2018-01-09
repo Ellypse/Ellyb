@@ -3,24 +3,27 @@ local _, Ellyb = ...;
 
 ---@class Ellyb_TooltipedFrameMixin : Frame
 Ellyb_TooltipedFrameMixin = {};
+-- Sets a private table used to store private attributes
+local _private = setmetatable({}, { __mode = "k" });
 
 --- OnLoad is automatically called by the Frame's scripts
 --- Initialize the frame's tooltip
 function Ellyb_TooltipedFrameMixin:OnLoad()
-	self.tooltip = Ellyb.Tooltip(self);
+	_private[self] = {};
+	_private[self].tooltip = Ellyb.Tooltip(self);
 end
 
 ---@return Tooltip tooltip
 function Ellyb_TooltipedFrameMixin:GetTooltip()
-	return self.tooltip;
+	return _private[self].tooltip;
 end
 
 function Ellyb_TooltipedFrameMixin:OnEnter()
-	self.tooltip:Show();
+	self:GetTooltip():Show();
 end
 
 function Ellyb_TooltipedFrameMixin:OnLeave()
-	self.tooltip:Hide();
+	self:GetTooltip():Hide();
 end
 
 ---@param Ellyb Ellyb @ Instance of the library
