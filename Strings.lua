@@ -195,6 +195,9 @@ local function OnLoad(Ellyb, env)
 		return text
 	end
 
+	function Strings.clickInstruction(click, text)
+		return Ellyb.ColorManager.ORANGE(click) .. ": " .. text;
+	end
 end
 
 Ellyb.ModulesManagement:RegisterNewModule("Strings", OnLoad);
