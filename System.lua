@@ -30,7 +30,7 @@ local function OnLoad(Ellyb, env)
 		return IsTrialAccount;
 	end
 
-	local SHORTCUT_SEPARATOR = System.isMac() and "-" or " + ";
+	local SHORTCUT_SEPARATOR = System:IsMac() and "-" or " + ";
 
 	System.MODIFIERS = {
 		CTRL = "Ctrl",
@@ -60,7 +60,7 @@ local function OnLoad(Ellyb, env)
 	function System:FormatSystemKeyboardShortcut(...)
 		local shortcutComponents = { ... };
 
-		if self:IsMacClient() then
+		if self:IsMac() then
 			-- Replace shortcut components
 			for index, component in pairs(shortcutComponents) do
 				if MAC_SHORT_EQUIVALENCE[component] then
