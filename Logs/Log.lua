@@ -1,14 +1,28 @@
----@type Ellyb_Class
-local Class = LibStub:GetLibrary("Ellyb_Class");
+---@type Ellyb
+local Ellyb = Ellyb:GetInstance(...);
 
----@class Ellyb_Log
-local Ellyb_Log, _private = Class("Ellyb_Log");
+-- Lua imports
+local time = time;
 
-function Ellyb_Log:initialize()
+---@class Log
+local Log, _private = Ellyb.Class("Log");
+Ellyb.Log = Log;
+
+function Log:initialize(level, ...)
 	_private[self] = {};
-end
-
-function Ellyb_Log:SetLevel(level)
+	_private[self].date = time();
 	_private[self].level = level;
+	_private[self].args = { ... };
 end
 
+function Log:GetText()
+	return Ellyb.Strings.convertTableToString(_private[self].args);
+end
+
+function Log:GetLevel()
+	return _private[self].level;
+end
+
+function Log:GetTimestamp()
+	return _private[self].date;
+end

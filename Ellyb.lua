@@ -37,8 +37,9 @@ end
 ---@param addOnName string @ The name of the add-on using the library, as given to the Lua files by the game as an argument `local addOnName = ...`
 ---@return Ellyb Ellyb @ Instance of the library corresponding to that add-on.
 function Ellyb:GetInstance(addOnName)
-	assert(addonVersions[addOnName], "Unknown add-on " .. addOnName .. ".");
-	return instances[addonVersions[addOnName]];
+	if addonVersions[addOnName] then
+		return instances[addonVersions[addOnName]];
+	end
 end
 
 ---Internal function necessary for versioning. Do not use.
@@ -79,7 +80,13 @@ end
 _G.Ellyb:_Initialize(Ellyb, AddOnName);
 
 function EllybTest()
-	Ellyb.GameEvents.registerHandler("COMBAT_LOG_EVENT_UNFILTERED", function() end);
-	Ellyb.LogsManager.list();
+	local lib = _G.Ellyb:GetInstance(AddOnName);
+
+	local Logger = lib.Logger("test");
+
+	lib.GameEvents.registerHandler("COMBAT_LOG_EVENT_UNFILTERED", function(...)
+		Logger:Debug(...);
+	end);
+	Logger:Show();
 end
 

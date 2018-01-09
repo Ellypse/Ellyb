@@ -1,5 +1,9 @@
 ---@type Ellyb
-local _, Ellyb = ...;
+local Ellyb = Ellyb:GetInstance(...);
+
+if Ellyb_MovableFrameMixin and _G.Ellyb:GetVersionNumber() >= Ellyb:GetVersionNumber() then
+	return;
+end
 
 ---@class Ellyb_MovableFrameMixin : Frame
 Ellyb_MovableFrameMixin = {};

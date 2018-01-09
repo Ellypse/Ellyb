@@ -1,5 +1,5 @@
 ---@type Ellyb
-local _, Ellyb = ...;
+local Ellyb = Ellyb:GetInstance(...);
 
 -- Lua imports
 local setmetatable = setmetatable;
