@@ -15,23 +15,38 @@ function Ellyb_TooltipedFrameMixin:GetTooltip()
 	return self.tooltip;
 end
 
---- Function called before the tooltip is shown.
---- Can be used in frames that needs dynamic tooltips, so that the tooltip content is changed before the tooltip is shown
----@param tooltip Tooltip
----@return boolean tooltipShouldBeShown @ Returns true if the tooltip should be shown
-function Ellyb_TooltipedFrameMixin:OnTooltipShow(tooltip)
-	return true;
-end
-
 function Ellyb_TooltipedFrameMixin:OnEnter()
-	self.tooltipIsShown = self:OnTooltipShow(self.tooltip);
-	if self.tooltipIsShown then
-		self.tooltip:Show();
-	end
+	self.tooltip:Show();
 end
 
 function Ellyb_TooltipedFrameMixin:OnLeave()
-	if self.tooltipIsShown then
-		self.tooltip:Hide();
-	end
+	self.tooltip:Hide();
 end
+
+---@param Ellyb Ellyb @ Instance of the library
+local function OnLoad(Ellyb)
+
+	local Tooltips = {};
+	Ellyb.Tooltips = Tooltips;
+
+	Tooltips.ANCHORS = {
+		--- Align the top right of the tooltip with the bottom left of the owner
+		BOTTOMLEFT= "ANCHOR_BOTTOMLEFT",
+		--- Toolip follows the mouse cursor
+		CURSOR= "ANCHOR_CURSOR",
+		--- Align the bottom right of the tooltip with the top left of the owner
+		LEFT= "ANCHOR_LEFT",
+		--- Tooltip appears in the default position
+		NONE= "ANCHOR_NONE",
+		--- Tooltip's position is saved between sessions (useful if the tooltip is made user-movable)
+		PRESERVE= "ANCHOR_PRESERVE",
+		--- Align the bottom left of the tooltip with the top right of the owner
+		RIGHT= "ANCHOR_RIGHT",
+		--- Align the bottom left of the tooltip with the top left of the owner
+		TOPLEFT= "ANCHOR_TOPLEFT",
+		--- Align the bottom right of the tooltip with the top right of the owner
+		TOPRIGHT= "ANCHOR_TOPRIGHT",
+	}
+end
+
+Ellyb.ModulesManagement:RegisterNewModule("Tooltips", OnLoad);
