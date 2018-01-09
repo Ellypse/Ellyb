@@ -34,13 +34,14 @@ local function OnLoad(Ellyb, env)
 	function SlashCommand:RegisterCommand(command, handler, help)
 		assert(Ellyb.Assertions.isType(command, "string", "command"));
 		assert(Ellyb.Assertions.isType(handler, "function", "handler"));
+		command = lowercase(command);
 		assert(not COMMANDS[command], "Already registered command " .. command);
 
 		COMMANDS[command] = {
 			handler = handler,
 			helpLine = help,
 		};
-		Logger:Info("Registered new slash command " .. command .. ". " .. (help or ""));
+		Logger:Info("Registered new slash command: " .. command .. ", with helper text: " .. (help or ""));
 	end
 
 	function SlashCommand:UnregisterCommand(commandID)
@@ -53,8 +54,10 @@ local function OnLoad(Ellyb, env)
 		local cmdID = args[1];
 		remove(args, 1);
 
+		cmdID = lowercase(cmdID);
+
 		if cmdID and COMMANDS[cmdID] and COMMANDS[cmdID].handler then
-			Logger:Info("Running command " .. cmdID);
+			Logger:Info("Running command " .. cmdID, unpack(args));
 			COMMANDS[cmdID].handler(unpack(args));
 		else
 			if cmdID then
@@ -65,7 +68,7 @@ local function OnLoad(Ellyb, env)
 			print("List of slash commands for " .. Ellyb.addOnName);
 
 			for command, commandInfo in pairs(COMMANDS) do
-				local cmdText = Ellyb.ColorManager.GREEN(slashCommandName) .. " " .. Ellyb.ColorManager.ORANGE(cmdID);
+				local cmdText = Ellyb.ColorManager.GREEN(slashCommandName) .. " " .. Ellyb.ColorManager.ORANGE(command);
 				if commandInfo.helpLine then
 					cmdText = cmdText .. Ellyb.ColorManager.GREY(commandInfo.helpLine);
 				end

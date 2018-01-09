@@ -41,8 +41,10 @@ function EllybTest()
 
 	local lib = _G.Ellyb("Test");
 
-	local Popups = lib.Popups;
+	lib.GameEvents.registerHandler("COMBAT_LOG_EVENT_UNFILTERED", function()
 
-	Popups:OpenURL("http://www.google.fr");
+	end)
+
+	lib.LogsManager.list();
 end
 

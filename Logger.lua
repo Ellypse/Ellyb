@@ -65,6 +65,7 @@ local function OnLoad(Ellyb)
 		_private[self].moduleName = moduleName;
 		_private[self].logs = {};
 
+		Ellyb.LogsManager:RegisterLogger(self);
 		self:Info(moduleName .. " loaded.");
 	end
 

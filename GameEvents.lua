@@ -38,13 +38,13 @@ local function OnLoad(Ellyb, env)
 		if not REGISTERED_EVENTS[event] then
 			REGISTERED_EVENTS[event] = {};
 			EventFrame:RegisterEvent(event);
-			Logger:Log(format(REGISTERED_EVENT, tostring(event)))
+			Logger:Info(format(REGISTERED_EVENT, tostring(event)))
 		end
 
 		local handlerID = Ellyb.Strings.generateUniqueID(REGISTERED_EVENTS);
 		REGISTERED_EVENTS[event][handlerID] = callback;
 
-		Logger:Log(format(REGISTERED_CALLBACK, tostring(event), handlerID));
+		Logger:Info(format(REGISTERED_CALLBACK, tostring(event), handlerID));
 
 		return handlerID;
 	end
@@ -63,10 +63,10 @@ local function OnLoad(Ellyb, env)
 				if Ellyb.Tables.size(eventTab) == 0 then
 					REGISTERED_EVENTS[event] = nil;
 					EventFrame:UnregisterEvent(event);
-					Logger:Log(format(UNREGISTERED_EVENT, tostring(event)));
+					Logger:Info(format(UNREGISTERED_EVENT, tostring(event)));
 				end
 
-				Logger:Log(format(UNREGISTERED_CALLBACK, tostring(event), handlerID));
+				Logger:Info(format(UNREGISTERED_CALLBACK, tostring(event), handlerID));
 
 				return;
 			end
@@ -88,7 +88,7 @@ local function OnLoad(Ellyb, env)
 			Ellyb.Tables.releaseTempTable(temp);
 		else
 			self:UnregisterEvent(event);
-			Logger:Log(format(UNREGISTERED_EVENT, tostring(event)));
+			Logger:Info(format(UNREGISTERED_EVENT, tostring(event)));
 		end
 	end
 
