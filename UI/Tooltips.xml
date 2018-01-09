@@ -3,4 +3,12 @@
 	<Script file="Tooltip.lua" />
 	<Script file="Tooltips.lua" />
 
+	<Frame name="Ellyb_TooltipedFrameTemplate" virtual="true" mixin="Ellyb_TooltipedFrameMixin">
+		<Scripts>
+			<OnLoad method="OnLoad" intrinsicOrder="precall" />
+			<OnEnter method="OnEnter" intrinsicOrder="precall" />
+			<OnLeave method="OnLeave" intrinsicOrder="postcall" />
+		</Scripts>
+	</Frame>
+
 </Ui>
