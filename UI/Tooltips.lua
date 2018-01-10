@@ -33,7 +33,7 @@ end
 ---GetTooltip
 ---@param frame Frame|ScriptObject
 ---@return Tooltip
-function Tooltips:GetTooltip(frame)
+function Tooltips.getTooltip(frame)
 	if not frame.Tooltip then
 		frame.Tooltip = Ellyb.Tooltip(frame);
 		frame:HookScript("OnEnter", showFrameTooltip)
