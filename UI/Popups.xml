@@ -82,15 +82,12 @@
 	<Frame name="Ellyb_StaticPopOpenUrl" inherits="Ellyb_StaticPopTemplate">
 		<Size x="360" y="160" />
 		<Frames>
-			<EditBox parentKey="Url" inherits="Ellyb_ChatInputTextures" autoFocus="true">
+			<EditBox parentKey="Url" inherits="Ellyb_ChatInputTextures">
 				<Anchors>
 					<Anchor point="LEFT" x="35" />
 					<Anchor point="RIGHT" x="-35" />
 					<Anchor point="TOP" relativeKey="$parent.Text" relativePoint="BOTTOM" y="-15" />
 				</Anchors>
-				<Attributes>
-					<Attribute name="readOnly" type="boolean" value="true" />
-				</Attributes>
 			</EditBox>
 			<Button parentKey="Button" inherits="Ellyb_PopupButton_Okay" />
 		</Frames>

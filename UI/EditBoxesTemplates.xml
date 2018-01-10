@@ -1,21 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
 
-	<Script file="EditBoxes.lua" />
-
-	<EditBox name="Ellyb_EditBoxTemplate" virtual="true" mixin="Ellyb_EditBoxMixin" autoFocus="false">
-		<Size y="32" x="130" />
-		<Attributes>
-			<Attribute name="selectTextOnFocus" type="boolean" value="true" />
-		</Attributes>
-		<Scripts>
-			<OnEditFocusGained method="OnEditFocusGained" intrinsicOrder="postcall" />
-			<OnEscapePressed method="OnEscapePressed" intrinsicOrder="precall" />
-			<OnTextChanged method="OnTextChanged" intrinsicOrder="postcall" />
-			<OnShow method="OnShow" intrinsicOrder="postcall" />
-		</Scripts>
-	</EditBox>
-
-	<EditBox name="Ellyb_ChatInputTextures" virtual="true" inherits="Ellyb_EditBoxTemplate">
+	<EditBox name="Ellyb_ChatInputTextures" virtual="true">
 		<Layers>
 			<Layer level="BACKGROUND">
 				<Texture parentKey="Left" file="Interface\ChatFrame\UI-ChatInputBorder-Left2">

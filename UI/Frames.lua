@@ -1,21 +1,14 @@
 ---@type Ellyb
 local Ellyb = Ellyb:GetInstance(...);
 
-if Ellyb_MovableFrameMixin and _G.Ellyb:GetVersionNumber() >= Ellyb:GetVersionNumber() then
-	return;
+local Frames = {};
+
+---@param frame Frame|ScriptObject
+function Frames.makeMovable(frame)
+	frame:RegisterForDrag("LeftButton");
+
+	frame:HookScript("OnDragStart", frame.StartMoving);
+	frame:HookScript("OnDragStop", frame.StopMovingOrSizing);
 end
 
----@class Ellyb_MovableFrameMixin : Frame
-Ellyb_MovableFrameMixin = {};
-
-function Ellyb_MovableFrameMixin:OnLoad()
-	self:RegisterForDrag("LeftButton");
-end
-
-function Ellyb_MovableFrameMixin:OnDragStart()
-	self:StartMoving();
-end
-
-function Ellyb_MovableFrameMixin:OnDragStop()
-	self:StopMovingOrSizing();
-end
+Ellyb.Frames = Frames;

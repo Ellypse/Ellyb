@@ -4,6 +4,9 @@ local Ellyb = Ellyb:GetInstance(...);
 -- Lua imports
 local format = string.format;
 
+-- Ellyb imports
+local EditBoxes = Ellyb.EditBoxes;
+
 local COPY_LINK = [[
 You can copy this link by using the %s keyboard shortcut and then paste the link inside your browser using the %s shortcut.
 ]];
@@ -17,6 +20,9 @@ Ellyb.Popups = Popups;
 ---@type Frame
 local URLPopup = Ellyb_StaticPopOpenUrl;
 URLPopup.Button.Text:SetText(_G.OKAY);
+EditBoxes.makeReadOnly(URLPopup.Text);
+EditBoxes.selectAllTextOnFocus(URLPopup.Text);
+EditBoxes.looseFocusOnEscape(URLPopup.Text);
 
 --- Open a popup with an autofocused text field to let the user copy the URL
 ---@param url string @ The URL we want to let the user copy
