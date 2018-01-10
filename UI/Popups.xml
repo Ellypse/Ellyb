@@ -1,7 +1,5 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
 
-	<Script file="Popups.lua" />
-
 	<Button name="Ellyb_PopupButton" virtual="true">
 		<Size x="128" y="21" />
 		<ButtonText parentKey="Text">
@@ -97,5 +95,7 @@
 			<Button parentKey="Button" inherits="Ellyb_PopupButton_Okay" />
 		</Frames>
 	</Frame>
+
+	<Script file="Popups.lua"/>
 
 </Ui>

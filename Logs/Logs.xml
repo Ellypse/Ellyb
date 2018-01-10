@@ -1,93 +1,93 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
 
 	<Frame name="Ellyb_LogsFrame" parent="UIParent" movable="true" clampedToScreen="true" frameStrata="MEDIUM" toplevel="true" hidden="true" virtual="true">
-		<Size x="500" y="500" />
+		<Size x="500" y="500"/>
 		<Anchors>
-			<Anchor point="LEFT" x="64" y="0" />
+			<Anchor point="LEFT" x="64" y="0"/>
 		</Anchors>
 		<Layers>
 			<Layer level="BACKGROUND">
 				<Texture parentKey="TitleBackground" file="Interface\PaperDollInfoFrame\UI-GearManager-Title-Background">
 					<Anchors>
-						<Anchor point="TOPLEFT" x="9" y="-6" />
-						<Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-28" y="-24" />
+						<Anchor point="TOPLEFT" x="9" y="-6"/>
+						<Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="-28" y="-24"/>
 					</Anchors>
 				</Texture>
 				<Texture file="Interface\Tooltips\UI-Tooltip-Background">
 					<Anchors>
-						<Anchor point="TOPLEFT" x="8" y="-24" />
-						<Anchor point="BOTTOMRIGHT" x="-6" y="8" />
+						<Anchor point="TOPLEFT" x="8" y="-24"/>
+						<Anchor point="BOTTOMRIGHT" x="-6" y="8"/>
 					</Anchors>
-					<Color r="0" g="0" b="0" a=".75" />
+					<Color r="0" g="0" b="0" a=".75"/>
 				</Texture>
 			</Layer>
 			<Layer level="BORDER">
 				<Texture parentKey="TopLeftBorder" file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
-					<Size x="64" y="64" />
+					<Size x="64" y="64"/>
 					<Anchors>
-						<Anchor point="TOPLEFT" />
+						<Anchor point="TOPLEFT"/>
 					</Anchors>
-					<TexCoords left="0.501953125" right="0.625" top="0" bottom="1" />
+					<TexCoords left="0.501953125" right="0.625" top="0" bottom="1"/>
 				</Texture>
 				<Texture parentKey="TopRightBorder" file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
-					<Size x="64" y="64" />
+					<Size x="64" y="64"/>
 					<Anchors>
-						<Anchor point="TOPRIGHT" />
+						<Anchor point="TOPRIGHT"/>
 					</Anchors>
-					<TexCoords left="0.625" right="0.75" top="0" bottom="1" />
+					<TexCoords left="0.625" right="0.75" top="0" bottom="1"/>
 				</Texture>
 				<Texture file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
-					<Size x="0" y="64" />
+					<Size x="0" y="64"/>
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeKey="$parent.TopLeftBorder" relativePoint="TOPRIGHT" />
-						<Anchor point="TOPRIGHT" relativeKey="$parent.TopRightBorder" relativePoint="TOPLEFT" />
+						<Anchor point="TOPLEFT" relativeKey="$parent.TopLeftBorder" relativePoint="TOPRIGHT"/>
+						<Anchor point="TOPRIGHT" relativeKey="$parent.TopRightBorder" relativePoint="TOPLEFT"/>
 					</Anchors>
-					<TexCoords left="0.25" right="0.369140625" top="0" bottom="1" />
+					<TexCoords left="0.25" right="0.369140625" top="0" bottom="1"/>
 				</Texture>
 				<Texture parentKey="BottomLeftBorder" file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
-					<Size x="64" y="64" />
+					<Size x="64" y="64"/>
 					<Anchors>
-						<Anchor point="BOTTOMLEFT" />
+						<Anchor point="BOTTOMLEFT"/>
 					</Anchors>
-					<TexCoords left="0.751953125" right="0.875" top="0" bottom="1" />
+					<TexCoords left="0.751953125" right="0.875" top="0" bottom="1"/>
 				</Texture>
 				<Texture parentKey="BottomRightBorder" file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
-					<Size x="64" y="64" />
+					<Size x="64" y="64"/>
 					<Anchors>
-						<Anchor point="BOTTOMRIGHT" />
+						<Anchor point="BOTTOMRIGHT"/>
 					</Anchors>
-					<TexCoords left="0.875" right="1" top="0" bottom="1" />
+					<TexCoords left="0.875" right="1" top="0" bottom="1"/>
 				</Texture>
 				<Texture file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
-					<Size x="0" y="64" />
+					<Size x="0" y="64"/>
 					<Anchors>
-						<Anchor point="BOTTOMLEFT" relativeKey="$parent.BottomLeftBorder" relativePoint="BOTTOMRIGHT" />
-						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightBorder" relativePoint="BOTTOMLEFT" />
+						<Anchor point="BOTTOMLEFT" relativeKey="$parent.BottomLeftBorder" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightBorder" relativePoint="BOTTOMLEFT"/>
 					</Anchors>
-					<TexCoords left="0.376953125" right="0.498046875" top="0" bottom="1" />
+					<TexCoords left="0.376953125" right="0.498046875" top="0" bottom="1"/>
 				</Texture>
 				<Texture file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
-					<Size x="64" y="0" />
+					<Size x="64" y="0"/>
 					<Anchors>
-						<Anchor point="TOPLEFT" relativeKey="$parent.TopLeftBorder" relativePoint="BOTTOMLEFT" />
-						<Anchor point="BOTTOMLEFT" relativeKey="$parent.BottomLeftBorder" relativePoint="TOPLEFT" />
+						<Anchor point="TOPLEFT" relativeKey="$parent.TopLeftBorder" relativePoint="BOTTOMLEFT"/>
+						<Anchor point="BOTTOMLEFT" relativeKey="$parent.BottomLeftBorder" relativePoint="TOPLEFT"/>
 					</Anchors>
-					<TexCoords left="0.001953125" right="0.125" top="0" bottom="1" />
+					<TexCoords left="0.001953125" right="0.125" top="0" bottom="1"/>
 				</Texture>
 				<Texture file="Interface\PaperDollInfoFrame\UI-GearManager-Border">
-					<Size x="64" y="0" />
+					<Size x="64" y="0"/>
 					<Anchors>
-						<Anchor point="TOPRIGHT" relativeKey="$parent.TopRightBorder" relativePoint="BOTTOMRIGHT" />
-						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightBorder" relativePoint="TOPRIGHT" />
+						<Anchor point="TOPRIGHT" relativeKey="$parent.TopRightBorder" relativePoint="BOTTOMRIGHT"/>
+						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.BottomRightBorder" relativePoint="TOPRIGHT"/>
 					</Anchors>
-					<TexCoords left="0.1171875" right="0.2421875" top="0" bottom="1" />
+					<TexCoords left="0.1171875" right="0.2421875" top="0" bottom="1"/>
 				</Texture>
 			</Layer>
 			<Layer level="OVERLAY">
 				<FontString parentKey="Title" inherits="GameFontNormal" text="Ellyb Logs">
 					<Anchors>
-						<Anchor point="TOPLEFT" x="12" y="-8" />
-						<Anchor point="TOPRIGHT" x="-32" y="-8" />
+						<Anchor point="TOPLEFT" x="12" y="-8"/>
+						<Anchor point="TOPRIGHT" x="-32" y="-8"/>
 					</Anchors>
 				</FontString>
 			</Layer>
@@ -95,46 +95,46 @@
 		<Frames>
 			<Button parentKey="CloseButton" inherits="UIPanelCloseButton">
 				<Size>
-					<AbsDimension x="32" y="32" />
+					<AbsDimension x="32" y="32"/>
 				</Size>
 				<Anchors>
-					<Anchor point="TOPRIGHT" x="2" y="1" />
+					<Anchor point="TOPRIGHT" x="2" y="1"/>
 				</Anchors>
 			</Button>
 			<Frame parentKey="TitleButton" inherits="TitleDragAreaTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeKey="$parent.TitleBackground" />
-					<Anchor point="BOTTOMRIGHT" relativeKey="$parent.TitleBackground" />
+					<Anchor point="TOPLEFT" relativeKey="$parent.TitleBackground"/>
+					<Anchor point="BOTTOMRIGHT" relativeKey="$parent.TitleBackground"/>
 				</Anchors>
 			</Frame>
 			<ScrollFrame parentKey="Scroll" inherits="UIPanelScrollFrameTemplate">
 				<Anchors>
-					<Anchor point="TOP" x="0" y="-3" relativeKey="$parent.TitleBackground" relativePoint="BOTTOM" />
-					<Anchor point="BOTTOM" x="0" y="8" />
-					<Anchor point="LEFT" x="15" y="0" />
-					<Anchor point="RIGHT" x="-28" y="0" />
+					<Anchor point="TOP" x="0" y="-3" relativeKey="$parent.TitleBackground" relativePoint="BOTTOM"/>
+					<Anchor point="BOTTOM" x="0" y="8"/>
+					<Anchor point="LEFT" x="15" y="0"/>
+					<Anchor point="RIGHT" x="-28" y="0"/>
 				</Anchors>
 				<ScrollChild>
 					<EditBox parentKey="Text" multiLine="true" enableMouse="false" autoFocus="false">
 						<Scripts>
 							<OnShow>
-								self:SetWidth(self:GetParent():GetParent():GetWidth() - 40);
+								self:SetWidth(self:GetParent():GetParent():GetWidth() - 42);
 							</OnShow>
 						</Scripts>
-						<FontString inherits="ChatFontNormal" />
+						<FontString inherits="ChatFontNormal"/>
 					</EditBox>
 				</ScrollChild>
 			</ScrollFrame>
 			<Slider parentKey="Slider">
-				<Size x="16" y="0" />
+				<Size x="16" y="0"/>
 				<Anchors>
-					<Anchor point="TOPRIGHT" x="-7" y="-28" />
-					<Anchor point="BOTTOMRIGHT" x="-7" y="10" />
+					<Anchor point="TOPRIGHT" x="-7" y="-28"/>
+					<Anchor point="BOTTOMRIGHT" x="-7" y="10"/>
 				</Anchors>
 				<Layers>
 					<Layer level="BACKGROUND">
 						<Texture parentKey="Background" setAllPoints="true">
-							<Color r=".8" g=".8" b="1" a="0.1" />
+							<Color r=".8" g=".8" b="1" a="0.1"/>
 						</Texture>
 					</Layer>
 				</Layers>
@@ -146,11 +146,15 @@
 					</OnLoad>
 				</Scripts>
 				<ThumbTexture parentKey="thumb" file="Interface\Buttons\UI-ScrollBar-Knob">
-					<Size x="16" y="16" />
-					<TexCoords left="0.25" right="0.75" top="0.25" bottom="0.75" />
+					<Size x="16" y="16"/>
+					<TexCoords left="0.25" right="0.75" top="0.25" bottom="0.75"/>
 				</ThumbTexture>
 			</Slider>
 		</Frames>
 	</Frame>
+
+	<Script file="Log.lua"/>
+	<Script file="Logger.lua"/>
+	<Script file="LogsManager.lua"/>
 
 </Ui>
