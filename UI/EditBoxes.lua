@@ -17,8 +17,8 @@ local function saveEditBoxOriginalText(editBox)
 end
 
 ---@param editBox EditBox|ScriptObject
-local function restoreOriginalText(editBox)
-	if editBox.readOnly then
+local function restoreOriginalText(editBox, userInput)
+	if userInput and editBox.readOnly then
 		editBox:SetText(editBox.originalText);
 	end
 end
