@@ -1,55 +1,44 @@
 ---@type Ellyb
-local _, Ellyb = ...;
+local Ellyb = Ellyb:GetInstance(...);
 
----@class Ellyb_TooltipedFrameMixin : Frame
-Ellyb_TooltipedFrameMixin = {};
--- Sets a private table used to store private attributes
-local _private = setmetatable({}, { __mode = "k" });
+local Tooltips = {};
+Ellyb.Tooltips = Tooltips;
 
---- OnLoad is automatically called by the Frame's scripts
---- Initialize the frame's tooltip
-function Ellyb_TooltipedFrameMixin:OnLoad()
-	_private[self] = {};
-	_private[self].tooltip = Ellyb.Tooltip(self);
+Tooltips.ANCHORS = {
+	--- Align the top right of the tooltip with the bottom left of the owner
+	BOTTOMLEFT= "ANCHOR_BOTTOMLEFT",
+	--- Toolip follows the mouse cursor
+	CURSOR= "ANCHOR_CURSOR",
+	--- Align the bottom right of the tooltip with the top left of the owner
+	LEFT= "ANCHOR_LEFT",
+	--- Tooltip appears in the default position
+	NONE= "ANCHOR_NONE",
+	--- Tooltip's position is saved between sessions (useful if the tooltip is made user-movable)
+	PRESERVE= "ANCHOR_PRESERVE",
+	--- Align the bottom left of the tooltip with the top right of the owner
+	RIGHT= "ANCHOR_RIGHT",
+	--- Align the bottom left of the tooltip with the top left of the owner
+	TOPLEFT= "ANCHOR_TOPLEFT",
+	--- Align the bottom right of the tooltip with the top right of the owner
+	TOPRIGHT= "ANCHOR_TOPRIGHT",
+}
+
+local function showFrameTooltip(self)
+	self.Tooltip:Show();
+end
+local function hideFrameTooltip(self)
+	self.Tooltip:Hide();
 end
 
----@return Tooltip tooltip
-function Ellyb_TooltipedFrameMixin:GetTooltip()
-	return _private[self].tooltip;
+---GetTooltip
+---@param frame Frame|ScriptObject
+---@return Tooltip
+function Tooltips:GetTooltip(frame)
+	if not frame.Tooltip then
+		frame.Tooltip = Ellyb.Tooltip(frame);
+		frame:HookScript("OnEnter", showFrameTooltip)
+		frame:HookScript("OnLeave", hideFrameTooltip)
+	end
+
+	return frame.Tooltip;
 end
-
-function Ellyb_TooltipedFrameMixin:OnEnter()
-	self:GetTooltip():Show();
-end
-
-function Ellyb_TooltipedFrameMixin:OnLeave()
-	self:GetTooltip():Hide();
-end
-
----@param Ellyb Ellyb @ Instance of the library
-local function OnLoad(Ellyb)
-
-	local Tooltips = {};
-	Ellyb.Tooltips = Tooltips;
-
-	Tooltips.ANCHORS = {
-		--- Align the top right of the tooltip with the bottom left of the owner
-		BOTTOMLEFT= "ANCHOR_BOTTOMLEFT",
-		--- Toolip follows the mouse cursor
-		CURSOR= "ANCHOR_CURSOR",
-		--- Align the bottom right of the tooltip with the top left of the owner
-		LEFT= "ANCHOR_LEFT",
-		--- Tooltip appears in the default position
-		NONE= "ANCHOR_NONE",
-		--- Tooltip's position is saved between sessions (useful if the tooltip is made user-movable)
-		PRESERVE= "ANCHOR_PRESERVE",
-		--- Align the bottom left of the tooltip with the top right of the owner
-		RIGHT= "ANCHOR_RIGHT",
-		--- Align the bottom left of the tooltip with the top left of the owner
-		TOPLEFT= "ANCHOR_TOPLEFT",
-		--- Align the bottom right of the tooltip with the top right of the owner
-		TOPRIGHT= "ANCHOR_TOPRIGHT",
-	}
-end
-
-Ellyb.ModulesManagement:RegisterNewModule("Tooltips", OnLoad);

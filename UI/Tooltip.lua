@@ -1,5 +1,5 @@
 ---@type Ellyb
-local _, Ellyb = ...;
+local Ellyb = Ellyb:GetInstance(...);
 
 -- Lua imports
 local pairs = pairs;
@@ -8,7 +8,7 @@ local insert = table.insert;
 local GameTooltip = GameTooltip;
 
 ---@class Tooltip : Object
-local Tooltip = Ellyb.class("TooltipContent");
+local Tooltip = Ellyb.Class("TooltipContent");
 Ellyb.Tooltip = Tooltip;
 -- Sets a private table used to store private attributes
 local _private = setmetatable({}, { __mode = "k" });
