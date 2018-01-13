@@ -101,6 +101,38 @@ function Color:GetRGBAAsBytes()
 	return self:GetRed() * 255, self:GetGreen() * 255, self:GetBlue() * 255, self:GetAlpha() * 255;
 end
 
+---@return number, number, number hue, saturation, lightness @ The hue, saturation and lightness values of the Color (hue between 0 and 360, saturation/lightness between 0 and 1)
+function Color:GetHSL()
+	local h, s, l, cmax, cmin;
+	local r, g, b = self:GetRGB();
+	cmax = math.max(r, g, b);
+	cmin = math.min(r, g, b);
+
+	if (cmin == cmax) then
+		h = 0;
+	elseif (cmax == r) then
+		h = 60 * math.fmod((g - b)/(cmax - cmin), 6);
+	elseif (cmax == g) then
+		h = 60 * ((b - r)/(cmax - cmin) + 2);
+	else
+		h = 60 * ((r - g)/(cmax - cmin) + 4);
+	end
+
+	if (h < 0) then
+		h = h + 360;
+	end
+
+	l = (cmax + cmin)/2;
+
+	if (cmin == cmax) then
+		s = 0;
+	else
+		s = (cmax - cmin)/(1 - math.abs(2*l - 1));
+	end
+
+	return h, s, l;
+end
+
 --- Set the red value of the color.
 --- If the color was :Freeze() it will silently fail.
 ---@param red number @ A number between 0 and 1 for the red value
