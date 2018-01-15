@@ -20,4 +20,4 @@ local MyEllyb = Ellyb:GetInstance(...); -- Version 1.1
 local TRP3Ellyb = Ellyb:GetInstance("totalRP3"); -- Version 1.0 bundled with Total RP 3
 ```
 
-The rest of the documentation assume `Ellyb` is referring to an instance of the library and not the global function.
+The rest of the documentation assume `Ellyb` is referring to an instance of the library and not the global function. The documentation is available in the [Wiki](https://github.com/Ellypse/Ellyb/wiki) of this GitHub repo.
