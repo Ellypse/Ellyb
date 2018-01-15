@@ -86,6 +86,23 @@ function ColorManager.getChatColorForChannel(channel)
 	return Color(ChatTypeInfo[channel]);
 end
 
+--- Compares two colors based on their HSL values (first comparing H, then comparing S, then comparing L)
+---@param color1 Color @ A color
+---@param color2 Color @ The color to compare
+---@return boolean isLesser @ true if color1 is "lesser" than color2
+function ColorManager.compareHSL(color1, color2)
+	local h1, s1, l1 = color1:GetHSL();
+	local h2, s2, l2 = color2:GetHSL();
+
+	if (h1 == h2) then
+		if (s1 == s2) then
+			return (l1 < l2)
+		end
+		return (s1 < s2)
+	end
+	return (h1 < h2)
+end
+
 -- We create a bunch of common Color constants to be quickly available everywhere
 -- The Colors are frozen so they cannot be altered
 
