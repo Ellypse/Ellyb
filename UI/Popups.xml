@@ -37,7 +37,7 @@
 		</Scripts>
 	</Button>
 
-	<Frame name="Ellyb_StaticPopTemplate" toplevel="true" enableKeyboard="true" enableMouse="true" frameStrata="DIALOG" hidden="true" hyperlinksEnabled="true" virtual="true" movable="true" inherits="Ellyb_MovableFrame">
+	<Frame name="Ellyb_StaticPopTemplate" toplevel="true" enableKeyboard="true" enableMouse="true" frameStrata="DIALOG" hidden="true" hyperlinksEnabled="true" virtual="true" movable="true" parent="UIParent" inherits="Ellyb_MovableFrame">
 		<Anchors>
 			<Anchor point="CENTER" relativeTo="UIErrorsFrame" />
 		</Anchors>
@@ -80,13 +80,16 @@
 	</Frame>
 
 	<Frame name="Ellyb_StaticPopOpenUrl" inherits="Ellyb_StaticPopTemplate">
+		<Anchors>
+			<Anchor point="CENTER" y="30" />
+		</Anchors>
 		<Size x="360" y="160" />
 		<Frames>
 			<EditBox parentKey="Url" inherits="Ellyb_ChatInputTextures">
 				<Anchors>
 					<Anchor point="LEFT" x="35" />
 					<Anchor point="RIGHT" x="-35" />
-					<Anchor point="TOP" relativeKey="$parent.Text" relativePoint="BOTTOM" y="-15" />
+					<Anchor point="TOP" relativeKey="$parent.Text" relativePoint="BOTTOM" y="-10" />
 				</Anchors>
 			</EditBox>
 			<Button parentKey="Button" inherits="Ellyb_PopupButton_Okay" />
