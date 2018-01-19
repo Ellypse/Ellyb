@@ -42,13 +42,13 @@ CursorFrame:SetScript("OnUpdate", function(self)
 	if Mouseover:Exists() then
 		cursorUnit = Mouseover:GetUnitID();
 	end
-	if shouldHideOnUnitChanged and self.unit and (not cursorUnit or cursorUnit ~= self.unit) then
+	if shouldHideOnUnitChanged and self.unitID and (not cursorUnit or cursorUnit ~= self.unitID) then
 		self:Hide();
 		shouldHideOnUnitChanged = false;
 	else
 		self:PlaceOnCursor();
 	end
-	self.unit = cursorUnit;
+	self.unitID = cursorUnit;
 end);
 
 ---Set the icon texture attached to the cursor
