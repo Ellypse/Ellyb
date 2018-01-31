@@ -6,18 +6,20 @@ Some of the functions are based on the utils function made by [Kajisensei/Telkos
 
 ## How to use
 
-The global reference to the library `Ellyb` keeps track of which version was bundled in your add-on using the add-on name passed as a file argument. You can ask it to give your the instance of the library using the `GetInstance` method.
+The global reference to the library `Ellyb` keeps track of which version was bundled in your add-on using the add-on name passed as a file argument. You can ask it to give your the instance of the library using the `GetInstance` method or by calling `Ellyb` it self as a shortcut.
 
 ```lua
 local myAddonName = ...;
 local Ellyb = Ellyb:GetInstance(myAddonName);
+-- or shorter way
+local Ellyb = Ellyb(...);
 ```
 
 This also means that if you need to interface with another add-on using Ellyb and you want to make sure you use their version, you can get their own instance.
 
 ```lua
-local MyEllyb = Ellyb:GetInstance(...); -- Version 1.1
-local TRP3Ellyb = Ellyb:GetInstance("totalRP3"); -- Version 1.0 bundled with Total RP 3
+local MyEllyb = Ellyb(...); -- Version 1.1
+local TRP3Ellyb = Ellyb("totalRP3"); -- Version 1.0 bundled with Total RP 3
 ```
 
 The rest of the documentation assume `Ellyb` is referring to an instance of the library and not the global function. The documentation is available in the [Wiki](https://github.com/Ellypse/Ellyb/wiki) of this GitHub repo.

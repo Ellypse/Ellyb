@@ -1,5 +1,5 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
 
 -- WoW imports
 local format = string.format;

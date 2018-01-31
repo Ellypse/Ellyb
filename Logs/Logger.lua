@@ -1,6 +1,6 @@
 local addOnName = ...;
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(addOnName);
+local Ellyb = Ellyb(addOnName);
 
 -- Lua imports
 local format = string.format;

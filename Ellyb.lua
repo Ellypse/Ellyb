@@ -1,6 +1,6 @@
 local AddOnName = ...;
 
-local VERSION_NUMBER = 1;
+local VERSION_NUMBER = 1.1;
 local DEBUG_MODE = true;
 local instances = {};
 local addonVersions = {};
