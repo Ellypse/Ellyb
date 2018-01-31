@@ -10,7 +10,7 @@ local Ellyb = setmetatable({}, {
 
 	---@param self Ellyb
 	__call = function(self, addOnName)
-		self:GetInstance(addOnName);
+		return self:GetInstance(addOnName);
 	end
 
 });
