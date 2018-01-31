@@ -6,7 +6,14 @@ local instances = {};
 local addonVersions = {};
 
 ---@class Ellyb
-local Ellyb = {};
+local Ellyb = setmetatable({}, {
+
+	---@param self Ellyb
+	__call = function(self, addOnName)
+		self:GetInstance(addOnName);
+	end
+
+});
 
 ---Returns the version number of this instance of the library
 ---@return number versionNumber @ An integer representing the version number
