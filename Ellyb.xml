@@ -7,4 +7,6 @@
 	<Include file="Tools\Tools.xml" />
 	<Include file="UI\UI.xml" />
 
+	<Script file="Patreon.lua"/>
+
 </Ui>
