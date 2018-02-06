@@ -1,5 +1,5 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
 
 -- Lua imports
 local assert = assert;
@@ -34,20 +34,21 @@ function CursorFrame:PlaceOnCursor()
 	local scale = 1 / UIParent:GetEffectiveScale();
 	local x, y = GetCursorPosition();
 	self:SetPoint("CENTER", UIParent, "BOTTOMLEFT", x * scale, y * scale);
+	self.unit = Mouseover:GetUnitID();
 end
 
 CursorFrame:SetScript("OnUpdate", function(self)
+	local cursorUnit;
 	if Mouseover:Exists() then
-		self.unitID = Mouseover:GetUnitID();
-	else
-		self.unitID = nil;
+		cursorUnit = Mouseover:GetUnitID();
 	end
-	if shouldHideOnUnitChanged and not self.unitID then
+	if shouldHideOnUnitChanged and self.unitID and (not cursorUnit or cursorUnit ~= self.unitID) then
 		self:Hide();
 		shouldHideOnUnitChanged = false;
 	else
 		self:PlaceOnCursor();
 	end
+	self.unitID = cursorUnit;
 end);
 
 ---Set the icon texture attached to the cursor

@@ -1,5 +1,5 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
 
 -- Lua imports
 local time = time;
