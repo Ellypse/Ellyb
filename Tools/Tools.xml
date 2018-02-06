@@ -9,5 +9,6 @@
 	<Script file="SlashCommand.lua"/>
 	<Script file="GameEvents.lua"/>
 	<Script file="Unit.lua"/>
+	<Script file="Localization.lua"/>
 
 </Ui>
