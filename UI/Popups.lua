@@ -7,10 +7,6 @@ local format = string.format;
 -- Ellyb imports
 local EditBoxes = Ellyb.EditBoxes;
 
-local COPY_LINK = [[
-You can copy this link by using the %s keyboard shortcut and then paste the link inside your browser using the %s shortcut.
-]];
-
 -- Ellyb imports
 local ORANGE = Ellyb.ColorManager.ORANGE;
 
@@ -37,7 +33,7 @@ URLPopup.Url:HookScript("OnEscapePressed", dismissPopup);
 function Popups:OpenURL(url, customText, customShortcutInstructions)
 	local popupText = customText and (customText .. "\n\n") or "";
 	if not customShortcutInstructions then
-		customShortcutInstructions = COPY_LINK;
+		customShortcutInstructions = Ellyb.loc.COPY_URL_POPUP_TEXT;
 	end
 	popupText = popupText .. format(customShortcutInstructions, ORANGE(Ellyb.System.SHORTCUTS.COPY), ORANGE(Ellyb.System.SHORTCUTS.PASTE));
 	URLPopup.Text:SetText(popupText);

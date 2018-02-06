@@ -122,7 +122,7 @@ end
 ---@param localizationKey string @ A localization key
 function Localization:GetText(localizationKey)
 	return self:GetActiveLocale():GetText(localizationKey) or -- Look in the currently active locale
-		self:GetLocale(DEFAULT_LOCALE_CODE):GetText(localizationKey) or -- Look in the English locale from Curse
+		(self:GetLocale(DEFAULT_LOCALE_CODE) and self:GetLocale(DEFAULT_LOCALE_CODE):GetText(localizationKey)) or -- Look in the English locale from Curse
 		self:GetDefaultLocale():GetText(localizationKey) or -- Look in the default locale
 		localizationKey; -- As a last resort, to avoid nil strings, return the key itself
 end

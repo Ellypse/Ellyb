@@ -10,6 +10,8 @@ local IsMacClient = IsMacClient();
 local IsTestBuild = IsTestBuild();
 local IsTrialAccount = IsTrialAccount();
 
+-- Ellyb imports
+local loc = Ellyb.loc;
 
 local System = {};
 Ellyb.System = System;
@@ -30,15 +32,15 @@ end
 local SHORTCUT_SEPARATOR = System:IsMac() and "-" or " + ";
 
 System.MODIFIERS = {
-	CTRL = "Ctrl",
-	ALT = "Alt",
-	SHIFT = "Shift",
+	CTRL = loc.MODIFIERS_CTRL,
+	ALT = loc.MODIFIERS_ALT,
+	SHIFT = loc.MODIFIERS_SHIFT,
 }
 
 local MAC_SHORT_EQUIVALENCE = {
-	[System.MODIFIERS.CTRL] = "Command",
-	[System.MODIFIERS.ALT] = "Option",
-	[System.MODIFIERS.SHIFT] = "Shift",
+	[System.MODIFIERS.CTRL] = loc.MODIFIERS_CTRL,
+	[System.MODIFIERS.ALT] = loc.MODIFIERS_ALT,
+	[System.MODIFIERS.SHIFT] = loc.MODIFIERS_SHIFT,
 }
 
 --- Format a keyboard shortcut with the appropriate separators according to the user operating system
@@ -75,8 +77,8 @@ System.SHORTCUTS = {
 };
 
 System.CLICKS = {
-	CLICK = "Click",
-	RIGHT_CLICK = "Right-Click",
-	LEFT_CLICK = "Left-Click",
-	MIDDLE_CLICK = "Middle-Click",
+	CLICK = loc.CLICK ,
+	RIGHT_CLICK = loc.RIGHT_CLICK ,
+	LEFT_CLICK = loc.LEFT_CLICK ,
+	MIDDLE_CLICK = loc.MIDDLE_CLICK ,
 };
