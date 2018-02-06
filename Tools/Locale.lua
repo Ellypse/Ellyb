@@ -32,6 +32,16 @@ function Locale:initialize(code, name, content)
 	end
 end
 
+-- Flavour syntax: we can add new values to the locale by adding them directly to the object Locale.LOCALIZATION_KEY = "value
+function Locale:__newindex(key, value)
+	self:AddText(key, value);
+end
+
+-- Flavour syntax: we can get the value for a key in the locale using Locale.LOCALIZATION_KEY
+function Locale:__index(localeKey)
+	return self:GetText(localeKey);
+end
+
 ---@return string localeCode
 function Locale:GetCode()
 	return _private[self].code;
