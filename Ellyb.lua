@@ -1,6 +1,9 @@
 local AddOnName = ...;
 
-local VERSION_NUMBER = 1.1;
+-- Lua imports
+local pairs = pairs;
+
+local VERSION_NUMBER = 1.2;
 local DEBUG_MODE = true;
 local instances = {};
 local addonVersions = {};
@@ -8,6 +11,7 @@ local addonVersions = {};
 ---@class Ellyb
 local Ellyb = setmetatable({}, {
 
+	--- Flavour syntax to make it possible to call Ellyb(addOnName) as a shortcut to Ellyb:GetInstance(addOnName)
 	---@param self Ellyb
 	__call = function(self, addOnName)
 		return self:GetInstance(addOnName);
@@ -49,7 +53,23 @@ function Ellyb:GetInstance(addOnName)
 	end
 end
 
----Internal function necessary for versioning. Do not use.
+--- Returns the most up to date version of Ellyb from the list of instances
+---@return Ellyb Ellyb @ Returns the most up to date version of Ellyb from all the registered instances
+function Ellyb:GetMostUpToDateVersion()
+	---@type Ellyb
+	local mostUpToDateInstance;
+	for _, instance in pairs(instances) do
+		if not mostUpToDateInstance or mostUpToDateInstance:GetVersionNumber() < instance:GetVersionNumber() then
+			mostUpToDateInstance = instance;
+		end
+	end
+
+	return mostUpToDateInstance;
+end
+
+--- Internal function necessary for versioning. Do not use.
+--- It will initialize (store only if this specific version hasn't been stored before) the current version of the library
+--- and remember that the current add-on embedding the library uses that version.
 ---@param EllybInstance Ellyb @ Current instance of the library
 function Ellyb:_Initialize(EllybInstance, addOnName)
 	if not instances[EllybInstance:GetVersionNumber()] then
@@ -64,6 +84,8 @@ function Ellyb:_GetInstances()
 end
 
 ---Internal function necessary for versioning. Do not use.
+---Will import all instances from a previous global version of the library into our current version
+---that will be the new global library
 function Ellyb:_ImportInstances(EllybInstance)
 	for k, v in pairs(EllybInstance:_GetInstances()) do
 		instances[k] = v;
@@ -85,15 +107,4 @@ end
 
 -- Register this instance
 _G.Ellyb:_Initialize(Ellyb, AddOnName);
-
-function EllybTest()
-	local lib = _G.Ellyb:GetInstance(AddOnName);
-
-	local Logger = lib.Logger("test");
-
-	lib.GameEvents.registerHandler("COMBAT_LOG_EVENT_UNFILTERED", function(...)
-		Logger:Debug(...);
-	end);
-	Logger:Show();
-end
 
