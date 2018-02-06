@@ -7,7 +7,6 @@
 	<Include file="Tools\Tools.xml" />
 	<Include file="UI\UI.xml" />
 
-	<Script file="Locales.lua"/>
 	<Script file="Patreon.lua"/>
 
 </Ui>

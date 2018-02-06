@@ -26,9 +26,10 @@ local Ellyb = Ellyb(...);
 -- Lua imports
 local sort = sort;
 local pairs = pairs;
+local format = format;
 
 ---@type ColorMixin
-local PURPLE = CreateColor(0.5, 0, 1);
+local PURPLE = Ellyb.ColorManager.PURPLE;
 
 local GOLDEN_SUPPORTERS = {
 	"Bas(AstaLawl)",
@@ -66,4 +67,14 @@ Ellyb.PATREON_SUPPORTERS_LIST = patreonMessage;
 ---@return string listOfPatreonSupporters @ Return the list of Patreon supporters
 function Ellyb:GetPatreonSupporters()
 	return self:GetMostUpToDateVersion().PATREON_SUPPORTERS_LIST;
+end
+
+---@param HTML SimpleHTML
+function Ellyb:SetUpHTMLPatreonMessage(HTML)
+	HTML:SetText(format(Ellyb.loc.PATREON_SUPPORTERS, Ellyb:GetPatreonSupporters()));
+	HTML:HookScript("OnHyperlinkClick", function(self, url, text, button)
+		if url == "ellypse_patreon" then
+			Ellyb.Popups:OpenURL("http://patreon.com/Ellypse");
+		end
+	end);
 end
