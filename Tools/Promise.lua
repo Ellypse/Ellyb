@@ -32,18 +32,26 @@ function Promise:Then(onSuccess, onFail, always)
 	insert(_private[self].onSuccessCallbacks, onSuccess);
 	insert(_private[self].onFailCallbacks, onFail);
 	insert(_private[self].onAlwaysCallbacks, always);
+
+	return self;
 end
 
 function Promise:Success(callback)
 	insert(_private[self].onSuccessCallbacks, callback);
+
+	return self;
 end
 
 function Promise:Fail(callback)
 	insert(_private[self].onFailCallbacks, callback);
+
+	return self;
 end
 
 function Promise:Always(callback)
 	insert(_private[self].onAlwaysCallbacks, callback);
+
+	return self;
 end
 
 function Promise:Resolve(...)
@@ -64,6 +72,8 @@ function Promise:Resolve(...)
 	for _, callback in pairs(_private[self].onAlwaysCallbacks) do
 		callback(...);
 	end
+
+	return self;
 end
 
 function Promise:Reject(...)
@@ -84,6 +94,8 @@ function Promise:Reject(...)
 	for _, callback in pairs(_private[self].onAlwaysCallbacks) do
 		callback(...);
 	end
+
+	return self;
 end
 
 Ellyb.Promise = Promise;
