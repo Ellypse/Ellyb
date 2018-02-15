@@ -31,7 +31,7 @@ function Promises.all(promises)
 
 		promise:Resolve(function(...)
 			insert(promisesResolutionArgs, { ... });
-			local allPromisesHaveBeenFulfilled = true
+			local allPromisesHaveBeenFulfilled = true;
 			for _, otherPromise in pairs(promises) do
 				if not otherPromise:HasBeenFulfilled() then
 					allPromisesHaveBeenFulfilled = false;

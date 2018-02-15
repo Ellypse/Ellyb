@@ -20,7 +20,7 @@ local threads = {};
 ---@return Promise promise
 function Threads.run(func)
 	local promise = Ellyb.Promise();
-	local thread = Ellyb.Thread(promise);
+	local thread = Ellyb.Thread();
 
 	thread:Execute(function()
 		func(thread);

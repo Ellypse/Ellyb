@@ -18,7 +18,7 @@ function Promise:initialize()
 	_private[self].onAlwaysCallbacks = {};
 end
 
----@return number promiseStatus @ On of Ellyb.Promises.STATUS
+---@return number promiseStatus @ One of Ellyb.Promises.STATUS
 function Promise:GetStatus()
 	return _private[self].status;
 end
@@ -68,7 +68,7 @@ end
 
 function Promise:Reject(...)
 	if self:GetStatus() == Ellyb.Promises.STATUS.REJECTED then
-		-- Promise has already been resolved, ignore new resolution
+		-- Promise has already been rejected, ignore new resolution
 		-- TODO Log? Warn? Something?
 		return
 	elseif self:GetStatus() == Ellyb.Promises.STATUS.FULFILLED then
