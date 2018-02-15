@@ -4,17 +4,28 @@ local Ellyb = Ellyb:GetInstance(...);
 -- Lua imports
 local insert = table.insert;
 local pairs = pairs;
+local error = error;
 
 ---@class Promise : Object
 local Promise, _private = Ellyb.Class("Promise");
 
 function Promise:initialize()
 	_private[self] = {};
-	_private[self].status = 0;
+	_private[self].status = Ellyb.Promises.STATUS.PENDING;
 
 	_private[self].onSuccessCallbacks = {};
 	_private[self].onFailCallbacks = {};
 	_private[self].onAlwaysCallbacks = {};
+end
+
+---@return number promiseStatus @ On of Ellyb.Promises.STATUS
+function Promise:GetStatus()
+	return _private[self].status;
+end
+
+---@return boolean hasBeenFulfilled @ True if the Promise has ben fulfilled
+function Promise:HasBeenFulfilled()
+	return self:GetStatus() == Ellyb.Promises.STATUS.FULFILLED;
 end
 
 function Promise:Then(onSuccess, onFail, always)
@@ -36,21 +47,40 @@ function Promise:Always(callback)
 end
 
 function Promise:Resolve(...)
-	if _private[self].status ~= 0 then
-		error()
+	if self:GetStatus() == Ellyb.Promises.STATUS.FULFILLED then
+		-- Promise has already been resolved, ignore new resolution
+		-- TODO Log? Warn? Something?
+		return
+	elseif self:GetStatus() == Ellyb.Promises.STATUS.REJECTED then
+		return error("Trying to resolve a Promise that has already been rejected.");
 	end
+
+	_private[self].status = Ellyb.Promises.STATUS.FULFILLED;
+
 	for _, callback in pairs(_private[self].onSuccessCallbacks) do
 		callback(...);
 	end
+
 	for _, callback in pairs(_private[self].onAlwaysCallbacks) do
 		callback(...);
 	end
 end
 
 function Promise:Reject(...)
+	if self:GetStatus() == Ellyb.Promises.STATUS.REJECTED then
+		-- Promise has already been resolved, ignore new resolution
+		-- TODO Log? Warn? Something?
+		return
+	elseif self:GetStatus() == Ellyb.Promises.STATUS.FULFILLED then
+		return error("Trying to reject a Promise that has already been resolved.");
+	end
+
+	_private[self].status = Ellyb.Promises.STATUS.REJECTED;
+
 	for _, callback in pairs(_private[self].onFailCallbacks) do
 		callback(...);
 	end
+
 	for _, callback in pairs(_private[self].onAlwaysCallbacks) do
 		callback(...);
 	end

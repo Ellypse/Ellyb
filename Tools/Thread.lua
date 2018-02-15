@@ -4,9 +4,15 @@ local Ellyb = Ellyb:GetInstance(...);
 ---@class Thread : Object
 local Thread, _private = Ellyb.Class("Thread");
 
-function Thread:initialize()
+---@param promise Promise
+function Thread:initialize(promise)
 	_private[self] = {};
+	_private[self].promise = promise;
+end
 
+---@return Promise
+function Thread:GetPromise()
+	return _private[self].promise;
 end
 
 function Thread:Execute(func)
