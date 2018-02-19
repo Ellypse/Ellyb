@@ -13,9 +13,6 @@ local isType = Ellyb.Assertions.isType;
 ---@class Configuration
 local Configuration, _private = Ellyb.Class("Configuration");
 
----@type CallbackRegistryBaseMixin
-local configCallbackRegistry = CreateFromMixins(CallbackRegistryBaseMixin);
-
 local UNKNOWN_CONFIGURATION_KEY = [[Unknown configuration key %s.]];
 local CONFIGURATION_KEY_ALREADY_EXISTS = [[Configuration key %s has already been registered.]];
 
@@ -26,6 +23,8 @@ function Configuration:initialize(savedVariablesName)
 
 	_private[self] = {};
 	_private[self].savedVariablesName = savedVariablesName;
+	_private[self].configCallbackRegistry = CreateFromMixins(CallbackRegistryBaseMixin);
+	_private[self].configCallbackRegistry:OnLoad();
 	_private[self].defaultValues = {};
 
 	-- Initialize the saved variables global table if it has never been initialized before
@@ -39,7 +38,7 @@ end
 ---@param defaultValue any @ The default value for this new configuration key
 function Configuration:RegisterConfigKey(configurationKey, defaultValue)
 	assert(isType(configurationKey, "string", "configurationKey"));
-	assert(not self:IsConfigurationKeyRegistere(configurationKey), format(CONFIGURATION_KEY_ALREADY_EXISTS, configurationKey));
+	assert(not self:IsConfigurationKeyRegistered(configurationKey), format(CONFIGURATION_KEY_ALREADY_EXISTS, configurationKey));
 
 	_private[self].defaultValues[configurationKey] = defaultValue;
 
@@ -72,7 +71,7 @@ function Configuration:SetValue(configurationKey, value)
 	local savedVariables = _G[_private[self].savedVariablesName];
 	if savedVariables[configurationKey] ~= value then
 		savedVariables[configurationKey] = value;
-		configCallbackRegistry:TriggerEvent(configurationKey, value);
+		_private[self].configCallbackRegistry:TriggerEvent(configurationKey, value);
 	end
 end
 
@@ -94,6 +93,8 @@ function Configuration:OnChange(key, callback)
 			self:OnChange(k, callback);
 		end
 	else
-		configCallbackRegistry:RegisterCallback(key, callback);
+		_private[self].configCallbackRegistry:RegisterCallback(key, callback);
 	end
 end
+
+Ellyb.Configuration = Configuration;
