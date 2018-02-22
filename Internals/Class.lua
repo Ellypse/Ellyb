@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.Class then
+	return
+end
+
 -- Lua imports
 local setmetatable = setmetatable;
 

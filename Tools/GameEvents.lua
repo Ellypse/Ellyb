@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.GameEvents then
+	return
+end
+
 -- WoW imports
 local assert = assert;
 local pairs = pairs;

@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.Unit then
+	return
+end
+
 -- WoW imports
 local UnitGUID = UnitGUID;
 local UnitIsPlayer = UnitIsPlayer;

@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.Popups then
+	return
+end
+
 -- Lua imports
 local format = string.format;
 

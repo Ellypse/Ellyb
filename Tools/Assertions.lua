@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.Assertions then
+	return
+end
+
 -- WoW imports
 local type = type;
 local format = string.format;

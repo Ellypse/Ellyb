@@ -10,6 +10,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.GetPatreonSupporters then
+	return
+end
+
 -- Lua imports
 local sort = sort;
 local pairs = pairs;

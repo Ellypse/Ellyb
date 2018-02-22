@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.ColorManager then
+	return
+end
+
 -- WoW imports
 local tonumber = tonumber;
 local lenght = string.len;

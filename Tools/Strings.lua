@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.Strings then
+	return
+end
+
 -- Lua imports
 local pairs = pairs;
 local tostring = tostring;

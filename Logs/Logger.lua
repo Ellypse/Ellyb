@@ -2,6 +2,10 @@ local addOnName = ...;
 ---@type Ellyb
 local Ellyb = Ellyb(addOnName);
 
+if Ellyb.Logger then
+	return
+end
+
 -- Lua imports
 local format = string.format;
 local insert = table.insert;

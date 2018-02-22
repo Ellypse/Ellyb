@@ -3,7 +3,7 @@ local AddOnName = ...;
 -- Lua imports
 local pairs = pairs;
 
-local VERSION_NUMBER = 1.2;
+local VERSION_NUMBER = 1.3;
 local DEBUG_MODE = true;
 local instances = {};
 local addonVersions = {};

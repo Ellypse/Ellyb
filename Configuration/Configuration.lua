@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.Configuration then
+	return
+end
+
 -- Lua imports
 local assert = assert;
 local format = format;

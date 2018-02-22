@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.Color then
+	return
+end
+
 -- WoW imports
 local format = string.format;
 local uppercase = string.upper;

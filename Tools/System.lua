@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.System then
+	return
+end
+
 -- Lua imports
 local tConcat = table.concat;
 local pairs = pairs;
