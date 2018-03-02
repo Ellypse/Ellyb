@@ -186,6 +186,27 @@ function Color:SetRGBA(red, green, blue, alpha)
 	self:SetAlpha(alpha);
 end
 
+--- Get the color values as an { r, g, b } table
+---@return table rgb
+function Color:GetRGBTable()
+	return {
+		r = self:GetRed(),
+		g = self:GetGreen(),
+		b = self:GetBlue(),
+	};
+end
+
+--- Get the color values as an { r, g, b, a } table
+---@return table rgba
+function Color:GetRGBATable()
+	return {
+		r = self:GetRed(),
+		g = self:GetGreen(),
+		b = self:GetBlue(),
+		a = self:GetAlpha(),
+	}
+end
+
 --- Freezes a Color so that it cannot be mutated
 --- Used for Color constants in the ColorManager
 ---@return Color color @ Returns itself, so it can be used during the instantiation
