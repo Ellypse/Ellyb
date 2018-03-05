@@ -5,15 +5,34 @@ if Ellyb.Color then
 	return
 end
 
+-- Lua imports
+local assert = assert;
+local abs = math.abs;
+local fmod = math.fmod;
+local min = math.min;
+local max = math.max;
+
 -- WoW imports
 local format = string.format;
 local uppercase = string.upper;
 local type = type;
 
+-- Ellyb imports
+local isType = Ellyb.Assertions.isType;
+local numberIsBetween = Ellyb.Assertions.numberIsBetween;
+
 ---@class Color : Object
 --- A Color object with various methods used to handle color, color text, etc.
 local Color, _private = Ellyb.Class("Color");
 Ellyb.Color = Color;
+
+--- Initialize the Color instance's private properties.
+--- Since we have multiple constructor, they will all call this function to initialize the properties.
+---@param instance Color
+local function _privateInit(instance)
+	_private[instance] = {};
+	_private[instance].canBeMutated = true;
+end
 
 ---Constructor
 ---@overload fun(hexadecimalColorCode:string):void
@@ -21,7 +40,7 @@ Ellyb.Color = Color;
 ---@overload fun(red:number, green:number, blue:number):void
 ---@overload fun(red:number, green:number, blue:number, alpha:number):void
 function Color:initialize(red, green, blue, alpha)
-	_private[self] = {};
+	_privateInit(self);
 	if type(red) == "table" then
 		local colorTable = red;
 		red = colorTable.red or colorTable.r;
@@ -35,11 +54,12 @@ function Color:initialize(red, green, blue, alpha)
 	if red > 1 or green > 1 or blue > 1 or (alpha and alpha > 1) then
 		red, green, blue, alpha = Ellyb.ColorManager.convertColorBytesToBits(red, green, blue, alpha);
 	end
-	_private[self].red = red;
-	_private[self].green = green;
-	_private[self].blue = blue;
-	_private[self].alpha = alpha;
-	_private[self].canBeMutated = true;
+
+	self:SetRed(red);
+	self:SetGreen(green);
+	self:SetBlue(blue);
+	self:SetAlpha(alpha);
+
 end
 
 ---@return string color @ A string representation of the color (#FFBABABA)
@@ -109,13 +129,13 @@ end
 function Color:GetHSL()
 	local h, s, l, cmax, cmin;
 	local r, g, b = self:GetRGB();
-	cmax = math.max(r, g, b);
-	cmin = math.min(r, g, b);
+	cmax = max(r, g, b);
+	cmin = min(r, g, b);
 
 	if (cmin == cmax) then
 		h = 0;
 	elseif (cmax == r) then
-		h = 60 * math.fmod((g - b)/(cmax - cmin), 6);
+		h = 60 * fmod((g - b)/(cmax - cmin), 6);
 	elseif (cmax == g) then
 		h = 60 * ((b - r)/(cmax - cmin) + 2);
 	else
@@ -131,7 +151,7 @@ function Color:GetHSL()
 	if (cmin == cmax) then
 		s = 0;
 	else
-		s = (cmax - cmin)/(1 - math.abs(2*l - 1));
+		s = (cmax - cmin)/(1 - abs(2*l - 1));
 	end
 
 	return h, s, l;
@@ -142,6 +162,7 @@ end
 ---@param red number @ A number between 0 and 1 for the red value
 function Color:SetRed(red)
 	if _private[self].canBeMutated then
+		assert(numberIsBetween(red, 0, 1, "red"));
 		_private[self].red = red;
 	end
 end
@@ -151,6 +172,7 @@ end
 ---@param green number @ A number between 0 and 1 for the green value
 function Color:SetGreen(green)
 	if _private[self].canBeMutated then
+		assert(numberIsBetween(green, 0, 1, "green"));
 		_private[self].green = green;
 	end
 end
@@ -160,6 +182,7 @@ end
 ---@param blue number @ A number between 0 and 1 for the blue value
 function Color:SetBlue(blue)
 	if _private[self].canBeMutated then
+		assert(numberIsBetween(blue, 0, 1, "blue"));
 		_private[self].blue = blue;
 	end
 end
@@ -168,7 +191,8 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param alpha number @ A number between 0 and 1 for the alpha value
 function Color:SetAlpha(alpha)
-	if _private[self].canBeMutated then
+	if _private[self].canBeMutated and alpha then
+		assert(numberIsBetween(alpha, 0, 1, "alpha"));
 		_private[self].alpha = alpha;
 	end
 end
@@ -219,7 +243,7 @@ end
 --- Create a duplicate version of the color that can be altered safely
 --- @return Color color @ A duplicate of this color
 function Color:Clone()
-	return Color(self:GetRGBA());
+	return Color.CreateFromRGBA(self:GetRGBA());
 end
 
 local HEXADECIMAL_COLOR_PATTERN = "%.2x%.2x%.2x";
@@ -253,5 +277,65 @@ local COLOR_CODE_PATTERN = "|c%s%s|r";
 ---@param text string @ The text to be colored
 ---@return string coloredText @ A colored representation of the given text
 function Color:WrapTextInColorCode(text)
+	assert(isType(text, "string", "text"));
 	return format(COLOR_CODE_PATTERN, self:GenerateHexadecimalColor(), text);
+end
+
+--- Create a new Color from RGBA values, between 0 and 1.
+---@param red number @ The red value of the Color between 0 and 1
+---@param green number @ The green value of the Color between 0 and 1
+---@param blue number @ The blue value of the Color between 0 and 1
+---@param optional alpha number @ The alpha value of the Color between 0 and 1
+---@return Color color
+function Color.CreateFromRGBA(red, green, blue, alpha)
+	-- Manually allocate the class, without calling its constructor and initialize its private properties.
+	---@type Color
+	local color = Color:allocate();
+	_privateInit(color)
+
+	-- Set the values
+	color:SetRGBA(red, green, blue, alpha);
+
+	return color;
+end
+
+--- Create a new Color from RGBA values, between 0 and 255.
+---@param red number @ The red value of the Color between 0 and 255
+---@param green number @ The green value of the Color between 0 and 255
+---@param blue number @ The blue value of the Color between 0 and 255
+---@param optional alpha number @ The alpha value of the Color between 0 and 255, or 0 and 1 (see alphaIsNotBytes parameter)
+---@param optional alphaIsNotBytes boolean @ Some usage (like color pickers) might want to set the alpha as opacity between 0 and 1.
+---											 If set to true, alpha will be considered as a value between 0 and 1
+function Color.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotBytes)
+	assert(numberIsBetween(red, 0, 255, "red"));
+	assert(numberIsBetween(green, 0, 255, "green"));
+	assert(numberIsBetween(blue, 0, 255, "blue"));
+
+	-- Manually allocate the class, without calling its constructor and initialize its private properties.
+	---@type Color
+	local color = Color:allocate();
+	_privateInit(color)
+
+	-- Set the values
+	color:SetRGBA(red / 255, green / 255, blue / 255);
+
+	if alpha then
+		-- Alpha is optional, only test if we were given a value
+		if not alphaIsNotBytes then
+			assert(numberIsBetween(alpha, 0, 255, "alpha"));
+			alpha = alpha / 255;
+		end
+		color:SetAlpha(alpha);
+	end
+
+	return color;
+end
+
+--- Create a new Color from an hexadecimal code
+---@param hexadecimalColorCode string @ A valid hexadecimal code
+function Color.CreateFromHexa(hexadecimalColorCode)
+	assert(isType(hexadecimalColorCode, "string", "hexadecimalColorCode"));
+
+	local red, green, blue, alpha = Ellyb.ColorManager.hexaToNumber(hexadecimalColorCode);
+	return Color.CreateFromRGBA(red, green, blue, alpha);
 end
