@@ -24,7 +24,6 @@ local GOLDEN_SUPPORTERS = {
 	"Bas(AstaLawl)",
 	"Connor Macleod",
 	"Vlad",
-	"Mooncubus",
 }
 
 local PATREON_SUPPORTERS = {
@@ -33,6 +32,7 @@ local PATREON_SUPPORTERS = {
 	"Ripperley",
 	"Keyboardturner",
 	"Petr Cihelka",
+	"Julien Mtrd",
 }
 
 sort(GOLDEN_SUPPORTERS);
