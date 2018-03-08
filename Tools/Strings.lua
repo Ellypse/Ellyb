@@ -19,6 +19,8 @@ local strtrim = strtrim;
 local gsub = string.gsub;
 local type = type;
 local insert = table.insert;
+local math = math;
+local tonumber = tonumber;
 
 -- Ellyb imports
 local isType = Ellyb.Assertions.isType;
@@ -213,4 +215,23 @@ end
 
 function Strings.clickInstruction(click, text)
 	return Ellyb.ColorManager.ORANGE(click) .. ": " .. text;
+end
+
+-- TODO Move this to some Math module
+local function round(value, decimals)
+	local mult = 10 ^ (decimals or 0)
+	return math.floor(value * mult) / mult;
+end
+
+local BYTES_MULTIPLES = { 'Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' };
+function Strings.formatBytes(bytes)
+	assert(isType(bytes, "number", "bytes"));
+
+	if bytes < 2 then
+		return bytes .. ' Byte';
+	end
+
+	local i = tonumber(math.floor(math.log(bytes) / math.log(1024)));
+
+	return round(bytes / math.pow(1024, i), 2) .. ' ' .. BYTES_MULTIPLES[i];
 end
