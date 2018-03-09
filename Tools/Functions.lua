@@ -1,13 +1,13 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
-if Ellyb.Funcs then
+if Ellyb.Functions then
 	return
 end
 
----@class Funcs
-local Funcs = {};
-Ellyb.Funcs = Funcs;
+---@class Functions
+local Functions = {};
+Ellyb.Functions = Functions;
 
 --- Binds a given function to a value, returning a closure will call the
 --  original function with the given value as the first argument, and
@@ -18,6 +18,6 @@ Ellyb.Funcs = Funcs;
 --
 --  @param fn The function to wrap.
 --  @param value The value to be supplied to fn as the first argument.
-function Funcs.bind(fn, value)
+function Functions.bind(fn, value)
 	return function(...) return fn(value, ...); end
 end
