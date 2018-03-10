@@ -13,7 +13,7 @@ local tonumber = tonumber;
 -- Ellyb imports
 local Class = Ellyb.Class;
 local Funcs = Ellyb.Funcs;
-local PooledClass = Ellyb.PooledClass;
+local PooledObjectMixin = Ellyb.PooledObjectMixin;
 local Strings = Ellyb.Strings;
 
 --- Cache used by the Interpolator class that takes a format specifier without
@@ -33,7 +33,8 @@ local replacementCache = setmetatable({}, {
 --  closure each time String.interpolate() is called.
 --
 --  This class should be treated as an implementation detail and not exported.
-local Interpolator = Class("Interpolator", PooledClass);
+local Interpolator = Class("Interpolator");
+Interpolator:include(PooledObjectMixin);
 
 function Interpolator:initialize()
 	-- Ensure the replacements and offset are reset on each re-init.
@@ -111,6 +112,6 @@ end
 function Strings.interpolate(formatString, replacements)
 	local replacer = Interpolator();
 	local formatted = replacer:Format(formatString, replacements);
-	replacer:ReleasePooledClass();
+	replacer:ReleasePooledObject();
 	return formatted;
 end
