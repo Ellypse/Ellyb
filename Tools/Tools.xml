@@ -7,7 +7,7 @@
 	<Script file="Functions.lua"/>
 	<Script file="ColorsManager.lua"/>
 	<Script file="Strings.lua"/>
-	<Script file="Strings/Interpolate.lua"/>
+	<Script file="Strings\Interpolate.lua"/>
 	<Script file="SlashCommand.lua"/>
 	<Script file="GameEvents.lua"/>
 	<Script file="Unit.lua"/>

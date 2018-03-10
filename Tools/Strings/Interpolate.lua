@@ -1,7 +1,7 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
-if Ellyb.Strings then
+if Ellyb.Strings.interpolate then
 	return
 end
 
@@ -12,7 +12,7 @@ local tonumber = tonumber;
 
 -- Ellyb imports
 local Class = Ellyb.Class;
-local Funcs = Ellyb.Funcs;
+local Functions = Ellyb.Functions;
 local PooledObjectMixin = Ellyb.PooledObjectMixin;
 local Strings = Ellyb.Strings;
 
@@ -43,7 +43,7 @@ function Interpolator:initialize()
 
 	-- We'll need a closure to forward the actual replacement to our
 	-- method. This should be cached across each init.
-	self.onReplacement = self.onReplacement or Funcs.bind(self.Replace, self);
+	self.onReplacement = self.onReplacement or Functions.bind(self.Replace, self);
 end
 
 --- Formats the given format string against the given table of replacements.
