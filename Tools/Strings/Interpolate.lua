@@ -6,7 +6,6 @@ if Ellyb.Strings then
 end
 
 -- Lua imports
-local next = next;
 local strgsub = string.gsub;
 local strformat = string.format;
 local tonumber = tonumber;
