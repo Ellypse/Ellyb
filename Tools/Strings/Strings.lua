@@ -233,5 +233,5 @@ function Strings.formatBytes(bytes)
 
 	local i = tonumber(math.floor(math.log(bytes) / math.log(1024)));
 
-	return round(bytes / math.pow(1024, i), 2) .. ' ' .. BYTES_MULTIPLES[i];
+	return round(bytes / math.pow(1024, i), 2) .. ' ' .. BYTES_MULTIPLES[i + 1];
 end
