@@ -18,13 +18,13 @@ local Locale, _private = Ellyb.Class("Locale");
 ---@param optional content table<string, string> @ Content of the locale, a table with texts indexed with locale keys
 function Locale:initialize(code, name, content)
 	assert(isType(code, "string", "code"));
-	assert(isOneOf(code, Ellyb.Localization.getValidLocaleCodes, "code"));
 	assert(isType(name, "string", "name"));
 
 	_private[self] = {};
 
 	_private[self].code = code;
 	_private[self].name = name;
+	_private[self].content = {};
 
 	-- If the content of the locale was passed to the constructor, we add the content to the locale
 	if content then

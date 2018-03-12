@@ -31,6 +31,8 @@ You can copy this link by using the %s keyboard shortcut and then paste the link
 
 Ellyb.loc = Ellyb.Localization(Ellyb.loc);
 
+Ellyb.loc:RegisterNewLocale("enUS", "English");
+
 Ellyb.loc:RegisterNewLocale("frFR", "Français", {
 	-- System
 	MODIFIERS_CTRL = "Contrôle",

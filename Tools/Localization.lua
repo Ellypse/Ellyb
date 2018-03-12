@@ -3,19 +3,11 @@ local Ellyb = Ellyb(...);
 
 -- Lua imports
 local assert = assert;
-local pairs = pairs;
-local insert = table.insert;
 local format = format;
 
 -- We will remember if the locale is French or not, as French has some special cases we need to handle
 local IS_FRENCH_LOCALE = _G.GetLocale() == "frFR";
 local DEFAULT_LOCALE_CODE = "enUS";
-
-local VALID_LOCALE_CODES = {};
-
-for localeKey, _ in pairs(_G.LanguageRegions) do
-	insert(VALID_LOCALE_CODES, localeKey);
-end
 
 ---@class Localization
 --- My own take on a localization system.
@@ -55,10 +47,6 @@ function Localization:__call(localeKey, ...)
 	end
 
 	return localeText;
-end
-
-function Localization:GetValidLocaleCodes()
-	return VALID_LOCALE_CODES;
 end
 
 ---Register a new locale into the localization system
