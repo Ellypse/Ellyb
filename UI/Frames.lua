@@ -22,6 +22,8 @@ local Frames = {};
 function Frames.makeMovable(frame, validatePositionOnDragStop)
 	assert(isType(frame, "Frame", "frame"));
 	frame:RegisterForDrag("LeftButton");
+	frame:EnableMouse(true);
+	frame:SetMovable(true);
 
 	frame:HookScript("OnDragStart", frame.StartMoving);
 	frame:HookScript("OnDragStop", frame.StopMovingOrSizing);
