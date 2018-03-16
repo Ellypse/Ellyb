@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.ColorManager then
+	return
+end
+
 -- WoW imports
 local tonumber = tonumber;
 local lenght = string.len;
@@ -174,3 +178,21 @@ ColorManager.POWER_FURY = Color(PowerBarColor["FURY"]):Freeze();
 ColorManager.POWER_PAIN = Color(PowerBarColor["PAIN"]):Freeze();
 ColorManager.POWER_AMMOSLOT = Color(PowerBarColor["AMMOSLOT"]):Freeze();
 ColorManager.POWER_FUEL = Color(PowerBarColor["FUEL"]):Freeze();
+
+-- OTHER GAME STUFF
+ColorManager.CRAFTING_REAGENT = Color("#66bbff"):Freeze();
+
+ColorManager.LINKS = {
+	achievement = Color("#ffff00"):Freeze(),
+	talent = Color("#4e96f7"):Freeze(),
+	trade = Color("#ffd000"):Freeze(),
+	enchant = Color("#ffd000"):Freeze(),
+	instancelock = Color("#ff8000"):Freeze(),
+	journal = Color("#66bbff"):Freeze(),
+	battlePetAbil = Color("#4e96f7"):Freeze(),
+	battlepet = Color("#ffd200"):Freeze(),
+	garrmission = Color("#ffff00"):Freeze(),
+	transmogillusion = Color("#ff80ff"):Freeze(),
+	transmogappearance = Color("#ff80ff"):Freeze(),
+	transmogset = Color("#ff80ff"):Freeze(),
+}

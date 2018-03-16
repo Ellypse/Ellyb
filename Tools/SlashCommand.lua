@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.SlashCommand then
+	return
+end
+
 -- Lua imports
 local format = string.format;
 local uppercase = string.upper;

@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.Tables then
+	return
+end
+
 -- WoW imports
 local tinsert = table.insert;
 local tremove = table.remove;

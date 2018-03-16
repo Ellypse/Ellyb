@@ -1,41 +1,31 @@
 ----------------------------------------------------------------------------------
 --- List of Ellypse's Patreon supporters
+--- http://patreon.com/Ellypse
 ---
 --- The Ellyb library is made thanks to the generous contribution of my Patreon supporters
 --- This file lists those supporters and prepares and formatted list for me to easily insert
 --- inside my add-ons
---- ---------------------------------------------------------------------------
---- Copyright 2018 Renaud "Ellypse" Parize <ellypse@totalrp3.info> @EllypseCelwe
----
---- Licensed under the Apache License, Version 2.0 (the "License");
---- you may not use this file except in compliance with the License.
---- You may obtain a copy of the License at
----
----  http://www.apache.org/licenses/LICENSE-2.0
----
---- Unless required by applicable law or agreed to in writing, software
---- distributed under the License is distributed on an "AS IS" BASIS,
---- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
---- See the License for the specific language governing permissions and
---- limitations under the License.
 ----------------------------------------------------------------------------------
 
 ---@type Ellyb
 local Ellyb = Ellyb(...);
+
+if Ellyb.GetPatreonSupporters then
+	return
+end
 
 -- Lua imports
 local sort = sort;
 local pairs = pairs;
 local format = format;
 
----@type ColorMixin
+---@type Color
 local PURPLE = Ellyb.ColorManager.PURPLE;
 
 local GOLDEN_SUPPORTERS = {
 	"Bas(AstaLawl)",
 	"Connor Macleod",
 	"Vlad",
-	"Mooncubus",
 }
 
 local PATREON_SUPPORTERS = {
@@ -44,6 +34,7 @@ local PATREON_SUPPORTERS = {
 	"Ripperley",
 	"Keyboardturner",
 	"Petr Cihelka",
+	"Julien Mtrd",
 }
 
 sort(GOLDEN_SUPPORTERS);
