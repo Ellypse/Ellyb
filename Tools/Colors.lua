@@ -11,6 +11,7 @@ local abs = math.abs;
 local fmod = math.fmod;
 local min = math.min;
 local max = math.max;
+local tostring = tostring;
 
 -- WoW imports
 local format = string.format;
@@ -277,8 +278,7 @@ local COLOR_CODE_PATTERN = "|c%s%s|r";
 ---@param text string @ The text to be colored
 ---@return string coloredText @ A colored representation of the given text
 function Color:WrapTextInColorCode(text)
-	assert(isType(text, "string", "text"));
-	return format(COLOR_CODE_PATTERN, self:GenerateHexadecimalColor(), text);
+	return format(COLOR_CODE_PATTERN, self:GenerateHexadecimalColor(), tostring(text));
 end
 
 --- Create a new Color from RGBA values, between 0 and 1.
