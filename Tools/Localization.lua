@@ -80,6 +80,11 @@ function Localization:GetLocale(code)
 	return _private[self].locales[code];
 end
 
+---@return Locale[] locales
+function Localization:GetLocales()
+	return _private[self].locales
+end
+
 ---@return Locale locale
 function Localization:GetActiveLocale()
 	return self:GetLocale(_private[self].currentLocaleCode);
