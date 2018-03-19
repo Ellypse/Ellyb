@@ -339,3 +339,8 @@ function Color.CreateFromHexa(hexadecimalColorCode)
 	local red, green, blue, alpha = Ellyb.ColorManager.hexaToNumber(hexadecimalColorCode);
 	return Color.CreateFromRGBA(red, green, blue, alpha);
 end
+
+---@param fontString FontString
+function Color:SetTextColor(fontString)
+	fontString:SetTextColor(self:GetRGBA());
+end
