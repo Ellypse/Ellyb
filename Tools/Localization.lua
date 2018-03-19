@@ -3,31 +3,25 @@ local Ellyb = Ellyb(...);
 
 -- Lua imports
 local assert = assert;
-local pairs = pairs;
-local insert = table.insert;
 local format = format;
 
 -- We will remember if the locale is French or not, as French has some special cases we need to handle
 local IS_FRENCH_LOCALE = _G.GetLocale() == "frFR";
-local DEFAULT_LOCALE_CODE = "enUS";
-
-local VALID_LOCALE_CODES = {};
-
-for localeKey, _ in pairs(_G.LanguageRegions) do
-	insert(VALID_LOCALE_CODES, localeKey);
-end
+local DEFAULT_LOCALE_CODE = "default";
 
 ---@class Localization
 --- My own take on a localization system.
 --- The main goal here was to achieve easy localization key completion in the code editor (loc.KEY)
 local Localization, _private = Ellyb.Class("Localization");
 
+Localization.DEFAULT_LOCALE_CODE = DEFAULT_LOCALE_CODE;
+
 function Localization:initialize(defaultLocaleContent)
 	_private[self] = {};
 
-	_private[self].defaultLocale = Ellyb.Locale("default", "Default", defaultLocaleContent);
-	_private[self].currentLocaleCode = DEFAULT_LOCALE_CODE;
 	_private[self].locales = {};
+	self:RegisterNewLocale(DEFAULT_LOCALE_CODE, "Default", defaultLocaleContent);
+	_private[self].currentLocaleCode = DEFAULT_LOCALE_CODE;
 end
 
 -- Flavour syntax: we can get the value for a key in the current locale using Localization.LOCALIZATION_KEY
@@ -37,7 +31,13 @@ end
 
 -- Flavour syntax: we can add a value to the default locale using Localization.LOCALIZATION_KEY = "value"
 function Localization:__newindex(key, value)
-	self:GetDefaultLocale():AddText(key, value);
+	if value then
+		self:AddTextToDefaultLocale(key, value);
+	end
+end
+
+function Localization:AddTextToDefaultLocale(key, value)
+	self:GetLocale(DEFAULT_LOCALE_CODE):AddText(key, value);
 end
 
 -- We can also "call" the table itself with either the key as a string (.ie Localization("GEN_VERSION")
@@ -55,10 +55,6 @@ function Localization:__call(localeKey, ...)
 	end
 
 	return localeText;
-end
-
-function Localization:GetValidLocaleCodes()
-	return VALID_LOCALE_CODES;
 end
 
 ---Register a new locale into the localization system
@@ -84,6 +80,11 @@ function Localization:GetLocale(code)
 	return _private[self].locales[code];
 end
 
+---@return Locale[] locales
+function Localization:GetLocales()
+	return _private[self].locales
+end
+
 ---@return Locale locale
 function Localization:GetActiveLocale()
 	return self:GetLocale(_private[self].currentLocaleCode);
@@ -102,7 +103,7 @@ end
 
 ---@return Locale defaultLocale
 function Localization:GetDefaultLocale()
-	return _private[self].defaultLocale;
+	return self:GetLocale(DEFAULT_LOCALE_CODE);
 end
 
 ---@return string

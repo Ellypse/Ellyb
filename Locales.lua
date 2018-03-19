@@ -3,7 +3,8 @@ local Ellyb = Ellyb(...);
 
 -- We are using Ellyb.loc here to store the locale table so we get code completion from the IDE
 -- The table will be replaced by the complete Localization system, with metatable lookups for the localization keys
-Ellyb.loc = {
+---@class loc : Localization
+local loc  = {
 	-- System
 	MODIFIERS_CTRL = "Ctrl",
 	MODIFIERS_ALT = "Alt",
@@ -29,7 +30,10 @@ You can copy this link by using the %s keyboard shortcut and then paste the link
 ]],
 };
 
-Ellyb.loc = Ellyb.Localization(Ellyb.loc);
+loc = Ellyb.Localization(loc);
+Ellyb.loc = loc;
+
+Ellyb.loc:RegisterNewLocale("enUS", "English", {});
 
 Ellyb.loc:RegisterNewLocale("frFR", "Français", {
 	-- System
@@ -56,3 +60,5 @@ Vous pouvez copier ce lien en utilisant le raccourci clavier %s pour ensuite le 
 %s
 ]],
 })
+
+Ellyb.loc:SetCurrentLocale(GetLocale(), true);

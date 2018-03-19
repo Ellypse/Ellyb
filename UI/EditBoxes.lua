@@ -1,6 +1,10 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
+if Ellyb.EditBoxes then
+	return
+end
+
 -- Lua imports
 local pairs = pairs;
 

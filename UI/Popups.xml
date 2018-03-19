@@ -37,7 +37,7 @@
 		</Scripts>
 	</Button>
 
-	<Frame name="Ellyb_StaticPopTemplate" toplevel="true" enableKeyboard="true" enableMouse="true" frameStrata="DIALOG" hidden="true" hyperlinksEnabled="true" virtual="true" movable="true" parent="UIParent" inherits="Ellyb_MovableFrame">
+	<Frame name="Ellyb_StaticPopTemplate" toplevel="true" enableKeyboard="true" enableMouse="true" frameStrata="DIALOG" hidden="true" hyperlinksEnabled="true" virtual="true" movable="true" parent="UIParent">
 		<Anchors>
 			<Anchor point="CENTER" relativeTo="UIErrorsFrame" />
 		</Anchors>
