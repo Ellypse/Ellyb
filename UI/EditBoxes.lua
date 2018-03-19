@@ -56,7 +56,7 @@ function EditBoxes.setupTabKeyNavigation(...)
 	local maxBound = #editBoxes;
 	local minBound = 1;
 	for index, editbox in pairs(editBoxes) do
-		editbox:SetScript("OnTabPressed", function(self, button)
+		editbox:HookScript("OnTabPressed", function(self, button)
 			local cursor = index
 			if IsShiftKeyDown() then
 				if cursor == minBound then
