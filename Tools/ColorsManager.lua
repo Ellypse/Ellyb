@@ -113,7 +113,7 @@ end
 -- Common colors
 ColorManager.RED = Color(1, 0, 0):Freeze();
 ColorManager.ORANGE = Color(255, 153, 0):Freeze();
-ColorManager.YELLOW = Color(1, 0.75, 0):Freeze();
+ColorManager.YELLOW = Color(1, 0.82, 0):Freeze();
 ColorManager.GREEN = Color(0, 1, 0):Freeze();
 ColorManager.CYAN = Color(0, 1, 1):Freeze();
 ColorManager.BLUE = Color(0, 0, 1):Freeze();
