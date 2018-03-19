@@ -148,7 +148,7 @@ function Tooltip:Show()
 	-- Call all the callbacks that have been registered of the OnShow event
 	for _, callback in pairs(_private[self].onShowCallbacks) do
 		-- If one of the callback returns false, it means the tooltip should not be shown, we stop right here
-		if callback() == false then
+		if callback(self) == false then
 			return
 		end
 	end
@@ -165,12 +165,20 @@ function Tooltip:Show()
 
 	-- Insert all the lines inside the tooltip
 	for _, line in pairs(self:GetLines()) do
-		tooltip:AddLine(line.text);
+		local r, g, b;
+		if line.customColor then
+			r, g, b = line.customColor:GetRGBAAsBytes();
+		end
+		tooltip:AddLine(line.text, r, g, b, true);
 	end
 
 	-- Insert all the lines inside the tooltip
 	for _, line in pairs(self:GetTempLines()) do
-		tooltip:AddLine(line.text);
+		local r, g, b;
+		if line.customColor then
+			r, g, b = line.customColor:GetRGBAAsBytes();
+		end
+		tooltip:AddLine(line.text, line.text, r, g, b, true);
 	end
 
 	tooltip:Show();
