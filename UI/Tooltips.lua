@@ -6,21 +6,27 @@ Ellyb.Tooltips = Tooltips;
 
 Tooltips.ANCHORS = {
 	--- Align the top right of the tooltip with the bottom left of the owner
-	BOTTOMLEFT= "ANCHOR_BOTTOMLEFT",
+	BOTTOMLEFT= "BOTTOMLEFT",
+	--- Align the top left of the tooltip with the bottom right of the owner
+	BOTTOMRIGHT= "BOTTOMRIGHT",
 	--- Toolip follows the mouse cursor
-	CURSOR= "ANCHOR_CURSOR",
+	CURSOR= "CURSOR",
 	--- Align the bottom right of the tooltip with the top left of the owner
-	LEFT= "ANCHOR_LEFT",
+	LEFT= "LEFT",
 	--- Tooltip appears in the default position
-	NONE= "ANCHOR_NONE",
+	NONE= "NONE",
 	--- Tooltip's position is saved between sessions (useful if the tooltip is made user-movable)
-	PRESERVE= "ANCHOR_PRESERVE",
+	PRESERVE= "PRESERVE",
 	--- Align the bottom left of the tooltip with the top right of the owner
-	RIGHT= "ANCHOR_RIGHT",
+	RIGHT= "RIGHT",
+	--- Align the top of the tooltip with the bottom of the owner
+	BOTTOM = "BOTTOM",
+	--- Align to bottom of the tooltip with the top of the owner
+	TOP = "TOP",
 	--- Align the bottom left of the tooltip with the top left of the owner
-	TOPLEFT= "ANCHOR_TOPLEFT",
+	TOPLEFT= "TOPLEFT",
 	--- Align the bottom right of the tooltip with the top right of the owner
-	TOPRIGHT= "ANCHOR_TOPRIGHT",
+	TOPRIGHT= "TOPRIGHT",
 }
 
 local function showFrameTooltip(self)
