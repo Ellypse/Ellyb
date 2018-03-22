@@ -158,7 +158,7 @@ function Assertions.isInstanceOf(variable, class, variableName)
 	-- Check if the variable is an instance of the given class (taking polymorphism into account)
 	if not variable:isInstanceOf(class) then
 		-- The variable is an instance of a different class
-		return false, format(DEBUG_WRONG_CLASS, variableName, variable.class);
+		return false, format(DEBUG_WRONG_CLASS, variableName, variable.class, class);
 	end
 
 	return true;
@@ -194,7 +194,7 @@ function Assertions.numberIsBetween(variable, minimum, maximum, variableName)
 
 	-- Variable has to be a number to do comparison
 	if variableType ~= "number" then
-		return false, format(DEBUG_WRONG_WIDGET_TYPE, variableName, variableType, "number");
+		return false, format(DEBUG_WRONG_VARIABLE_TYPE, variableName, variableType, "number");
 	end
 
 	if variable < minimum or variable > maximum then
