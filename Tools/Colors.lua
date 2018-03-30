@@ -63,6 +63,21 @@ function Color:initialize(red, green, blue, alpha)
 
 end
 
+
+--- Allows read only access to RGBA properties as table fields
+---@param key string @ The key we want to access
+function Color:__index(key)
+	if key == "r" or key == "red" then
+		return self:GetRed()
+	elseif key == "g" or key == "green" then
+		return self:GetGreen()
+	elseif key == "b" or key == "blue" then
+		return self:GetBlue()
+	elseif key == "a" or key == "alpha" then
+		return self:GetAlpha()
+	end
+end
+
 ---@return string color @ A string representation of the color (#FFBABABA)
 function Color:__tostring()
 	return self:WrapTextInColorCode("#" .. self:GenerateHexadecimalColor());
