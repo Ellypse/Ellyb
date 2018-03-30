@@ -344,3 +344,13 @@ end
 function Color:SetTextColor(fontString)
 	fontString:SetTextColor(self:GetRGBA());
 end
+
+--- Lighten up a color that is too dark until it is properly readable on a dark background.
+function Color:LigthenColorUntilItIsReadableOnDarkBackgrounds()
+	-- If the color is too dark to be displayed in the tooltip, we will ligthen it up a notch
+	while not Ellyb.ColorManager.isTextColorReadableOnADarkBackground(self) do
+		self:SetRed(Ellyb.Maths.incrementValueUntilMax(self:GetRed(), 0.01, 1));
+		self:SetGreen(Ellyb.Maths.incrementValueUntilMax(self:GetGreen(), 0.01, 1));
+		self:SetBlue(Ellyb.Maths.incrementValueUntilMax(self:GetBlue(), 0.01, 1));
+	end
+end

@@ -107,6 +107,24 @@ function ColorManager.compareHSL(color1, color2)
 	return (h1 < h2)
 end
 
+---
+--- Function to test if a color is correctly readable on a dark background.
+--- We will calculate the luminance of the text color
+--- using known values that take into account how the human eye perceive color
+--- and then compute the contrast ratio.
+--- The contrast ratio should be higher than 50%.
+--- @external [](http://www.whydomath.org/node/wavlets/imagebasics.html)
+---
+--- @param textColor Color @ The text color to test
+--- @return True if the text will be readable
+function ColorManager.isTextColorReadableOnADarkBackground(color)
+	return ((
+		0.299 * Color:GetRed() +
+		0.587 * Color:GetGreen() +
+		0.114 * Color:GetBlue()
+	)) >= 0.5;
+end
+
 -- We create a bunch of common Color constants to be quickly available everywhere
 -- The Colors are frozen so they cannot be altered
 
