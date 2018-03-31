@@ -4,7 +4,7 @@ local AddOnName = ...;
 local pairs = pairs;
 local assert = assert;
 
-local VERSION_NUMBER = 1.5;
+local VERSION_NUMBER = 1.6;
 local DEBUG_MODE = true;
 local instances = {};
 local addonVersions = {};
@@ -73,7 +73,7 @@ end
 ---@return Ellyb Ellyb @ Returns the most up to date version of Ellyb from all the registered instances
 function Ellyb:GetMostUpToDateVersion()
 	---@type Ellyb
-	local mostUpToDateInstance;
+	local mostUpToDateInstance = self;
 	for _, instance in pairs(instances) do
 		if not mostUpToDateInstance or mostUpToDateInstance:GetVersionNumber() < instance:GetVersionNumber() then
 			mostUpToDateInstance = instance;
@@ -99,12 +99,19 @@ function Ellyb:_GetInstances()
 	return instances;
 end
 
+function Ellyb:_GetAddonVersions()
+	return addonVersions;
+end
+
 ---Internal function necessary for versioning. Do not use.
 ---Will import all instances from a previous global version of the library into our current version
 ---that will be the new global library
 function Ellyb:_ImportInstances(EllybInstance)
 	for k, v in pairs(EllybInstance:_GetInstances()) do
 		instances[k] = v;
+	end
+	for k, v in pairs(EllybInstance:_GetAddonVersions()) do
+		addonVersions[k] = v;
 	end
 end
 
