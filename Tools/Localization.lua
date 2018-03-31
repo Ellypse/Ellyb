@@ -98,7 +98,11 @@ function Localization:SetCurrentLocale(code, fallbackToDefault)
 		assert(_private[self].locales[code], format("Unknown locale %s.", code));
 	end
 
-	_private[self].currentLocaleCode = code or DEFAULT_LOCALE_CODE;
+	if _private[self].locales[code] then
+		_private[self].currentLocaleCode = code;
+	else
+		self:SetCurrentLocale(self:GetDefaultLocale():GetCode(), false);
+	end
 end
 
 ---@return Locale defaultLocale
