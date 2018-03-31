@@ -4,7 +4,7 @@ local AddOnName = ...;
 local pairs = pairs;
 local assert = assert;
 
-local VERSION_NUMBER = 1.6;
+local VERSION_NUMBER = 1.7;
 local DEBUG_MODE = true;
 local instances = {};
 local addonVersions = {};
@@ -29,7 +29,7 @@ local Ellyb = setmetatable({}, {
 
 	--- Prevent overriding existing modules (we might handle that better in the future)
 	__newindex = function(self, key, value)
-		assert(not EllybModulesProxyTables[key], ERROR_MODULE_ALREADY_DECLARED:format(key));
+		-- assert(not EllybModulesProxyTables[key], ERROR_MODULE_ALREADY_DECLARED:format(key));
 
 		EllybModulesProxyTables[key] = value;
 	end
