@@ -26,6 +26,7 @@ local GOLDEN_SUPPORTERS = {
 	"Bas(AstaLawl)",
 	"Connor Macleod",
 	"Vlad",
+	"Daelorh",
 }
 
 local PATREON_SUPPORTERS = {
