@@ -10,10 +10,13 @@ local pairs = pairs;
 
 -- WoW imports
 local IsShiftKeyDown = IsShiftKeyDown;
+local Mixin = Mixin;
 
 local EditBoxes = {};
 
 local readOnlyEditBoxes = {};
+
+local EditBox = CreateFrame("EditBox");
 
 ---@param editBox EditBox|ScriptObject
 local function saveEditBoxOriginalText(editBox)
@@ -48,6 +51,19 @@ end
 ---@param editBox EditBox|ScriptObject
 function EditBoxes.looseFocusOnEscape(editBox)
 	editBox:HookScript("OnEscapePressed", editBox.ClearFocus);
+end
+
+--- Mixin for edit boxes that will handle serialized data.
+--- This mixin takes care of escaping and un-escaping the text that is set and get.
+---@type EditBox|ScriptObject
+EditBoxes.SerializedDataEditBoxMixin = {};
+
+function EditBoxes.SerializedDataEditBoxMixin:GetText()
+	return EditBox.GetText(self):gsub("||", "|");
+end
+
+function EditBoxes.SerializedDataEditBoxMixin:SetText(text)
+	return EditBox.SetText(self, text:gsub("|", "||"));
 end
 
 ---Setup keyboard navigation using the tab key inside a list of EditBoxes.
