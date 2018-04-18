@@ -119,9 +119,9 @@ end
 --- @return True if the text will be readable
 function ColorManager.isTextColorReadableOnADarkBackground(color)
 	return ((
-		0.299 * Color:GetRed() +
-		0.587 * Color:GetGreen() +
-		0.114 * Color:GetBlue()
+		0.299 * color:GetRed() +
+		0.587 * color:GetGreen() +
+		0.114 * color:GetBlue()
 	)) >= 0.5;
 end
 
