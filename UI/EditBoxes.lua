@@ -17,6 +17,7 @@ local EditBoxes = {};
 local readOnlyEditBoxes = {};
 
 local EditBox = CreateFrame("EditBox");
+EditBox:Hide();
 
 ---@param editBox EditBox|ScriptObject
 local function saveEditBoxOriginalText(editBox)
