@@ -8,5 +8,6 @@
 	<Include file="EditBoxesTemplates.xml" />
 
 	<Include file="Popups.xml" />
+	<Include file="Tooltips.xml" />
 
 </Ui>

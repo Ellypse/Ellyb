@@ -1,5 +1,9 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
+
+if Ellyb.Frames then
+	return
+end
 
 -- Lua imports
 local assert = assert;
@@ -7,16 +11,28 @@ local assert = assert;
 -- Ellyb imports
 local isType = Ellyb.Assertions.isType;
 
+-- WoW imports
+local ValidateFramePosition = ValidateFramePosition;
+
 local Frames = {};
 
 ---Make a frame movable. The frame's position is not saved.
 ---@param frame Frame|ScriptObject
-function Frames.makeMovable(frame)
+---@param validatePositionOnDragStop boolean
+function Frames.makeMovable(frame, validatePositionOnDragStop)
 	assert(isType(frame, "Frame", "frame"));
 	frame:RegisterForDrag("LeftButton");
+	frame:EnableMouse(true);
+	frame:SetMovable(true);
 
 	frame:HookScript("OnDragStart", frame.StartMoving);
 	frame:HookScript("OnDragStop", frame.StopMovingOrSizing);
+
+	if validatePositionOnDragStop then
+		frame:HookScript("OnDragStop", function()
+			ValidateFramePosition(frame);
+		end)
+	end
 end
 
 ---@param self Frame

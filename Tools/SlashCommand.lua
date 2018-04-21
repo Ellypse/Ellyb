@@ -1,5 +1,9 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
+
+if Ellyb.SlashCommand then
+	return
+end
 
 -- Lua imports
 local format = string.format;

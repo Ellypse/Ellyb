@@ -1,5 +1,9 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
+
+if Ellyb.Strings then
+	return
+end
 
 -- Lua imports
 local pairs = pairs;
@@ -15,6 +19,8 @@ local strtrim = strtrim;
 local gsub = string.gsub;
 local type = type;
 local insert = table.insert;
+local math = math;
+local tonumber = tonumber;
 
 -- Ellyb imports
 local isType = Ellyb.Assertions.isType;
@@ -117,7 +123,7 @@ function Strings.safeFind(text, pattern)
 	return nil; -- Pattern error
 end
 
---- Generate a pseudo-unique random ID while checking a table for possible collisions.
+--- Generate a pseudo-random unique ID while checking a table for possible collisions.
 ---@param table table @ A table where indexes are IDs generated via Strings.generateID
 ---@return string ID @ An ID that is not already used inside this table
 function Strings.generateUniqueID(table)
@@ -126,6 +132,21 @@ function Strings.generateUniqueID(table)
 		ID = Strings.generateID();
 	end
 	return ID;
+end
+
+--- Generate a unique name by checking in a table indexed by names if a given exists and iterate to find a suitable non-taken name
+---@param table table @ A table indexed by names
+---@param name string @ The name we want to use
+---@return string finalName @ The final name that can be used, if the given name was taken, (n) will be appended,
+---For example if "My name" is already taken and "My name (1)" is already taken, will return "My name (2)"
+function Strings.generateUniqueName(table, name)
+	local originalName = name;
+	local tries = 1;
+	while(table[name]) do
+		name = originalName .. " (" .. tries .. ")";
+		tries = tries + 1;
+	end
+	return name;
 end
 
 --- Check if a text is an empty string and returns nil instead
@@ -194,4 +215,23 @@ end
 
 function Strings.clickInstruction(click, text)
 	return Ellyb.ColorManager.ORANGE(click) .. ": " .. text;
+end
+
+-- TODO Move this to some Math module
+local function round(value, decimals)
+	local mult = 10 ^ (decimals or 0)
+	return math.floor(value * mult) / mult;
+end
+
+local BYTES_MULTIPLES = { 'Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' };
+function Strings.formatBytes(bytes)
+	assert(isType(bytes, "number", "bytes"));
+
+	if bytes < 2 then
+		return bytes .. ' Byte';
+	end
+
+	local i = tonumber(math.floor(math.log(bytes) / math.log(1024)));
+
+	return round(bytes / math.pow(1024, i), 2) .. ' ' .. BYTES_MULTIPLES[i + 1];
 end

@@ -1,5 +1,9 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
+
+if Ellyb.ColorManager then
+	return
+end
 
 -- WoW imports
 local tonumber = tonumber;
@@ -103,13 +107,31 @@ function ColorManager.compareHSL(color1, color2)
 	return (h1 < h2)
 end
 
+---
+--- Function to test if a color is correctly readable on a dark background.
+--- We will calculate the luminance of the text color
+--- using known values that take into account how the human eye perceive color
+--- and then compute the contrast ratio.
+--- The contrast ratio should be higher than 50%.
+--- @external [](http://www.whydomath.org/node/wavlets/imagebasics.html)
+---
+--- @param textColor Color @ The text color to test
+--- @return True if the text will be readable
+function ColorManager.isTextColorReadableOnADarkBackground(color)
+	return ((
+		0.299 * color:GetRed() +
+		0.587 * color:GetGreen() +
+		0.114 * color:GetBlue()
+	)) >= 0.5;
+end
+
 -- We create a bunch of common Color constants to be quickly available everywhere
 -- The Colors are frozen so they cannot be altered
 
 -- Common colors
 ColorManager.RED = Color(1, 0, 0):Freeze();
 ColorManager.ORANGE = Color(255, 153, 0):Freeze();
-ColorManager.YELLOW = Color(1, 0.75, 0):Freeze();
+ColorManager.YELLOW = Color(1, 0.82, 0):Freeze();
 ColorManager.GREEN = Color(0, 1, 0):Freeze();
 ColorManager.CYAN = Color(0, 1, 1):Freeze();
 ColorManager.BLUE = Color(0, 0, 1):Freeze();
@@ -174,3 +196,21 @@ ColorManager.POWER_FURY = Color(PowerBarColor["FURY"]):Freeze();
 ColorManager.POWER_PAIN = Color(PowerBarColor["PAIN"]):Freeze();
 ColorManager.POWER_AMMOSLOT = Color(PowerBarColor["AMMOSLOT"]):Freeze();
 ColorManager.POWER_FUEL = Color(PowerBarColor["FUEL"]):Freeze();
+
+-- OTHER GAME STUFF
+ColorManager.CRAFTING_REAGENT = Color("#66bbff"):Freeze();
+
+ColorManager.LINKS = {
+	achievement = Color("#ffff00"):Freeze(),
+	talent = Color("#4e96f7"):Freeze(),
+	trade = Color("#ffd000"):Freeze(),
+	enchant = Color("#ffd000"):Freeze(),
+	instancelock = Color("#ff8000"):Freeze(),
+	journal = Color("#66bbff"):Freeze(),
+	battlePetAbil = Color("#4e96f7"):Freeze(),
+	battlepet = Color("#ffd200"):Freeze(),
+	garrmission = Color("#ffff00"):Freeze(),
+	transmogillusion = Color("#ff80ff"):Freeze(),
+	transmogappearance = Color("#ff80ff"):Freeze(),
+	transmogset = Color("#ff80ff"):Freeze(),
+}

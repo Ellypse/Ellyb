@@ -1,5 +1,9 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
+
+if Ellyb.Tables then
+	return
+end
 
 -- WoW imports
 local tinsert = table.insert;

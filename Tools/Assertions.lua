@@ -1,11 +1,16 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
+
+if Ellyb.Assertions then
+	return
+end
 
 -- WoW imports
 local type = type;
 local format = string.format;
 local next = next;
 local pairs = pairs;
+local concat = table.concat;
 
 ---@class Assertions
 --- Various assertion functions to check if variables are of a certain type, empty, nil etc.
@@ -21,6 +26,9 @@ local DEBUG_WRONG_WIDGET_TYPE = [[Invalid Widget type "%2$s" for variable "%1$s"
 local DEBUG_WRONG_VARIABLE_TYPES = [[Invalid variable type "%2$s" for variable "%1$s", expected one of (%3$s).]];
 local DEBUG_WRONG_WIDGET_TYPES = [[Invalid Widget type "%2$s" for variable "%1$s", expected one of (%3$s).]];
 local DEBUG_EMPTY_VARIABLE = [[Variable "%s" cannot be empty.]];
+local DEBUG_WRONG_CLASS = [[Invalid Class "%2$s" for variable "%1$s", expected "%3$s".]];
+local DEBUG_UNEXPECTED_VALUE = [[Unexpected variable value %2$s for variable "%1$s", expected to be one of (%3$s).]];
+local DEBUG_WRONG_VARIABLE_INTERVAL = [[Invalid variable value "%2$s" for variable "%1$s". Expected the value to be between "%3$s" and "%4$s"]];
 
 ---Check if a variable is of the expected type ("number", "boolean", "string")
 ---Can also check for Widget type ("Frame", "Button", "Texture")
@@ -77,13 +85,7 @@ function Assertions.isOfTypes(variable, expectedTypes, variableName)
 	end
 
 	if not isOfExpectedType then
-		local expectedTypesString = "";
-		for _, expectedType in pairs(expectedTypes) do
-			if expectedTypesString ~= "" then
-				expectedTypesString = expectedTypesString .. "|";
-			end
-			expectedTypesString = expectedTypesString .. expectedType;
-		end
+		local expectedTypesString = concat(expectedTypes, "|");
 		if isUIObject then
 			return false, format(DEBUG_WRONG_WIDGET_TYPES, variableName, variableType, expectedTypesString);
 		else
@@ -136,4 +138,68 @@ function Assertions.isNotEmpty(variable, variableName)
 	else
 		return true;
 	end
+end
+
+--- Check if a variable is an instance of a specified class, taking polymorphism into account, so inherited class will pass the test.
+---@param variable Object @ The object to test
+---@param class string @ The name of the expected class as a string
+---@param variableName string @ The name of the variable being tested, will be visible in the error message
+function Assertions.isInstanceOf(variable, class, variableName)
+	if not Ellyb:IsDebugModeEnabled() then
+		return true
+	end;
+	local variableType = type(variable);
+
+	if not variableType == "table" or not variable.isInstanceOf or not variable.class then
+		-- The variable is not a Class
+		return false, format(DEBUG_WRONG_CLASS, variableName, variableType, class);
+	end
+
+	-- Check if the variable is an instance of the given class (taking polymorphism into account)
+	if not variable:isInstanceOf(class) then
+		-- The variable is an instance of a different class
+		return false, format(DEBUG_WRONG_CLASS, variableName, variable.class, class);
+	end
+
+	return true;
+end
+
+
+--- Check if a variable value is one of the possible values.
+---@param variable any @ Any kind of variable, will be checked if it's value is in the list of possible values
+---@param possibleValues table @ A table of the possible values accepted
+---@param variableName string @ The name of the variable being tested, will be visible in the error message
+function Assertions.isOneOf(variable, possibleValues, variableName)
+	if not Ellyb:IsDebugModeEnabled() then
+		return true
+	end;
+	for _, possibleValue in pairs(possibleValues) do
+		if variable == possibleValue then
+			return true;
+		end
+	end
+	return false, format(DEBUG_UNEXPECTED_VALUE, variableName, variable, concat(possibleValues, "|"));
+end
+
+--- Check if a variable is a number between a maximum and a minimum
+---@param variable number @ A number to check
+---@param minimum number @ The minimum value for the number
+---@param maximum number @ The maximum value for the number
+---@param variableName string @ The name of the variable being tested, will be visible in the error message
+function Assertions.numberIsBetween(variable, minimum, maximum, variableName)
+	if not Ellyb:IsDebugModeEnabled() then
+		return true
+	end;
+	local variableType = type(variable);
+
+	-- Variable has to be a number to do comparison
+	if variableType ~= "number" then
+		return false, format(DEBUG_WRONG_VARIABLE_TYPE, variableName, variableType, "number");
+	end
+
+	if variable < minimum or variable > maximum then
+		return false, format(DEBUG_WRONG_VARIABLE_INTERVAL, variableName, variable, minimum, maximum);
+	end
+
+	return true
 end
