@@ -33,11 +33,27 @@ function Promise:Then(onSuccess, onFail, always)
 	insert(_private[self].onFailCallbacks, onFail);
 	insert(_private[self].onAlwaysCallbacks, always);
 
+	if self:GetStatus() == Ellyb.Promises.STATUS.FULFILLED then
+		onSuccess(unpack(_private[self].resolutionArgs));
+	end
+
+	if onFail and self:GetStatus() == Ellyb.Promises.STATUS.REJECTED then
+		onFail(unpack(_private[self].resolutionArgs));
+	end
+
+	if always and (self:GetStatus() == Ellyb.Promises.STATUS.REJECTED or self:GetStatus() == Ellyb.Promises.STATUS.FULFILLED) then
+		always(unpack(_private[self].resolutionArgs));
+	end
+
 	return self;
 end
 
 function Promise:Success(callback)
 	insert(_private[self].onSuccessCallbacks, callback);
+
+	if self:GetStatus() == Ellyb.Promises.STATUS.FULFILLED then
+		callback(unpack(_private[self].resolutionArgs));
+	end
 
 	return self;
 end
@@ -45,11 +61,19 @@ end
 function Promise:Fail(callback)
 	insert(_private[self].onFailCallbacks, callback);
 
+	if self:GetStatus() == Ellyb.Promises.STATUS.REJECTED then
+		callback(unpack(_private[self].resolutionArgs));
+	end
+
 	return self;
 end
 
 function Promise:Always(callback)
 	insert(_private[self].onAlwaysCallbacks, callback);
+
+	if self:GetStatus() == Ellyb.Promises.STATUS.REJECTED or self:GetStatus() == Ellyb.Promises.STATUS.FULFILLED then
+		callback(unpack(_private[self].resolutionArgs));
+	end
 
 	return self;
 end
@@ -64,6 +88,7 @@ function Promise:Resolve(...)
 	end
 
 	_private[self].status = Ellyb.Promises.STATUS.FULFILLED;
+	_private[self].resolutionArgs = {...};
 
 	for _, callback in pairs(_private[self].onSuccessCallbacks) do
 		callback(...);

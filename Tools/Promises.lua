@@ -29,7 +29,7 @@ function Promises.all(promises)
 			allPromise:Reject(...);
 		end);
 
-		promise:Resolve(function(...)
+		promise:Success(function(...)
 			insert(promisesResolutionArgs, { ... });
 			local allPromisesHaveBeenFulfilled = true;
 			for _, otherPromise in pairs(promises) do

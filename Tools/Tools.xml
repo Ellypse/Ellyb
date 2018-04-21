@@ -2,6 +2,8 @@
 
 	<Script file="Assertions.lua"/>
 	<Script file="Maths.lua"/>
+	<Script file="Promise.lua"/>
+	<Script file="Promises.lua"/>
 	<Script file="Locale.lua"/>
 	<Script file="Localization.lua"/>
 	<Script file="../Locales.lua"/>
