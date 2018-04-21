@@ -40,6 +40,7 @@ function Transitionator:Tick()
 	local currentValue = Ellyb.Easings.outQuad(elapsed, _p[self].startValue, _p[self].change, _p[self].overTime);
 	if elapsed >= _p[self].overTime then
 		_p[self].shouldBeUpdated = true;
+		_p[self].callback(_p[self].endValue);
 	else
 		_p[self].callback(currentValue);
 	end
