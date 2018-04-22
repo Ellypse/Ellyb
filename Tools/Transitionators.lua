@@ -37,7 +37,7 @@ end
 
 function Transitionator:Tick()
 	local elapsed = GetTime() - _p[self].timeStarted;
-	local currentValue = Ellyb.Easings.outQuad(elapsed, _p[self].startValue, _p[self].change, _p[self].overTime);
+	local currentValue = _p[self].customEasing(elapsed, _p[self].startValue, _p[self].change, _p[self].overTime, unpack(_p[self].customEasingArgs));
 	if elapsed >= _p[self].overTime then
 		_p[self].shouldBeUpdated = true;
 		_p[self].callback(_p[self].endValue);
@@ -46,9 +46,13 @@ function Transitionator:Tick()
 	end
 end
 
-function Transitionator:RunValue(startValue, endValue, overTime, callback)
+function Transitionator:RunValue(startValue, endValue, overTime, callback, customEasing, ...)
 	if not endValue or endValue == startValue then
 		return callback(startValue);
+	end
+
+	if not customEasing then
+		customEasing = Ellyb.Easings.outQuad;
 	end
 
 	_p[self].startValue = startValue;
@@ -56,6 +60,8 @@ function Transitionator:RunValue(startValue, endValue, overTime, callback)
 	_p[self].change = endValue - startValue;
 	_p[self].overTime = overTime;
 	_p[self].callback = callback;
+	_p[self].customEasing = customEasing;
+	_p[self].customEasingArgs = {...};
 
 	_p[self].value = startValue;
 	_p[self].timeStarted = GetTime();
