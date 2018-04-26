@@ -34,7 +34,7 @@ function SlashCommand:InitializeCommand(commandKey)
 	local slashCommandName = "/" .. lowercase(strtrim(commandKey));
 	_G[globalKey] = slashCommandName;
 
-	_G.SlashCmdList[globalName] = function(text, editbox)
+	_G.SlashCmdList[globalName] = function(text)
 		local args = { strsplit(" ", text) };
 		local cmdID = args[1];
 		remove(args, 1);

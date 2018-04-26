@@ -6,7 +6,7 @@ local assert = assert;
 local format = format;
 
 -- We will remember if the locale is French or not, as French has some special cases we need to handle
-local IS_FRENCH_LOCALE = _G.GetLocale() == "frFR";
+-- local IS_FRENCH_LOCALE = _G.GetLocale() == "frFR";
 local DEFAULT_LOCALE_CODE = "default";
 
 ---@class Localization

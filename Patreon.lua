@@ -64,7 +64,7 @@ end
 ---@param HTML SimpleHTML
 function Ellyb:SetUpHTMLPatreonMessage(HTML)
 	HTML:SetText(format(Ellyb.loc.PATREON_SUPPORTERS, Ellyb:GetPatreonSupporters()));
-	HTML:HookScript("OnHyperlinkClick", function(self, url, text, button)
+	HTML:HookScript("OnHyperlinkClick", function(_, url)
 		if url == "ellypse_patreon" then
 			Ellyb.Popups:OpenURL("http://patreon.com/Ellypse");
 		end

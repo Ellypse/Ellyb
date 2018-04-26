@@ -2,14 +2,14 @@ local AddOnName = ...;
 
 -- Lua imports
 local pairs = pairs;
-local assert = assert;
+-- local assert = assert;
 
 local VERSION_NUMBER = 1.9;
 local DEBUG_MODE = true;
 local instances = {};
 local addonVersions = {};
 
-local ERROR_MODULE_ALREADY_DECLARED = [[Trying to add an Ellyb module that has already been declared before: "%s"]];
+-- local ERROR_MODULE_ALREADY_DECLARED = [[Trying to add an Ellyb module that has already been declared before: "%s"]];
 
 -- Used to securely store modules and to be checked when trying to override existing modules
 local EllybModulesProxyTables = {};

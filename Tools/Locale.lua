@@ -7,7 +7,6 @@ local pairs = pairs;
 
 -- Ellyb imports
 local isType = Ellyb.Assertions.isType;
-local isOneOf = Ellyb.Assertions.isOneOf;
 
 ---@class Locale
 local Locale, _private = Ellyb.Class("Locale");

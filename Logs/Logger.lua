@@ -93,7 +93,7 @@ function Logger:Show()
 	---@type Log[]
 	local logs = _private[self].logs;
 	local text = "";
-	for index, log in pairs(logs) do
+	for _, log in pairs(logs) do
 		local logText = Ellyb.ColorManager.GREY(log:GetText());
 		local logHeader = self:GetLogHeader(log:GetLevel());
 		local timestamp = format("[%s]", date("%X", log:GetTimestamp()));

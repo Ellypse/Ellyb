@@ -10,7 +10,6 @@ local pairs = pairs;
 
 -- WoW imports
 local IsShiftKeyDown = IsShiftKeyDown;
-local Mixin = Mixin;
 
 local EditBoxes = {};
 
@@ -75,7 +74,7 @@ function EditBoxes.setupTabKeyNavigation(...)
 	local maxBound = #editBoxes;
 	local minBound = 1;
 	for index, editbox in pairs(editBoxes) do
-		editbox:HookScript("OnTabPressed", function(self, button)
+		editbox:HookScript("OnTabPressed", function()
 			local cursor = index
 			if IsShiftKeyDown() then
 				if cursor == minBound then
