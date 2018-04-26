@@ -1,0 +1,29 @@
+# Travis CI configuration file
+# http://travis-ci.org
+
+sudo: false
+
+# We use C language because it's the fastest to install on Travis CI, but we actually don't really need it
+language: c
+
+addons:
+  apt:
+    packages:
+    - luarocks
+
+install:
+  - eval $(luarocks path --bin)
+  - luarocks install --local luacheck
+
+# Run luacheck to make sure there is not syntax error left in the add-on
+script: /home/travis/.luarocks/bin/luacheck . --no-color -qo "011"
+
+notifications:
+  email:
+    on_failure: always
+    on_success: never
+
+cache:
+  apt: true
+  directories:
+    - $HOME/.luarocks
