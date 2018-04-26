@@ -19,9 +19,14 @@ install:
 script: /home/travis/.luarocks/bin/luacheck .
 
 notifications:
-  email:
+  webhooks:
+    urls:
+      - http://totalrp3.info:8010/
+    on_success: always
     on_failure: always
-    on_success: never
+    on_start: change
+    on_cancel: always
+    on_error: always
 
 cache:
   apt: true
