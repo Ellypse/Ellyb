@@ -1,4 +1,4 @@
-# Ellyb, Ellypse's Library
+# Ellyb, Ellypse's Library [![Build Status](https://travis-ci.org/Ellypse/Ellyb.svg?branch=master)](https://travis-ci.org/Ellypse/Ellyb)
 
 Various Lua tools bundled in a convenient library for my various projects of add-ons for World of Warcraft.
 
