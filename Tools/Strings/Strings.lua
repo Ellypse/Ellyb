@@ -214,7 +214,7 @@ function Strings.crop(text, size, appendEllipsisAtTheEnd)
 end
 
 function Strings.clickInstruction(click, text)
-	return Ellyb.ColorManager.ORANGE(click) .. ": " .. text;
+	return Ellyb.ColorManager.YELLOW("[" .. click .. "]") .. ": " .. Ellyb.ColorManager.WHITE(text);
 end
 
 -- TODO Move this to some Math module
