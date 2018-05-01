@@ -16,6 +16,7 @@ local loc  = {
 	RIGHT_CLICK = "Right-Click",
 	LEFT_CLICK = "Left-Click",
 	MIDDLE_CLICK = "Middle-Click",
+	DOUBLE_CLICK = "Double-Click",
 
 	-- Popups
 	COPY_URL_POPUP_TEXT = [[
@@ -47,6 +48,7 @@ Ellyb.loc:RegisterNewLocale("frFR", "Français", {
 	RIGHT_CLICK = "Clic droit",
 	LEFT_CLICK = "Clic gauche",
 	MIDDLE_CLICK = "Clic milieu",
+	DOUBLE_CLICK = "Double clic",
 
 	-- Popups
 	COPY_URL_POPUP_TEXT = [[

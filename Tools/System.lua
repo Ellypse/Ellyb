@@ -42,9 +42,9 @@ System.MODIFIERS = {
 }
 
 local MAC_SHORT_EQUIVALENCE = {
-	[System.MODIFIERS.CTRL] = loc.MODIFIERS_CTRL,
-	[System.MODIFIERS.ALT] = loc.MODIFIERS_ALT,
-	[System.MODIFIERS.SHIFT] = loc.MODIFIERS_SHIFT,
+	[System.MODIFIERS.CTRL] = loc.MODIFIERS_MAC_CTRL,
+	[System.MODIFIERS.ALT] = loc.MODIFIERS_MAC_ALT,
+	[System.MODIFIERS.SHIFT] = loc.MODIFIERS_MAC_SHIFT,
 }
 
 --- Format a keyboard shortcut with the appropriate separators according to the user operating system
@@ -82,7 +82,8 @@ System.SHORTCUTS = {
 
 System.CLICKS = {
 	CLICK = loc.CLICK ,
-	RIGHT_CLICK = loc.RIGHT_CLICK ,
-	LEFT_CLICK = loc.LEFT_CLICK ,
-	MIDDLE_CLICK = loc.MIDDLE_CLICK ,
+	RIGHT_CLICK = loc.RIGHT_CLICK,
+	LEFT_CLICK = loc.LEFT_CLICK,
+	MIDDLE_CLICK = loc.MIDDLE_CLICK,
+	DOUBLE_CLICK = loc.DOUBLE_CLICK,
 };
