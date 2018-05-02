@@ -80,9 +80,14 @@ function Localization:GetLocale(code)
 	return _private[self].locales[code];
 end
 
----@return Locale[] locales
-function Localization:GetLocales()
-	return _private[self].locales
+---@param withoutDefaultLocale boolean @ Do not include the default localization in the result
+---@return Locale[] locales @ The list of currently registered locales
+function Localization:GetLocales(withoutDefaultLocale)
+	local locales = Ellyb.Tables.copy(_private[self].locales);
+	if withoutDefaultLocale then
+		locales[DEFAULT_LOCALE_CODE] = nil;
+	end
+	return locales;
 end
 
 ---@return Locale locale
