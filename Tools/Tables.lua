@@ -31,11 +31,19 @@ end
 
 --- Recursively copy all content from a table to another one.
 --- Argument "destination" must be a non nil table reference.
----@param destination table @ The table that will receive the new content
+---@param optional destination table @ The table that will receive the new content
 ---@param source table @ The table that contains the thing we want to put in the destination
+---@overload fun(source:table)
 function Tables.copy(destination, source)
 	assert(isType(destination, "table", "destination"));
-	assert(isType(source, "table", "source"));
+
+	-- If we are only given one table, the that table is the source a new table is the destination
+	if not source then
+		source = destination;
+		destination = {};
+	else
+		assert(isType(source, "table", "source"));
+	end
 
 	for k, v in pairs(source) do
 		if (type(v) == "table") then
