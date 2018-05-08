@@ -105,10 +105,12 @@ end
 
 function Tooltip:ClearLines()
 	_private[self].content = {};
+	return self;
 end
 
 function Tooltip:ClearTempLines()
 	_private[self].tempContent = {};
+	return self;
 end
 
 function Tooltip:SetLines(lines)
