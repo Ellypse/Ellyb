@@ -87,6 +87,13 @@ function Tooltip:AddLine(text, customColor)
 	return self;
 end
 
+function Tooltip:AddEmptyLine()
+	insert(_private[self].content, {
+		text = " ",
+	});
+	return self;
+end
+
 function Tooltip:AddTempLine(text, customColor)
 	insert(_private[self].tempContent, {
 		text = text,
