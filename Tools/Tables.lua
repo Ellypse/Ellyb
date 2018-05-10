@@ -53,6 +53,8 @@ function Tables.copy(destination, source)
 			destination[k] = v;
 		end
 	end
+
+	return destination;
 end
 
 --- Return the table size.
