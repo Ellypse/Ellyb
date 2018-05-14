@@ -54,7 +54,11 @@ function Unit:GetUnitID()
 		local _, playerRealmName = UnitFullName("player");
 		realm = playerRealmName;
 	end
-	return playerName .. "-" .. realm;
+	if not realm then
+		return playerName;
+	else
+		return playerName .. "-" .. realm;
+	end
 end
 
 ---@return boolean unitIsPlayer @ Returns true if the unit is a player, false if it is an NPC
