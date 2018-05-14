@@ -8,6 +8,7 @@ local error = error;
 
 ---@class Promise : Object
 local Promise, _private = Ellyb.Class("Promise");
+Promise:include(Ellyb.PooledObjectMixin);
 
 function Promise:initialize()
 	_private[self] = {};
