@@ -235,3 +235,30 @@ function Strings.formatBytes(bytes)
 
 	return round(bytes / math.pow(1024, i), 2) .. ' ' .. BYTES_MULTIPLES[i + 1];
 end
+
+--- Split a string into a table using a given separator
+--- Taken from http://lua-users.org/wiki/SplitJoin
+---@param text string @ The string of text to split
+---@param separator string @ A separator
+---@return string[] textContent @ A table of strings
+function Strings.split(text, separator)
+	assert(isType(text, "string", "text"));
+	assert(isType(separator, "string", "separator"));
+
+	local t = {}
+	local fpat = "(.-)" .. separator
+	local last_end = 1
+	local s, e, cap = text:find(fpat, 1)
+	while s do
+		if s ~= 1 or cap ~= "" then
+			tinsert(t,cap)
+		end
+		last_end = e+1
+		s, e, cap = text:find(fpat, last_end)
+	end
+	if last_end <= #text then
+		cap = text:sub(last_end)
+		tinsert(t, cap)
+	end
+	return t
+end

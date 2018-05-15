@@ -14,6 +14,7 @@ local tonumber = tonumber;
 local Class = Ellyb.Class;
 local Functions = Ellyb.Functions;
 local PooledObjectMixin = Ellyb.PooledObjectMixin;
+---@type Strings
 local Strings = Ellyb.Strings;
 
 --- Cache used by the Interpolator class that takes a format specifier without
