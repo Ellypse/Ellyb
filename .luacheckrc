@@ -1,10 +1,5 @@
 -- Luacheck configuration file
 
-globals = {
-    "Ellyb",
-    "time"
-}
-
 max_line_length = false
 
 exclude_files = {

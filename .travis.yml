@@ -18,15 +18,10 @@ install:
 # Run luacheck to make sure there is not syntax error left in the add-on
 script: /home/travis/.luarocks/bin/luacheck .
 
-notifications:
-  webhooks:
-    urls:
-      - http://totalrp3.info:8010/
-    on_success: always
-    on_failure: always
-    on_start: change
-    on_cancel: always
-    on_error: always
+after_failure:
+  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL
 
 cache:
   apt: true
