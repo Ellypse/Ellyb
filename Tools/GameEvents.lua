@@ -38,8 +38,8 @@ function GameEvents.registerHandler(event, callback)
 	assert(Ellyb.Assertions.isType(callback, "function", "callback"));
 
 	if not REGISTERED_EVENTS[event] then
-		REGISTERED_EVENTS[event] = {};
 		EventFrame:RegisterEvent(event);
+		REGISTERED_EVENTS[event] = {};
 		Logger:Info(format(REGISTERED_EVENT, tostring(event)))
 	end
 
