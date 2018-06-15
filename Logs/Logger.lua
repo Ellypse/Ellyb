@@ -11,6 +11,7 @@ local format = string.format;
 local insert = table.insert;
 local pairs = pairs;
 local date = date;
+local print = print;
 
 -- Ellyb imports
 local Log = Ellyb.Log;
@@ -70,6 +71,11 @@ function Logger:Log(level, ...)
 
 	if LogFrame:IsShown() then
 		self:Show();
+	elseif Ellyb:IsDebugModeEnabled() then
+		local logText = Ellyb.ColorManager.GREY(log:GetText());
+		local logHeader = self:GetLogHeader(log:GetLevel());
+		local timestamp = format("[%s]", date("%X", log:GetTimestamp()));
+		print(Ellyb.ColorManager.GREY(timestamp) .. logHeader .. logText)
 	end
 end
 
