@@ -73,7 +73,7 @@ function EventsDispatcher:TriggerEvent(event, ...)
 end
 
 function EventsDispatcher:HasCallbacksForEvent(event)
-	return #_private[self].callbackRegistry[event] > 0;
+	return not Ellyb.Tables.isEmpty(_private[self].callbackRegistry[event]);
 end
 
 Ellyb.EventsDispatcher = EventsDispatcher;
