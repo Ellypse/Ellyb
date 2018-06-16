@@ -30,7 +30,7 @@ local EventFrame = CreateFrame("FRAME");
 ---Register a callback for a game event
 ---@param event string @ A game event to listen to
 ---@param callback func @ A callback that will be called when the event is fired with its arguments
-function GameEvents.registerCallback(event, callback)
+function GameEvents.registerCallback(event, callback, handlerID)
 	assert(Ellyb.Assertions.isType(event, "string", "event"));
 	assert(Ellyb.Assertions.isType(callback, "function", "callback"));
 
@@ -39,7 +39,7 @@ function GameEvents.registerCallback(event, callback)
 		Logger:Info(format(REGISTERED_EVENT, tostring(event)))
 	end
 
-	return eventsDispatcher:RegisterCallback(event, callback);
+	return eventsDispatcher:RegisterCallback(event, callback, handlerID);
 end
 
 ---Unregister a previously registered callback using the handler ID given at registration

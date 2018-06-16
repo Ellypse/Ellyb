@@ -30,7 +30,7 @@ function EventsDispatcher:initialize()
 	Logger:Info("Initialized new EventDispatcher")
 end
 
-function EventsDispatcher:RegisterCallback(event, callback)
+function EventsDispatcher:RegisterCallback(event, callback, handlerID)
 	assert(isType(event, "string", "event"));
 	assert(isType(callback, "function", "callback"));
 
@@ -38,7 +38,11 @@ function EventsDispatcher:RegisterCallback(event, callback)
 		_private[self].callbackRegistry[event] = {};
 	end
 
-	local handlerID = generateUniqueID(_private[self].callbackRegistry[event]);
+	if handlerID ~= nil then
+		assert(isType(handlerID, "string", "handlerID"));
+	else
+		handlerID = generateUniqueID(_private[self].callbackRegistry[event]);
+	end
 	_private[self].callbackRegistry[event][handlerID] = callback;
 
 	Logger:Info(LOG_EVENT_REGISTERED:format(event, handlerID));
