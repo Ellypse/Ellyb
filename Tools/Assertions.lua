@@ -11,6 +11,7 @@ local format = string.format;
 local next = next;
 local pairs = pairs;
 local concat = table.concat;
+local tostring = tostring;
 
 ---@class Assertions
 --- Various assertion functions to check if variables are of a certain type, empty, nil etc.
@@ -158,7 +159,7 @@ function Assertions.isInstanceOf(variable, class, variableName)
 	-- Check if the variable is an instance of the given class (taking polymorphism into account)
 	if not variable:isInstanceOf(class) then
 		-- The variable is an instance of a different class
-		return false, format(DEBUG_WRONG_CLASS, variableName, variable.class, class);
+		return false, format(DEBUG_WRONG_CLASS, variableName, tostring(variable.class), class);
 	end
 
 	return true;
