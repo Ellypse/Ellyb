@@ -61,6 +61,6 @@ end
 
 EventFrame:SetScript("OnEvent", dispatchEvent);
 
-function GameEvents.fireEvent(event, ...)
+function GameEvents.triggerEvent(event, ...)
 	dispatchEvent(EventFrame, event, ...)
 end
