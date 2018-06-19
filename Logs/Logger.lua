@@ -72,10 +72,22 @@ function Logger:Log(level, ...)
 	if LogFrame:IsShown() then
 		self:Show();
 	elseif Ellyb:IsDebugModeEnabled() then
+
+		local ChatFrame;
+		for i = 0, NUM_CHAT_WINDOWS do
+			if GetChatWindowInfo(i) == "Logs" then
+				ChatFrame = _G["ChatFrame"..i]
+			end
+		end
 		local logText = Ellyb.ColorManager.GREY(log:GetText());
 		local logHeader = self:GetLogHeader(log:GetLevel());
 		local timestamp = format("[%s]", date("%X", log:GetTimestamp()));
-		print(Ellyb.ColorManager.GREY(timestamp) .. logHeader .. logText)
+		local message = Ellyb.ColorManager.GREY(timestamp) .. logHeader .. logText;
+		if ChatFrame then
+			ChatFrame:AddMessage(message)
+		else
+			print(message)
+		end
 	end
 end
 
