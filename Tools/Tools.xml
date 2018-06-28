@@ -16,6 +16,7 @@
 	<Script file="Strings\Strings.lua"/>
 	<Script file="Strings\Interpolate.lua"/>
 	<Script file="SlashCommand.lua"/>
+	<Script file="EventsDispatcher.lua"/>
 	<Script file="GameEvents.lua"/>
 	<Script file="Unit.lua"/>
 

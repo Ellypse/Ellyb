@@ -26,7 +26,6 @@ local GOLDEN_SUPPORTERS = {
 	"Connor Macleod",
 	"Adam M",
 	"Vlad",
-	"Daelorh",
 }
 
 local PATREON_SUPPORTERS = {
