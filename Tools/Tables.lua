@@ -8,7 +8,6 @@ end
 -- WoW imports
 local tinsert = table.insert;
 local tremove = table.remove;
-local concat = table.concat;
 local format = string.format;
 local type = type;
 local pairs = pairs;
@@ -137,21 +136,26 @@ function Tables.releaseTempTable(table)
 	TABLE_POOL[table] = true;
 end
 
-local STRING_VALUE_TO_STRING = "[%q]=%q,"
+-- The %q format will automatically quote and escape some special characters (thanks Itarater for the tip)
+local VALUE_TO_STRING = "[%q]=%q,"
+-- We do not escape the string representation of a table (it was already escaped before!)
 local TABLE_VALUE_TO_STRING = "[%q]=%s,"
+
 --- Return a string representation of the table in Lua syntax, suitable for a loadstring()
 ---@param table table @ A valid table
 ---@return string stringTable @ A string representation of the table in Lua syntax
 function Tables.toString(table)
 	assert(isType(table, "table", "table"));
-	local t = {}
-	for k, v in pairs(table) do
-		if type(v) == "table" then
-			v = Tables.toString(v)
-			t[#t + 1] = format(TABLE_VALUE_TO_STRING, k, v)
+
+	local t = "{";
+	for key, value in pairs(table) do
+		if type(value) == "table" then
+			t = t .. format(TABLE_VALUE_TO_STRING, key, Tables.toString(value));
 		else
-			t[#t + 1] = format(STRING_VALUE_TO_STRING, k, v)
+			t = t .. format(VALUE_TO_STRING, key, value);
 		end
 	end
-	return "{" .. concat(t, " ") .. "}"
+	t = t .. "}";
+
+	return t;
 end
