@@ -19,5 +19,6 @@
 	<Script file="EventsDispatcher.lua"/>
 	<Script file="GameEvents.lua"/>
 	<Script file="Unit.lua"/>
+	<Script file="DeprecationWarnings.lua"/>
 
 </Ui>
