@@ -20,7 +20,8 @@ local EventsDispatcher, _private = Ellyb.Class("EventsDispatcher");
 
 local LOG_EVENT_REGISTERED = [[Registered new callback for event "%s" with handler ID "%s".]];
 local LOG_EVENT_UNREGISTERED = [[Registered event callback with handler ID "%s" for event "%s".]];
-local LOG_EVENT_FIRED_CALLBACK_FOR_EVENT = [[Fired event callback with handler ID "%s" for event "%s". Parameters:]];
+local LOG_EVENT_FIRED_CALLBACK_FOR_EVENT = [[Fired event callback with handler ID "%s" for event "%s".
+Parameters:]];
 
 function EventsDispatcher:initialize()
 	_private[self] = {};
@@ -31,7 +32,6 @@ function EventsDispatcher:initialize()
 end
 
 function EventsDispatcher:RegisterCallback(event, callback, handlerID)
-	assert(isType(event, "string", "event"));
 	assert(isType(callback, "function", "callback"));
 
 	if not _private[self].callbackRegistry[event] then
@@ -62,7 +62,6 @@ function EventsDispatcher:UnregisterCallback(handlerID)
 end
 
 function EventsDispatcher:TriggerEvent(event, ...)
-	assert(isType(event, "string", "event"));
 	local registry = _private[self].callbackRegistry[event];
 	if registry then
 		for handlerID, callback in pairs(registry) do
@@ -73,7 +72,7 @@ function EventsDispatcher:TriggerEvent(event, ...)
 end
 
 function EventsDispatcher:HasCallbacksForEvent(event)
-	return not Ellyb.Tables.isEmpty(_private[self].callbackRegistry[event]);
+	return not Ellyb.Tables.isEmpty(_private[self].callbackRegistry[event] or {});
 end
 
 Ellyb.EventsDispatcher = EventsDispatcher;
