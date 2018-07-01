@@ -79,11 +79,11 @@ function Logger:Log(level, ...)
 				ChatFrame = _G["ChatFrame"..i]
 			end
 		end
-		local logText = Ellyb.ColorManager.GREY(log:GetText());
+		local logText = log:GetText();
 		local logHeader = self:GetLogHeader(log:GetLevel());
 		local timestamp = format("[%s]", date("%X", log:GetTimestamp()));
 		local message = Ellyb.ColorManager.GREY(timestamp) .. logHeader .. logText;
-		if ChatFrame then
+		if ChatFrame and log:GetLevel() ~= self.LEVELS.WARNING and log:GetLevel() ~= self.LEVELS.SEVERE then
 			ChatFrame:AddMessage(message)
 		else
 			print(message)
