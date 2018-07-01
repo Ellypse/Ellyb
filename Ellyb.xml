@@ -9,6 +9,8 @@
 
 	<Script file="Configuration\Configuration.lua"/>
 
+	<Include file="Documentation\_Documentation.xml"/>
+
 	<Script file="Patreon.lua"/>
 
 </Ui>
