@@ -17,7 +17,6 @@ local Logger = Ellyb.Logger("GameEvents");
 ---@class GameEvents
 --- Used for listening to in-game events and firing callbacks
 local GameEvents = {};
-Ellyb.GameEvents = GameEvents;
 
 local eventsDispatcher = Ellyb.EventsDispatcher();
 
@@ -61,5 +60,9 @@ end
 EventFrame:SetScript("OnEvent", dispatchEvent);
 
 function GameEvents.triggerEvent(event, ...)
+	assert(Ellyb.Assertions.isType(event, "string", "event"));
 	dispatchEvent(EventFrame, event, ...)
 end
+
+
+Ellyb.GameEvents = GameEvents;
