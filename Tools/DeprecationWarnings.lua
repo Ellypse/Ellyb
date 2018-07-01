@@ -24,11 +24,11 @@ Stack: %s]];
 
 function DeprecationWarnings.wrapAPI(newAPITable, oldAPIName, newAPIName)
 	return setmetatable({}, {
-		__index = function(t, key)
+		__index = function(_, key)
 			logger:Warning(DEPRECATED_API_WARNING:format(oldAPIName, newAPIName, debugstack(2, 3, 0)));
 			return newAPITable[key];
 		end,
-		__newindex = function(t, key, value)
+		__newindex = function(_, key, value)
 			logger:Warning(DEPRECATED_API_WARNING:format(oldAPIName, newAPIName, debugstack(2, 3, 0)));
 			newAPITable[key] = value;
 		end
