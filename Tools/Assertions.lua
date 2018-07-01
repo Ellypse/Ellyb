@@ -179,7 +179,7 @@ function Assertions.isOneOf(variable, possibleValues, variableName)
 			return true;
 		end
 	end
-	return false, format(DEBUG_UNEXPECTED_VALUE, variableName, variable, concat(possibleValues, "|"));
+	return false, format(DEBUG_UNEXPECTED_VALUE, variableName, tostring(variable), concat(possibleValues, "|"));
 end
 
 --- Check if a variable is a number between a maximum and a minimum
