@@ -24,13 +24,13 @@ local PURPLE = Ellyb.ColorManager.PURPLE;
 
 local GOLDEN_SUPPORTERS = {
 	"Connor Macleod",
-	"Adam M",
 	"Vlad",
 }
 
 local PATREON_SUPPORTERS = {
+	"Adam M",
+	"Valnoressa"
 	"Solanya",
-	"Ripperley",
 	"Keyboardturner",
 	"Petr Cihelka",
 	"Syccor",
