@@ -29,7 +29,7 @@ local GOLDEN_SUPPORTERS = {
 
 local PATREON_SUPPORTERS = {
 	"Adam M",
-	"Valnoressa"
+	"Valnoressa",
 	"Solanya",
 	"Keyboardturner",
 	"Petr Cihelka",
