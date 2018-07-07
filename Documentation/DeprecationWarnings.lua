@@ -16,9 +16,10 @@ Ellyb.Documentation:AddDocumentationTable("Ellyb.DeprecationWarnings", {
 			Documentation = { "Create a new table that will throw deprecation warnings and use a given new API table to map a previous API now deprecated." },
 
 			Arguments = {
-				{ Name = "newAPITable", Type = "function", Nilable = false, Documentation = { "The table for the new API." } },
-				{ Name = "oldAPIName", Type = "function", Nilable = false, Documentation = { "The name of the deprecated API." } },
-				{ Name = "newAPIName", Type = "function", Nilable = false, Documentation = { "The name of the new API." } },
+				{ Name = "newAPITable", Type = "table", Nilable = false, Documentation = { "The table for the new API." } },
+				{ Name = "oldAPIName", Type = "string", Nilable = false, Documentation = { "The name of the deprecated API." } },
+				{ Name = "newAPIName", Type = "string", Nilable = false, Documentation = { "The name of the new API." } },
+				{ Name = "oldAPIReference", Type = "table", Nilable = true, Documentation = { "An existing table that should be used to wrap with the new API warnings." } },
 			},
 
 			Returns =
@@ -33,8 +34,8 @@ Ellyb.Documentation:AddDocumentationTable("Ellyb.DeprecationWarnings", {
 
 			Arguments = {
 				{ Name = "newFunction", Type = "function", Nilable = false, Documentation = { "The new function that should be called instead of the deprecated one." } },
-				{ Name = "oldFunctionName", Type = "function", Nilable = false, Documentation = { "The name of the deprecated function." } },
-				{ Name = "newFunctionName", Type = "function", Nilable = false, Documentation = { "The name of the new function." } },
+				{ Name = "oldFunctionName", Type = "string", Nilable = false, Documentation = { "The name of the deprecated function." } },
+				{ Name = "newFunctionName", Type = "string", Nilable = false, Documentation = { "The name of the new function." } },
 			},
 
 			Returns =
