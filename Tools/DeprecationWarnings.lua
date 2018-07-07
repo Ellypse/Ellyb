@@ -25,8 +25,8 @@ Stack: %s]];
 local DEPRECATED_CUSTOM_WARNING = [[%s
 Stack: %s]];
 
-function DeprecationWarnings.wrapAPI(newAPITable, oldAPIName, newAPIName)
-	return setmetatable({}, {
+function DeprecationWarnings.wrapAPI(newAPITable, oldAPIName, newAPIName, oldAPIReference)
+	return setmetatable(oldAPIReference or {}, {
 		__index = function(_, key)
 			logger:Warning(DEPRECATED_API_WARNING:format(ORANGE(oldAPIName), GREEN(newAPIName), GREY(debugstack(2, 3, 0))));
 			return newAPITable[key];
