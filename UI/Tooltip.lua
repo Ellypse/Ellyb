@@ -187,7 +187,7 @@ function Tooltip:Show()
 		if line.customColor then
 			r, g, b = line.customColor:GetRGBAAsBytes();
 		end
-		tooltip:AddLine(line.text, line.text, r, g, b, true);
+		tooltip:AddLine(line.text, r, g, b, true);
 	end
 
 	tooltip:Show();
