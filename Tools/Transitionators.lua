@@ -46,7 +46,7 @@ function Transitionator:Tick()
 	local elapsed = GetTime() - _p[self].timeStarted;
 	local currentValue = _p[self].customEasing(elapsed, _p[self].startValue, _p[self].change, _p[self].overTime, unpack(_p[self].customEasingArgs));
 	if elapsed >= _p[self].overTime then
-		_p[self].shouldBeUpdated = true;
+		_p[self].shouldBeUpdated = false;
 		_p[self].callback(_p[self].endValue);
 	else
 		_p[self].callback(currentValue);
