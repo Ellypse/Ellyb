@@ -4,7 +4,7 @@ local AddOnName = ...;
 local pairs = pairs;
 -- local assert = assert;
 
-local VERSION_NUMBER = 2.2;
+local VERSION_NUMBER = 2.3;
 local DEBUG_MODE = true;
 local instances = {};
 local addonVersions = {};
