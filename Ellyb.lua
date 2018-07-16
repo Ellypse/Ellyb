@@ -99,6 +99,11 @@ function Ellyb:_Initialize(EllybInstance, addOnName)
 		instances[EllybInstance:GetVersionNumber()] = EllybInstance;
 	end
 	addonVersions[addOnName] = EllybInstance:GetVersionNumber();
+
+	-- Force enable Lua errors in non-packaged versions or versions that are not tagged as releases
+	--@alpha@
+	SetCVar("scriptErrors", "1")
+	--@end-alpha@
 end
 
 ---Internal function necessary for versioning. Do not use.
