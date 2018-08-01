@@ -1,6 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
 
-	<Include file="Cursor\Cursor.xml" />
+	<Script file="Cursor.lua" />
 
 	<Script file="Frames.lua" />
 

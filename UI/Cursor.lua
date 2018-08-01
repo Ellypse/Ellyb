@@ -5,31 +5,39 @@ if Ellyb.Cursor then
 	return
 end
 
--- Lua imports
+--region Lua imports
 local assert = assert;
 local insert = table.insert;
 local time = time;
 local pairs = pairs;
+--endregion
 
--- WoW imports
+--region WoW imports
 local GetCursorPosition = GetCursorPosition;
 local CreateFrame = CreateFrame;
 local hooksecurefunc = hooksecurefunc;
 ---@type Frame
 local UIParent = UIParent;
+--endregion
 
--- Ellyb imports
+--region Ellyb imports
 local Logger = Ellyb.Logger("Cursor");
 local Mouseover = Ellyb.Unit("mouseover");
 local Target = Ellyb.Unit("target");
+--endregion
 
 local Cursor = {};
-Ellyb.Cursor = Cursor;
 
 ---@type Frame
-local CursorFrame = CreateFrame("Frame", nil, UIParent, "Ellyb_CursorFrameTemplate");
----@type Texture
-local Icon = CursorFrame.Icon;
+local CursorFrame = CreateFrame("Frame", nil, UIParent);
+CursorFrame:SetSize(1, 1);
+CursorFrame:SetPoint("CENTER");
+CursorFrame:Hide();
+
+local Icon = CursorFrame:CreateTexture();
+Icon:SetTexture([[Interface\Cursor\WorkOrders]]);
+Icon:SetSize(30, 30);
+Icon:SetPoint("TOPLEFT", 45, -15);
 
 local DEFAULT_ANCHOR_X, DEFAULT_ANCHOR_Y = 33, -3;
 local shouldHideOnUnitChanged = false;
@@ -119,3 +127,5 @@ hooksecurefunc("TurnOrActionStop", function()
 	clickUnitID = nil;
 	clickTimestamp = nil;
 end)
+
+Ellyb.Cursor = Cursor;
