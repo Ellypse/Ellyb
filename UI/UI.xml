@@ -8,6 +8,8 @@
 	<Include file="EditBoxesTemplates.xml" />
 
 	<Include file="Popups.xml" />
-	<Include file="Tooltips.xml" />
+
+	<Script file="Tooltip.lua"/>
+	<Script file="Tooltips.lua"/>
 
 </Ui>
