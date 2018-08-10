@@ -423,6 +423,12 @@ end
 ------------------------------------------------------------------------------------------------------------------------
 --- Ellypse's modifications to make easings available to Ellyb
 ------------------------------------------------------------------------------------------------------------------------
+---@type Ellyb
+local Ellyb = Ellyb(...);
+
+if Ellyb.Easings then
+	return
+end
 
 Ellyb.Easings = {
 	linear = linear,
