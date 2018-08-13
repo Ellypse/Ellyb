@@ -14,30 +14,6 @@ local addonVersions = {};
 -- Debug mode is disabled by default when the add-on is packaged (can be re-enabled manually)
 DEBUG_MODE = false;
 
--- The following code comes from Nevcairiel (https://github.com/Nevcairiel/FilterLuaInterfaceWarnings/blob/master/NoWarnings.lua)
--- Adapted to better suit my needs and because people were yelling at me.
--- I hate the idea of hiding Lua errors that way, but seriously, some of them are just silly.
--- If we didn't fix those in dev, then it's okay for them to be ignored.
--- Sorry in advanced to those it will piss off.
--- unregister LUA_WARNING from other addons (ie. UIParent and possibly !BugGrabber)
-local frames = {GetFramesRegisteredForEvent("LUA_WARNING")}
-for _, frame in ipairs(frames) do
-	frame:UnregisterEvent("LUA_WARNING")
-end
-
-local f = CreateFrame("Frame")
-f:SetScript("OnEvent",
-function(f, ev, warnType, warnMessage)
-	if warnMessage:find("Ellyb", nil, true) and
-		(warnMessage:find("^%(null%)")
-		or warnMessage:find("^Deferred XML"))
-	then
-		return
-	end
-	geterrorhandler()(warnMessage)
-end)
-f:RegisterEvent("LUA_WARNING")
-
 --@end-non-debug@]===]
 
 -- local ERROR_MODULE_ALREADY_DECLARED = [[Trying to add an Ellyb module that has already been declared before: "%s"]];
@@ -161,4 +137,3 @@ end
 
 -- Register this instance
 _G.Ellyb:_Initialize(Ellyb, AddOnName);
-
