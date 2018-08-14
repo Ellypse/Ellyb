@@ -9,7 +9,6 @@ end
 -- Lua imports
 local format = string.format;
 local insert = table.insert;
-local pairs = pairs;
 local date = date;
 local print = print;
 

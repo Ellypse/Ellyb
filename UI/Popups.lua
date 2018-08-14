@@ -24,7 +24,7 @@ EditBoxes.makeReadOnly(URLPopup.Url);
 EditBoxes.selectAllTextOnFocus(URLPopup.Url);
 EditBoxes.looseFocusOnEscape(URLPopup.Url);
 -- Clear global variable
-Ellyb_StaticPopOpenUrl = nil;
+_G["Ellyb_StaticPopOpenUrl"] = nil;
 
 local function dismissPopup()
 	HideUIPanel(URLPopup);
