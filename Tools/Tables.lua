@@ -159,3 +159,19 @@ function Tables.toString(table)
 
 	return t;
 end
+
+--- Test if a table contains a given value
+---@param table table @ A valid table
+---@param any testValue @ A test value to test for presence
+---@return boolean stringTable @ A string representation of the table in Lua syntax
+function Tables.containsValue(table, testValue)
+	assert(isType(table, "table", "table"));
+	local inArray = false
+	for _, value in pairs(table) do
+		if testValue == value then
+			inArray = true;
+			break;
+		end
+	end
+	return inArray;
+end
