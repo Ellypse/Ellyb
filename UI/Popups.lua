@@ -23,6 +23,8 @@ URLPopup.Button.Text:SetText(_G.OKAY);
 EditBoxes.makeReadOnly(URLPopup.Url);
 EditBoxes.selectAllTextOnFocus(URLPopup.Url);
 EditBoxes.looseFocusOnEscape(URLPopup.Url);
+-- Clear global variable
+_G["Ellyb_StaticPopOpenUrl"] = nil;
 
 local function dismissPopup()
 	HideUIPanel(URLPopup);

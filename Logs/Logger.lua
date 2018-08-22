@@ -9,7 +9,6 @@ end
 -- Lua imports
 local format = string.format;
 local insert = table.insert;
-local pairs = pairs;
 local date = date;
 local print = print;
 
@@ -19,9 +18,6 @@ local Log = Ellyb.Log;
 ---@class Logger : Object
 local Logger, _private = Ellyb.Class("Logger");
 Ellyb.Logger = Logger;
-
-local LogFrame = CreateFrame("FRAME", nil, UIParent, "Ellyb_LogsFrame");
-local Text = LogFrame.Scroll.Text;
 
 Logger.LEVELS = {
 	DEBUG = "DEBUG",
@@ -69,9 +65,7 @@ function Logger:Log(level, ...)
 	local log = Log(level, ...);
 	insert(_private[self].logs, log);
 
-	if LogFrame:IsShown() then
-		self:Show();
-	elseif Ellyb:IsDebugModeEnabled() then
+	if Ellyb:IsDebugModeEnabled() then
 
 		local ChatFrame;
 		for i = 0, NUM_CHAT_WINDOWS do
@@ -105,18 +99,4 @@ end
 
 function Logger:Severe(...)
 	self:Log(self.LEVELS.SEVERE, ...);
-end
-
-function Logger:Show()
-	---@type Log[]
-	local logs = _private[self].logs;
-	local text = "";
-	for _, log in pairs(logs) do
-		local logText = Ellyb.ColorManager.GREY(log:GetText());
-		local logHeader = self:GetLogHeader(log:GetLevel());
-		local timestamp = format("[%s]", date("%X", log:GetTimestamp()));
-		text = text .. Ellyb.ColorManager.GREY(timestamp) .. logHeader .. logText .. "\n";
-	end
-	Text:SetText(text);
-	LogFrame:Show();
 end
