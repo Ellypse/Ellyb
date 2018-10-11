@@ -8,10 +8,10 @@ end
 --{{{ Class declaration
 
 --- @class EllybTexture : Object
-local Texture = Ellyb.Class.createNewClass("Texture")
+local Texture = Ellyb.Class("Texture")
 --- This class in an abstraction to help handle World of Warcraft textures, especially when dealing with both texture IDs and file path.
 ---@param textureSource string|number @ Texture ID, file path or atlas
----@type EllybTexture|fun(source:string|number, width:number|nil, height:number|nil)
+---@type EllybTexture|fun(source:string|number, width:number|nil, height:number|nil):EllybTexture
 Ellyb.Texture = Texture;
 
 ---@type {fileID:number, filePath:string|nil, width:number|nil, height:number|nil}[]
@@ -24,8 +24,6 @@ local private = Ellyb.getPrivateStorage();
 ---@param width number|nil
 ---@param height number|nil
 function Texture:initialize(source, width, height)
-	local texture = Texture();
-
 	local typeOfSource = type(source);
 
 	if typeOfSource == "number" then
@@ -41,8 +39,6 @@ function Texture:initialize(source, width, height)
 	if height ~= nil then
 		self:SetHeight(height);
 	end
-
-	return texture;
 end
 
 --{{{ File resource
@@ -134,14 +130,49 @@ function Texture:__tostring()
 end
 
 local TEXTURE_STRING_ESCAPE_SEQUENCE = [[|T%s:%s:%s|t]];
-local DEFAULT_TEXTURE_SIZE = 50;
+local TEXTURE_WITH_COORDINATES_STRING_ESCAPE_SEQUENCE = [[|T%s:%s:%s:0:0:%s:%s:%s:%s:%s:%s|t]];
+local DEFAULT_TEXTURE_SIZE = 25;
 
 --- Generate a UI escape sequence string used to display the icon inside a text.
 ---@param width number|nil @ The width of the icon, by default will be 50px.
 ---@param height number|nil @ The height of the icon. If no height is provided but a width was defined the width will be used, otherwise the default value will be 50px
 ---@return string texture
 function Texture:GenerateString(width, height)
-	return TEXTURE_STRING_ESCAPE_SEQUENCE:format(self:GetResource(), width or DEFAULT_TEXTURE_SIZE, height or width or DEFAULT_TEXTURE_SIZE);
+	width = width or self:GetWidth() or DEFAULT_TEXTURE_SIZE;
+	height = height or width;
+	if self.coordinates then
+
+		-- This is directly borrowed from Blizzard's code. Dark voodoo maths
+		local atlasWidth = width / (self.coordinates.txRight - self.coordinates.txLeft);
+		local atlasHeight = height / (self.coordinates.txBottom - self.coordinates.txTop);
+
+		local pxLeft	= atlasWidth	* self.coordinates.txLeft;
+		local pxRight	= atlasWidth	* self.coordinates.txRight;
+		local pxTop		= atlasHeight	* self.coordinates.txTop;
+		local pxBottom	= atlasHeight	* self.coordinates.txBottom;
+
+		return string.format("|T%s:%d:%d:0:0:%d:%d:%d:%d:%d:%d|t", self:GetResource(), width, height, atlasWidth, atlasHeight, pxLeft, pxRight, pxTop, pxBottom);
+	else
+		return TEXTURE_STRING_ESCAPE_SEQUENCE:format(self:GetResource(), width, height);
+	end
+end
+
+function Texture.CreateFromAtlas(atlasName)
+	local filename, width, height, txLeft, txRight, txTop, txBottom = GetAtlasInfo(atlasName);
+	local texture = Texture(filename);
+	texture:SetCoordinates(width, height, txLeft, txRight, txTop, txBottom)
+	return texture;
 end
 
 --}}}
+
+function Texture:SetCoordinates(width, height, txLeft, txRight, txTop, txBottom)
+	self.coordinates = {
+		width = width,
+		height = height,
+		txLeft = txLeft,
+		txRight = txRight,
+		txTop = txTop,
+		txBottom = txBottom
+	}
+end

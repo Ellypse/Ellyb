@@ -7,6 +7,9 @@
 	<Include file="Tools\Tools.xml" />
 	<Include file="UI\UI.xml" />
 
+	<Script file="Textures\Texture.lua" />
+	<Script file="Tools\Icon.lua" />
+
 	<Script file="Configuration\Configuration.lua"/>
 
 	<Include file="Documentation\_Documentation.xml"/>
