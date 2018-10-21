@@ -69,6 +69,10 @@ function Texture:GetFilePath()
 	return private[self].filePath;
 end
 
+function Texture:GetFileName()
+	return self:GetFilePath() and self:GetFilePath():match("^.+\\(.+)$")
+end
+
 --- Check if this texture is using custom assets.
 --- Custom assets provided by add-ons will have a negative file ID. It is temporary and will change for every session.
 ---@return boolean isUsingCustomAssets @ True if the texture is custom asset, false if it comes from the game's default files.
