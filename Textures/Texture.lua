@@ -134,7 +134,7 @@ function Texture:__tostring()
 end
 
 local TEXTURE_STRING_ESCAPE_SEQUENCE = [[|T%s:%s:%s|t]];
-local TEXTURE_WITH_COORDINATES_STRING_ESCAPE_SEQUENCE = [[|T%s:%s:%s:0:0:%s:%s:%s:%s:%s:%s|t]];
+local TEXTURE_WITH_COORDINATES_STRING_ESCAPE_SEQUENCE = [[|T%s:%d:%d:0:0:%d:%d:%d:%d:%d:%d|t]];
 local DEFAULT_TEXTURE_SIZE = 25;
 
 --- Generate a UI escape sequence string used to display the icon inside a text.
@@ -150,12 +150,12 @@ function Texture:GenerateString(width, height)
 		local atlasWidth = width / (self.coordinates.txRight - self.coordinates.txLeft);
 		local atlasHeight = height / (self.coordinates.txBottom - self.coordinates.txTop);
 
-		local pxLeft	= atlasWidth	* self.coordinates.txLeft;
-		local pxRight	= atlasWidth	* self.coordinates.txRight;
-		local pxTop		= atlasHeight	* self.coordinates.txTop;
-		local pxBottom	= atlasHeight	* self.coordinates.txBottom;
+		local pxLeft = atlasWidth * self.coordinates.txLeft;
+		local pxRight = atlasWidth * self.coordinates.txRight;
+		local pxTop = atlasHeight * self.coordinates.txTop;
+		local pxBottom = atlasHeight * self.coordinates.txBottom;
 
-		return string.format("|T%s:%d:%d:0:0:%d:%d:%d:%d:%d:%d|t", self:GetResource(), width, height, atlasWidth, atlasHeight, pxLeft, pxRight, pxTop, pxBottom);
+		return TEXTURE_WITH_COORDINATES_STRING_ESCAPE_SEQUENCE:format(self:GetResource(), width, height, atlasWidth, atlasHeight, pxLeft, pxRight, pxTop, pxBottom);
 	else
 		return TEXTURE_STRING_ESCAPE_SEQUENCE:format(self:GetResource(), width, height);
 	end
