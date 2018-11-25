@@ -151,13 +151,13 @@ function Assertions.isInstanceOf(variable, class, variableName)
 	end;
 	local variableType = type(variable);
 
-	if not variableType == "table" or not variable.isInstanceOf or not variable.class then
+	if not variableType == "table" or not variable.IsInstanceOf or not variable.class then
 		-- The variable is not a Class
-		return false, format(DEBUG_WRONG_CLASS, variableName, variableType, class);
+		return false, format(DEBUG_WRONG_CLASS, variableName, variableType, tostring(class));
 	end
 
 	-- Check if the variable is an instance of the given class (taking polymorphism into account)
-	if not variable:isInstanceOf(class) then
+	if not variable:IsInstanceOf(class) then
 		-- The variable is an instance of a different class
 		return false, format(DEBUG_WRONG_CLASS, variableName, tostring(variable.class), class);
 	end
