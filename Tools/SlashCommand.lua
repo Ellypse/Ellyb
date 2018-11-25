@@ -20,7 +20,6 @@ local _G = _G;
 
 -- Ellyb imports
 local Logger = Ellyb.Logger("SlashCommand");
-local isType = Ellyb.Assertions.isType;
 
 local SlashCommand = {};
 Ellyb.SlashCommand = SlashCommand;

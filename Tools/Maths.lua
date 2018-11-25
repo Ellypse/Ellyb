@@ -5,12 +5,6 @@ if Ellyb.Maths then
 	return
 end
 
--- Lua imports
-local assert = assert;
-
--- Ellyb imports
-local isType = Ellyb.Assertions.isType;
-
 local Maths = {}
 
 --- Increments a given value by the given increments up to a given max.

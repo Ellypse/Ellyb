@@ -6,7 +6,6 @@ if Ellyb.Cursor then
 end
 
 --region Lua imports
-local assert = assert;
 local insert = table.insert;
 local time = time;
 local pairs = pairs;

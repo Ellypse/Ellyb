@@ -10,9 +10,6 @@ local format = format;
 local type = type;
 local pairs = pairs;
 
--- Ellyb imports
-local isType = Ellyb.Assertions.isType;
-
 ---@class Configuration
 local Configuration, _private = Ellyb.Class("Configuration");
 

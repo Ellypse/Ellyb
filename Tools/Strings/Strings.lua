@@ -22,9 +22,6 @@ local insert = table.insert;
 local math = math;
 local tonumber = tonumber;
 
--- Ellyb imports
-local isType = Ellyb.Assertions.isType;
-
 ---@class Strings
 local Strings = {};
 Ellyb.Strings = Strings;

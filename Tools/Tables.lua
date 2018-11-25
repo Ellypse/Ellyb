@@ -13,15 +13,10 @@ local type = type;
 local pairs = pairs;
 local wipe = wipe;
 local next = next;
-local assert = assert;
 local setmetatable = setmetatable;
 
 local Tables = {};
 Ellyb.Tables = Tables;
-
--- Ellyb imports
-local isType = Ellyb.Assertions.isType;
-local isNotNil = Ellyb.Assertions.isNotNil;
 
 ---Make use of WoW's shiny new table inspector window to inspect a table programatically
 ---@param table table @ The table we want to inspect in WoW's table inspector
@@ -82,7 +77,7 @@ end
 ---@return boolean hasBeenRemoved @ Return true if the object is found
 function Tables.remove(table, object)
 	Ellyb.Assertions.isType(table, "table", "table");
-	assert(isNotNil(object, "object"));
+	Ellyb.Assertions.isNotNil(object, "object");
 
 	for index, value in pairs(table) do
 		if value == object then

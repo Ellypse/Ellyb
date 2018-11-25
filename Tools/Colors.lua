@@ -6,7 +6,6 @@ if Ellyb.Color then
 end
 
 -- Lua imports
-local assert = assert;
 local abs = math.abs;
 local fmod = math.fmod;
 local min = math.min;

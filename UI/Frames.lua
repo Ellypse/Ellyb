@@ -5,15 +5,6 @@ if Ellyb.Frames then
 	return
 end
 
--- Lua imports
-local assert = assert;
-
--- Ellyb imports
-local isType = Ellyb.Assertions.isType;
-
--- WoW imports
-local ValidateFramePosition = ValidateFramePosition;
-
 local Frames = {};
 
 ---Make a frame movable. The frame's position is not saved.

@@ -7,11 +7,9 @@ end
 
 -- Lua imports
 local pairs = pairs;
-local assert = assert;
 
 -- Ellyb imports
 local Logger = Ellyb.Logger("Events");
-local isType = Ellyb.Assertions.isType;
 local generateUniqueID = Ellyb.Strings.generateUniqueID;
 
 ---@class EventsDispatcher : Object

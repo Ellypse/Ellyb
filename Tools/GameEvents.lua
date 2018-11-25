@@ -6,7 +6,6 @@ if Ellyb.GameEvents then
 end
 
 -- WoW imports
-local assert = assert;
 local tostring = tostring;
 local format = string.format;
 local CreateFrame = CreateFrame;
