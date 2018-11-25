@@ -20,7 +20,7 @@ local Frames = {};
 ---@param frame Frame|ScriptObject
 ---@param validatePositionOnDragStop boolean
 function Frames.makeMovable(frame, validatePositionOnDragStop)
-	assert(isType(frame, "Frame", "frame"));
+	Ellyb.Assertions.isType(frame, "Frame", "frame");
 	frame:RegisterForDrag("LeftButton");
 	frame:EnableMouse(true);
 	frame:SetMovable(true);
@@ -55,8 +55,8 @@ end
 ---@param frame Frame @ The frame that will receive the scroll wheel event
 ---@param slider Slider @ The slider that should see its value changed
 function Frames.handleMouseWheelScroll(frame, slider)
-	assert(isType(frame, "Frame", frame));
-	assert(isType(slider, "Slider", slider));
+	Ellyb.Assertions.isType(frame, "Frame", frame);
+	Ellyb.Assertions.isType(slider, "Slider", slider);
 
 	frame._slider = slider;
 	frame:SetScript("OnMouseWheel", setSliderValueOnMouseScroll);

@@ -36,14 +36,14 @@ end
 ---@param source table @ The table that contains the thing we want to put in the destination
 ---@overload fun(source:table)
 function Tables.copy(destination, source)
-	assert(isType(destination, "table", "destination"));
+	Ellyb.Assertions.isType(destination, "table", "destination");
 
 	-- If we are only given one table, the that table is the source a new table is the destination
 	if not source then
 		source = destination;
 		destination = {};
 	else
-		assert(isType(source, "table", "source"));
+		Ellyb.Assertions.isType(source, "table", "source");
 	end
 
 	for k, v in pairs(source) do
@@ -63,7 +63,7 @@ end
 ---@param table table
 ---@param number tableSize @ The size of the table
 function Tables.size(table)
-	assert(isType(table, "table", "table"));
+	Ellyb.Assertions.isType(table, "table", "table");
 	-- We try to use #table first
 	local tableSize = #table;
 	if tableSize == 0 then
@@ -81,7 +81,7 @@ end
 ---@param object any @ The object that should be removed
 ---@return boolean hasBeenRemoved @ Return true if the object is found
 function Tables.remove(table, object)
-	assert(isType(table, "table", "table"));
+	Ellyb.Assertions.isType(table, "table", "table");
 	assert(isNotNil(object, "object"));
 
 	for index, value in pairs(table) do
@@ -97,7 +97,7 @@ end
 ---@param table table
 ---@return table tableKeys @ A new table that contains the keys of the given table
 function Tables.keys(table)
-	assert(isType(table, "table", "table"));
+	Ellyb.Assertions.isType(table, "table", "table");
 	local keys = {};
 	for key, _ in pairs(table) do
 		tinsert(keys, key);
@@ -109,7 +109,7 @@ end
 ---@param table table @ A table to check
 ---@return boolean isEmpty @ Returns true if the table is empty
 function Tables.isEmpty(table)
-	assert(isType(table, "table", "table"));
+	Ellyb.Assertions.isType(table, "table", "table");
 	local isEmpty = not next(table);
 	return isEmpty;
 end
@@ -132,7 +132,7 @@ end
 --- Release a temp table.
 ---@param table table
 function Tables.releaseTempTable(table)
-	assert(isType(table, "table", "table"));
+	Ellyb.Assertions.isType(table, "table", "table");
 	TABLE_POOL[table] = true;
 end
 
@@ -145,7 +145,7 @@ local TABLE_VALUE_TO_STRING = "[%q]=%s,"
 ---@param table table @ A valid table
 ---@return string stringTable @ A string representation of the table in Lua syntax
 function Tables.toString(table)
-	assert(isType(table, "table", "table"));
+	Ellyb.Assertions.isType(table, "table", "table");
 
 	local t = "{";
 	for key, value in pairs(table) do

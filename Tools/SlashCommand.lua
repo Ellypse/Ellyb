@@ -64,8 +64,8 @@ function SlashCommand:InitializeCommand(commandKey)
 end
 
 function SlashCommand:RegisterCommand(command, handler, help)
-	assert(isType(command, "string", "command"));
-	assert(isType(handler, "function", "handler"));
+	Ellyb.Assertions.isType(command, "string", "command");
+	Ellyb.Assertions.isType(handler, "function", "handler");
 	command = lowercase(command);
 	assert(not COMMANDS[command], "Already registered command " .. command);
 

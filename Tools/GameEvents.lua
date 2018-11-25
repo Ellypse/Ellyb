@@ -29,8 +29,8 @@ local EventFrame = CreateFrame("FRAME");
 ---@param event string @ A game event to listen to
 ---@param callback func @ A callback that will be called when the event is fired with its arguments
 function GameEvents.registerCallback(event, callback, handlerID)
-	assert(Ellyb.Assertions.isType(event, "string", "event"));
-	assert(Ellyb.Assertions.isType(callback, "function", "callback"));
+	Ellyb.Assertions.isType(event, "string", "event");
+	Ellyb.Assertions.isType(callback, "function", "callback");
 
 	if not EventFrame:IsEventRegistered(event) then
 		EventFrame:RegisterEvent(event);
@@ -43,7 +43,7 @@ end
 ---Unregister a previously registered callback using the handler ID given at registration
 ---@param handlerID string @ The handler ID of a previsouly registered callback that we want to unregister
 function GameEvents.unregisterCallback(handlerID)
-	assert(Ellyb.Assertions.isType(handlerID, "string", "handlerID"));
+	Ellyb.Assertions.isType(handlerID, "string", "handlerID");
 
 	eventsDispatcher:UnregisterCallback(handlerID);
 end
@@ -60,7 +60,7 @@ end
 EventFrame:SetScript("OnEvent", dispatchEvent);
 
 function GameEvents.triggerEvent(event, ...)
-	assert(Ellyb.Assertions.isType(event, "string", "event"));
+	Ellyb.Assertions.isType(event, "string", "event");
 	dispatchEvent(EventFrame, event, ...)
 end
 

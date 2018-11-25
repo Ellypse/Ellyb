@@ -32,14 +32,14 @@ function EventsDispatcher:initialize()
 end
 
 function EventsDispatcher:RegisterCallback(event, callback, handlerID)
-	assert(isType(callback, "function", "callback"));
+	Ellyb.Assertions.isType(callback, "function", "callback");
 
 	if not _private[self].callbackRegistry[event] then
 		_private[self].callbackRegistry[event] = {};
 	end
 
 	if handlerID ~= nil then
-		assert(isType(handlerID, "string", "handlerID"));
+		Ellyb.Assertions.isType(handlerID, "string", "handlerID");
 	else
 		handlerID = generateUniqueID(_private[self].callbackRegistry[event]);
 	end
@@ -51,7 +51,7 @@ function EventsDispatcher:RegisterCallback(event, callback, handlerID)
 end
 
 function EventsDispatcher:UnregisterCallback(handlerID)
-	assert(isType(handlerID, "string", "handlerID"));
+	Ellyb.Assertions.isType(handlerID, "string", "handlerID");
 
 	for eventName, eventRegistry in pairs(_private[self].callbackRegistry) do
 		if eventRegistry[handlerID] then

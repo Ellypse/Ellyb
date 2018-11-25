@@ -68,7 +68,7 @@ end);
 ---@param optional x number @ A custom horizontal offset for the icon (default is 33)
 ---@param optional y number @ A custom vertical offset for the icon (default is -3)
 function Cursor:SetIcon(cursorTexture, x, y)
-	assert(Ellyb.Assertions.isOfTypes(cursorTexture, { "string", "number" }, "cursorTexture"));
+	Ellyb.Assertions.isOfTypes(cursorTexture, { "string", "number" }, "cursorTexture");
 
 	Icon:SetTexture(cursorTexture);
 	Icon:SetPoint("TOPLEFT", x or DEFAULT_ANCHOR_X, y or DEFAULT_ANCHOR_Y);

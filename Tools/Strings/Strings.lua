@@ -33,7 +33,7 @@ Ellyb.Strings = Strings;
 ---@param optional customSeparator string @ A custom separator to use to when concatenating the table (default is " ").
 ---@return string
 function Strings.convertTableToString(table, customSeparator)
-	assert(isType(table, "table", "table"));
+	Ellyb.Assertions.isType(table, "table", "table");
 	-- If the table is empty we will just return empty string
 	if Ellyb.Tables.size(table) < 1 then
 		return ""
@@ -60,14 +60,14 @@ VOWELS = tInvert(VOWELS); -- Invert the table so it is easier to check if someth
 ---@param letter string @ A single letter as a string (can be uppercase or lowercase)
 ---@return boolean isAVowel @ True if the letter is a vowel
 function Strings.isAVowel(letter)
-	assert(isType(letter, "string", "letter"));
+	Ellyb.Assertions.isType(letter, "string", "letter");
 	return VOWELS[letter] ~= nil;
 end
 
 ---@param text string
 ---@return string letter @ The first letter in the string that was passed
 function Strings.getFirstLetter(text)
-	assert(isType(text, "string", "text"));
+	Ellyb.Assertions.isType(text, "string", "text");
 	return string.sub(text, 1, 1);
 end
 
@@ -196,7 +196,7 @@ function Strings.crop(text, size, appendEllipsisAtTheEnd)
 		return
 	end
 
-	assert(isType(size, "number", "size"));
+	Ellyb.Assertions.isType(size, "number", "size");
 	assert(size > 0, "Size has to be a positive number.");
 
 	if appendEllipsisAtTheEnd == nil then
@@ -225,7 +225,7 @@ end
 
 local BYTES_MULTIPLES = { 'Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' };
 function Strings.formatBytes(bytes)
-	assert(isType(bytes, "number", "bytes"));
+	Ellyb.Assertions.isType(bytes, "number", "bytes");
 
 	if bytes < 2 then
 		return bytes .. ' Byte';
@@ -242,8 +242,8 @@ end
 ---@param separator string @ A separator
 ---@return string[] textContent @ A table of strings
 function Strings.split(text, separator)
-	assert(isType(text, "string", "text"));
-	assert(isType(separator, "string", "separator"));
+	Ellyb.Assertions.isType(text, "string", "text");
+	Ellyb.Assertions.isType(separator, "string", "separator");
 
 	local t = {}
 	local fpat = "(.-)" .. separator
