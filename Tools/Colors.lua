@@ -32,7 +32,6 @@ Ellyb.Color = Color;
 ---@param instance Color
 local function _privateInit(instance)
 	_private[instance] = {};
-	_private[instance].canBeMutated = true;
 end
 
 ---Constructor
@@ -177,7 +176,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param red number @ A number between 0 and 1 for the red value
 function Color:SetRed(red)
-	if _private[self].canBeMutated then
+	if not AddOn_Lib_Middleclass.isProtected(self) then
 		assert(numberIsBetween(red, 0, 1, "red"));
 		_private[self].red = red;
 	end
@@ -187,7 +186,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param green number @ A number between 0 and 1 for the green value
 function Color:SetGreen(green)
-	if _private[self].canBeMutated then
+	if not AddOn_Lib_Middleclass.isProtected(self) then
 		assert(numberIsBetween(green, 0, 1, "green"));
 		_private[self].green = green;
 	end
@@ -197,7 +196,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param blue number @ A number between 0 and 1 for the blue value
 function Color:SetBlue(blue)
-	if _private[self].canBeMutated then
+	if not AddOn_Lib_Middleclass.isProtected(self) then
 		assert(numberIsBetween(blue, 0, 1, "blue"));
 		_private[self].blue = blue;
 	end
@@ -207,7 +206,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param alpha number @ A number between 0 and 1 for the alpha value
 function Color:SetAlpha(alpha)
-	if _private[self].canBeMutated and alpha then
+	if not AddOn_Lib_Middleclass.isProtected(self) and alpha then
 		assert(numberIsBetween(alpha, 0, 1, "alpha"));
 		_private[self].alpha = alpha;
 	end
@@ -252,7 +251,7 @@ end
 ---@return Color color @ Returns itself, so it can be used during the instantiation
 --- `local white = Color("#FFFFFF"):Freeze();`
 function Color:Freeze()
-	_private[self].canBeMutated = false;
+	AddOn_Lib_Middleclass.protected(self)
 	return self;
 end
 
