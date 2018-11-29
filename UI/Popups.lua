@@ -17,6 +17,7 @@ local ORANGE = Ellyb.ColorManager.ORANGE;
 local Popups = {};
 Ellyb.Popups = Popups;
 
+-- luacheck: globals Ellyb_StaticPopOpenUrl
 ---@type Frame
 local URLPopup = Ellyb_StaticPopOpenUrl;
 URLPopup.Button.Text:SetText(_G.OKAY);
