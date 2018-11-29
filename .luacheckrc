@@ -19,6 +19,7 @@ read_globals = {
     "ChatTypeInfo",
     "tInvert",
     "FRIENDS_BNET_NAME_COLOR",
+    "LE_ITEM_QUALITY_POOR",
     "LE_ITEM_QUALITY_COMMON",
     "LE_ITEM_QUALITY_UNCOMMON",
     "LE_ITEM_QUALITY_RARE",

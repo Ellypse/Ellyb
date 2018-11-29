@@ -21,7 +21,7 @@ function Tooltip:initialize(parent)
 	_private[self].onShowCallbacks = {};
 end
 
----@param customColor Color
+---@param customColor Ellyb_Color
 function Tooltip:SetTitle(text, customColor)
 	_private[self].title = text;
 	_private[self].customTitleColor = customColor;
@@ -78,7 +78,7 @@ function Tooltip:GetOffset()
 	return _private[self].x or 0, _private[self].y or 0;
 end
 
----@param customColor Color
+---@param customColor Ellyb_Color
 function Tooltip:AddLine(text, customColor)
 	insert(_private[self].content, {
 		text = text,
@@ -130,7 +130,7 @@ end
 
 ---SetLine
 ---@param text string
----@param customColor Color
+---@param customColor Ellyb_Color
 function Tooltip:SetLine(text, customColor)
 	self:ClearLines();
 	self:AddLine(text, customColor);

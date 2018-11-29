@@ -26,7 +26,7 @@ Logger.LEVELS = {
 	SEVERE = "SEVERE",
 }
 
----@return Color
+---@return Ellyb_Color
 local function getColorForLevel(level)
 	if level == Logger.LEVELS.SEVERE then
 		return Ellyb.ColorManager.RED;

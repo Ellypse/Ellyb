@@ -5,27 +5,17 @@ if Ellyb.ColorManager then
 	return
 end
 
--- WoW imports
-local tonumber = tonumber;
-local lenght = string.len;
-local gsub = string.gsub;
-local sub = string.sub;
-local assert = assert;
-
--- Ellyb imports
-local Color = Ellyb.Color;
-
----@class ColorManager
 --- Used for Color related operations and managing a palette of predefined Colors
 local ColorManager = {};
 Ellyb.ColorManager = ColorManager;
 
 ---Converts color bytes into bits, from a 0-255 range to 0-1 range.
----@param red number @ Between 0 and 255
----@param green number @ Between 0 and 255
----@param blue number @ Between 0 and 255
----@param optional alpha number @ Between 0 and 255
+---@param red number Between 0 and 255
+---@param green number Between 0 and 255
+---@param blue number Between 0 and 255
+---@param alpha number Between 0 and 255
 ---@return number, number, number, number
+---@overload fun(red:number, green:number, blue:number):number, number, number, number
 function ColorManager.convertColorBytesToBits(red, green, blue, alpha)
 	if alpha == nil then
 		alpha = 255;
@@ -35,36 +25,36 @@ function ColorManager.convertColorBytesToBits(red, green, blue, alpha)
 end
 
 --- Extracts RGB values (255 based) from an hexadecimal code
----@param hexadecimalCode string @ An hexadecimal code corresponding to a color (example: `FFF`, `FAFAFA`, `#ffbababa`, `|cffbababa`)
+---@param hexadecimalCode string An hexadecimal code corresponding to a color (example: `FFF`, `FAFAFA`, `#ffbababa`, `|cffbababa`)
 ---@return number, number, number red, green, blue
 function ColorManager.hexaToNumber(hexadecimalCode)
 	local red, green, blue, alpha;
 
 	-- We make sure we remove possible prefixes
-	hexadecimalCode = gsub(hexadecimalCode, "#", "");
-	hexadecimalCode = gsub(hexadecimalCode, "|c", "");
+	hexadecimalCode = hexadecimalCode:gsub("#", "");
+	hexadecimalCode = hexadecimalCode:gsub("|c", "");
 
-	local hexadecimalCodeLength = lenght(hexadecimalCode);
+	local hexadecimalCodeLength = hexadecimalCode:len();
 
 	if hexadecimalCodeLength == 3 then
 		-- #FFF
-		local r = sub(hexadecimalCode, 1, 1);
-		local g = sub(hexadecimalCode, 2, 2);
-		local b = sub(hexadecimalCode, 3, 3);
+		local r = hexadecimalCode:sub(1, 1);
+		local g = hexadecimalCode:sub(2, 2);
+		local b = hexadecimalCode:sub(3, 3);
 		red = tonumber(r .. r, 16)
 		green = tonumber(g .. g, 16)
 		blue = tonumber(b .. b, 16)
 	elseif hexadecimalCodeLength == 6 then
 		-- #FAFAFA
-		red = tonumber(sub(hexadecimalCode, 1, 2), 16)
-		green = tonumber(sub(hexadecimalCode, 3, 4), 16)
-		blue = tonumber(sub(hexadecimalCode, 5, 6), 16)
+		red = tonumber(hexadecimalCode:sub(1, 2), 16)
+		green = tonumber(hexadecimalCode:sub(3, 4), 16)
+		blue = tonumber(hexadecimalCode:sub(5, 6), 16)
 	elseif hexadecimalCodeLength == 8 then
 		-- #ffbababa
-		alpha = tonumber(sub(hexadecimalCode, 1, 2), 16)
-		red = tonumber(sub(hexadecimalCode, 3, 4), 16)
-		green = tonumber(sub(hexadecimalCode, 5, 6), 16)
-		blue = tonumber(sub(hexadecimalCode, 7, 8), 16)
+		alpha = tonumber(hexadecimalCode:sub(1, 2), 16)
+		red = tonumber(hexadecimalCode:sub(3, 4), 16)
+		green = tonumber(hexadecimalCode:sub(5, 6), 16)
+		blue = tonumber(hexadecimalCode:sub(7, 8), 16)
 	end
 
 	return ColorManager.convertColorBytesToBits(red, green, blue, alpha);
@@ -73,26 +63,26 @@ end
 --- Get the associated Color for the given class.
 --- This function always creates a new Color that can be mutated (unlike the Color constants)
 --- It will fetch the color from the RAID_CLASS_COLORS global table and will reflect any changes made to the table.
----@param class string @ A valid class ("HUNTER", "DEATHKNIGHT")
----@return Color color @ The Color corresponding to the class
+---@param class string A valid class ("HUNTER", "DEATHKNIGHT")
+---@return Ellyb_Color color The Color corresponding to the class
 function ColorManager.getClassColor(class)
 	if RAID_CLASS_COLORS[class] then
-		return Color(RAID_CLASS_COLORS[class]);
+		return Ellyb.Color:new(RAID_CLASS_COLORS[class]);
 	end
 end
 
 --- Get the chat color associated to a specified channel in the settings
 --- It will fetch the color from the ChatTypeInfo global table and will reflect any changes made to the table.
----@param channel string @ A chat channel ("WHISPER", "YELL", etc.)
----@return Color chatColor
+---@param channel string A chat channel ("WHISPER", "YELL", etc.)
+---@return Ellyb_Color chatColor
 function ColorManager.getChatColorForChannel(channel)
 	assert(ChatTypeInfo[channel], "Trying to get chat color for an unknown channel type: " .. channel);
-	return Color(ChatTypeInfo[channel]);
+	return Ellyb.Color:new(ChatTypeInfo[channel]);
 end
 
 --- Compares two colors based on their HSL values (first comparing H, then comparing S, then comparing L)
----@param color1 Color @ A color
----@param color2 Color @ The color to compare
+---@param color1 Ellyb_Color @ A color
+---@param color2 Ellyb_Color @ The color to compare
 ---@return boolean isLesser @ true if color1 is "lesser" than color2
 function ColorManager.compareHSL(color1, color2)
 	local h1, s1, l1 = color1:GetHSL();
@@ -115,8 +105,8 @@ end
 --- The contrast ratio should be higher than 50%.
 --- @external [](http://www.whydomath.org/node/wavlets/imagebasics.html)
 ---
---- @param textColor Color @ The text color to test
---- @return True if the text will be readable
+--- @param color Ellyb_Color The text color to test
+--- @return boolean True if the text will be readable
 function ColorManager.isTextColorReadableOnADarkBackground(color)
 	return ((
 		0.299 * color:GetRed() +
@@ -129,88 +119,88 @@ end
 -- The Colors are frozen so they cannot be altered
 
 -- Common colors
-ColorManager.RED = Color(1, 0, 0):Freeze();
-ColorManager.ORANGE = Color(255, 153, 0):Freeze();
-ColorManager.YELLOW = Color(1, 0.82, 0):Freeze();
-ColorManager.GREEN = Color(0, 1, 0):Freeze();
-ColorManager.CYAN = Color(0, 1, 1):Freeze();
-ColorManager.BLUE = Color(0, 0, 1):Freeze();
-ColorManager.PURPLE = Color(0.5, 0, 1):Freeze();
-ColorManager.PINK = Color(1, 0, 1):Freeze();
-ColorManager.WHITE = Color(1, 1, 1):Freeze();
-ColorManager.GREY = Color("#CCC"):Freeze();
-ColorManager.BLACK = Color(0, 0, 0):Freeze();
+ColorManager.RED = Ellyb.Color:new(1, 0, 0):Freeze();
+ColorManager.ORANGE = Ellyb.Color:new(255, 153, 0):Freeze();
+ColorManager.YELLOW = Ellyb.Color:new(1, 0.82, 0):Freeze();
+ColorManager.GREEN = Ellyb.Color:new(0, 1, 0):Freeze();
+ColorManager.CYAN = Ellyb.Color:new(0, 1, 1):Freeze();
+ColorManager.BLUE = Ellyb.Color:new(0, 0, 1):Freeze();
+ColorManager.PURPLE = Ellyb.Color:new(0.5, 0, 1):Freeze();
+ColorManager.PINK = Ellyb.Color:new(1, 0, 1):Freeze();
+ColorManager.WHITE = Ellyb.Color:new(1, 1, 1):Freeze();
+ColorManager.GREY = Ellyb.Color:new("#CCC"):Freeze();
+ColorManager.BLACK = Ellyb.Color:new(0, 0, 0):Freeze();
 
 -- Classes colors
-ColorManager.HUNTER = Color(RAID_CLASS_COLORS.HUNTER):Freeze();
-ColorManager.WARLOCK = Color(RAID_CLASS_COLORS.WARLOCK):Freeze();
-ColorManager.PRIEST = Color(RAID_CLASS_COLORS.PRIEST):Freeze();
-ColorManager.PALADIN = Color(RAID_CLASS_COLORS.PALADIN):Freeze();
-ColorManager.MAGE = Color(RAID_CLASS_COLORS.MAGE):Freeze();
-ColorManager.ROGUE = Color(RAID_CLASS_COLORS.ROGUE):Freeze();
-ColorManager.DRUID = Color(RAID_CLASS_COLORS.DRUID):Freeze();
-ColorManager.SHAMAN = Color(RAID_CLASS_COLORS.SHAMAN):Freeze();
-ColorManager.WARRIOR = Color(RAID_CLASS_COLORS.WARRIOR):Freeze();
-ColorManager.DEATHKNIGHT = Color(RAID_CLASS_COLORS.DEATHKNIGHT):Freeze();
-ColorManager.MONK = Color(RAID_CLASS_COLORS.MONK):Freeze();
-ColorManager.DEMONHUNTER = Color(RAID_CLASS_COLORS.DEMONHUNTER):Freeze();
+ColorManager.HUNTER = Ellyb.Color:new(RAID_CLASS_COLORS[Ellyb.Enum.CLASSES.HUNTER]):Freeze();
+ColorManager.WARLOCK = Ellyb.Color:new(RAID_CLASS_COLORS[Ellyb.Enum.CLASSES.WARLOCK]):Freeze();
+ColorManager.PRIEST = Ellyb.Color:new(RAID_CLASS_COLORS[Ellyb.Enum.CLASSES.PRIEST]):Freeze();
+ColorManager.PALADIN = Ellyb.Color:new(RAID_CLASS_COLORS[Ellyb.Enum.CLASSES.PALADIN]):Freeze();
+ColorManager.MAGE = Ellyb.Color:new(RAID_CLASS_COLORS[Ellyb.Enum.CLASSES.MAGE]):Freeze();
+ColorManager.ROGUE = Ellyb.Color:new(RAID_CLASS_COLORS[Ellyb.Enum.CLASSES.ROGUE]):Freeze();
+ColorManager.DRUID = Ellyb.Color:new(RAID_CLASS_COLORS[Ellyb.Enum.CLASSES.DRUID]):Freeze();
+ColorManager.SHAMAN = Ellyb.Color:new(RAID_CLASS_COLORS[Ellyb.Enum.CLASSES.SHAMAN]):Freeze();
+ColorManager.WARRIOR = Ellyb.Color:new(RAID_CLASS_COLORS[Ellyb.Enum.CLASSES.WARRIOR]):Freeze();
+ColorManager.DEATHKNIGHT = Ellyb.Color:new(RAID_CLASS_COLORS[Ellyb.Enum.CLASSES.DEATHKNIGHT]):Freeze();
+ColorManager.MONK = Ellyb.Color:new(RAID_CLASS_COLORS[Ellyb.Enum.CLASSES.MONK]):Freeze();
+ColorManager.DEMONHUNTER = Ellyb.Color:new(RAID_CLASS_COLORS[Ellyb.Enum.CLASSES.DEMONHUNTER]):Freeze();
 
 -- Brand colors
-ColorManager.TWITTER = Color("#1da1f2"):Freeze();
-ColorManager.BATTLE_NET = Color(FRIENDS_BNET_NAME_COLOR):Freeze();
+ColorManager.TWITTER = Ellyb.Color:new("#1da1f2"):Freeze();
+ColorManager.BATTLE_NET = Ellyb.Color:new(FRIENDS_BNET_NAME_COLOR):Freeze();
 
 -- Item colors
 -- ITEM QUALITY
 -- BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_COMMON] is actually the POOR (grey) color.
 -- There is no common quality color in BAG_ITEM_QUALITY_COLORS. Bravo Blizzard 👏
-ColorManager.ITEM_POOR = Color(BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_COMMON]):Freeze();
-ColorManager.ITEM_COMMON = Color(0.95, 0.95, 0.95):Freeze();
-ColorManager.ITEM_UNCOMMON = Color(BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_UNCOMMON]):Freeze();
-ColorManager.ITEM_RARE = Color(BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_RARE]):Freeze();
-ColorManager.ITEM_EPIC = Color(BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_EPIC]):Freeze();
-ColorManager.ITEM_LEGENDARY = Color(BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_LEGENDARY]):Freeze();
-ColorManager.ITEM_ARTIFACT = Color(BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_ARTIFACT]):Freeze();
-ColorManager.ITEM_HEIRLOOM = Color(BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_HEIRLOOM]):Freeze();
-ColorManager.ITEM_WOW_TOKEN = Color(BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_WOW_TOKEN]):Freeze();
+ColorManager.ITEM_POOR = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.COMMON]):Freeze();
+ColorManager.ITEM_COMMON = Ellyb.Color:new(0.95, 0.95, 0.95):Freeze(); -- Common quality is a slightly faded white
+ColorManager.ITEM_UNCOMMON = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.UNCOMMON]):Freeze();
+ColorManager.ITEM_RARE = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.RARE]):Freeze();
+ColorManager.ITEM_EPIC = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.EPIC]):Freeze();
+ColorManager.ITEM_LEGENDARY = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.LEGENDARY]):Freeze();
+ColorManager.ITEM_ARTIFACT = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.ARTIFACT]):Freeze();
+ColorManager.ITEM_HEIRLOOM = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.HEIRLOOM]):Freeze();
+ColorManager.ITEM_WOW_TOKEN = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.WOW_TOKEN]):Freeze();
 
 -- FACTIONS
-ColorManager.ALLIANCE = Color(PLAYER_FACTION_COLORS[1]):Freeze();
-ColorManager.HORDE = Color(PLAYER_FACTION_COLORS[0]):Freeze(); -- Yup, this is a table with a 0 index. Blizzard ¯\_(ツ)_/¯
+ColorManager.ALLIANCE = Ellyb.Color:new(PLAYER_FACTION_COLORS[1]):Freeze();
+ColorManager.HORDE = Ellyb.Color:new(PLAYER_FACTION_COLORS[0]):Freeze(); -- Yup, this is a table with a 0 index. Blizzard ¯\_(ツ)_/¯
 
 -- POWERBAR COLORS
-ColorManager.POWER_MANA = Color(PowerBarColor["MANA"]):Freeze();
-ColorManager.POWER_RAGE = Color(PowerBarColor["RAGE"]):Freeze();
-ColorManager.POWER_FOCUS = Color(PowerBarColor["FOCUS"]):Freeze();
-ColorManager.POWER_ENERGY = Color(PowerBarColor["ENERGY"]):Freeze();
-ColorManager.POWER_COMBO_POINTS = Color(PowerBarColor["COMBO_POINTS"]):Freeze();
-ColorManager.POWER_RUNES = Color(PowerBarColor["RUNES"]):Freeze();
-ColorManager.POWER_RUNIC_POWER = Color(PowerBarColor["RUNIC_POWER"]):Freeze();
-ColorManager.POWER_SOUL_SHARDS = Color(PowerBarColor["SOUL_SHARDS"]):Freeze();
-ColorManager.POWER_LUNAR_POWER = Color(PowerBarColor["LUNAR_POWER"]):Freeze();
-ColorManager.POWER_HOLY_POWER = Color(PowerBarColor["HOLY_POWER"]):Freeze();
-ColorManager.POWER_MAELSTROM = Color(PowerBarColor["MAELSTROM"]):Freeze();
-ColorManager.POWER_INSANITY = Color(PowerBarColor["INSANITY"]):Freeze();
-ColorManager.POWER_CHI = Color(PowerBarColor["CHI"]):Freeze();
-ColorManager.POWER_ARCANE_CHARGES = Color(PowerBarColor["ARCANE_CHARGES"]):Freeze();
-ColorManager.POWER_FURY = Color(PowerBarColor["FURY"]):Freeze();
-ColorManager.POWER_PAIN = Color(PowerBarColor["PAIN"]):Freeze();
-ColorManager.POWER_AMMOSLOT = Color(PowerBarColor["AMMOSLOT"]):Freeze();
-ColorManager.POWER_FUEL = Color(PowerBarColor["FUEL"]):Freeze();
+ColorManager.POWER_MANA = Ellyb.Color:new(PowerBarColor["MANA"]):Freeze();
+ColorManager.POWER_RAGE = Ellyb.Color:new(PowerBarColor["RAGE"]):Freeze();
+ColorManager.POWER_FOCUS = Ellyb.Color:new(PowerBarColor["FOCUS"]):Freeze();
+ColorManager.POWER_ENERGY = Ellyb.Color:new(PowerBarColor["ENERGY"]):Freeze();
+ColorManager.POWER_COMBO_POINTS = Ellyb.Color:new(PowerBarColor["COMBO_POINTS"]):Freeze();
+ColorManager.POWER_RUNES = Ellyb.Color:new(PowerBarColor["RUNES"]):Freeze();
+ColorManager.POWER_RUNIC_POWER = Ellyb.Color:new(PowerBarColor["RUNIC_POWER"]):Freeze();
+ColorManager.POWER_SOUL_SHARDS = Ellyb.Color:new(PowerBarColor["SOUL_SHARDS"]):Freeze();
+ColorManager.POWER_LUNAR_POWER = Ellyb.Color:new(PowerBarColor["LUNAR_POWER"]):Freeze();
+ColorManager.POWER_HOLY_POWER = Ellyb.Color:new(PowerBarColor["HOLY_POWER"]):Freeze();
+ColorManager.POWER_MAELSTROM = Ellyb.Color:new(PowerBarColor["MAELSTROM"]):Freeze();
+ColorManager.POWER_INSANITY = Ellyb.Color:new(PowerBarColor["INSANITY"]):Freeze();
+ColorManager.POWER_CHI = Ellyb.Color:new(PowerBarColor["CHI"]):Freeze();
+ColorManager.POWER_ARCANE_CHARGES = Ellyb.Color:new(PowerBarColor["ARCANE_CHARGES"]):Freeze();
+ColorManager.POWER_FURY = Ellyb.Color:new(PowerBarColor["FURY"]):Freeze();
+ColorManager.POWER_PAIN = Ellyb.Color:new(PowerBarColor["PAIN"]):Freeze();
+ColorManager.POWER_AMMOSLOT = Ellyb.Color:new(PowerBarColor["AMMOSLOT"]):Freeze();
+ColorManager.POWER_FUEL = Ellyb.Color:new(PowerBarColor["FUEL"]):Freeze();
 
 -- OTHER GAME STUFF
-ColorManager.CRAFTING_REAGENT = Color("#66bbff"):Freeze();
+ColorManager.CRAFTING_REAGENT = Ellyb.Color:new("#66bbff"):Freeze();
 
 ColorManager.LINKS = {
-	achievement = Color("#ffff00"):Freeze(),
-	talent = Color("#4e96f7"):Freeze(),
-	trade = Color("#ffd000"):Freeze(),
-	enchant = Color("#ffd000"):Freeze(),
-	instancelock = Color("#ff8000"):Freeze(),
-	journal = Color("#66bbff"):Freeze(),
-	battlePetAbil = Color("#4e96f7"):Freeze(),
-	battlepet = Color("#ffd200"):Freeze(),
-	garrmission = Color("#ffff00"):Freeze(),
-	transmogillusion = Color("#ff80ff"):Freeze(),
-	transmogappearance = Color("#ff80ff"):Freeze(),
-	transmogset = Color("#ff80ff"):Freeze(),
+	achievement = Ellyb.Color:new("#ffff00"):Freeze(),
+	talent = Ellyb.Color:new("#4e96f7"):Freeze(),
+	trade = Ellyb.Color:new("#ffd000"):Freeze(),
+	enchant = Ellyb.Color:new("#ffd000"):Freeze(),
+	instancelock = Ellyb.Color:new("#ff8000"):Freeze(),
+	journal = Ellyb.Color:new("#66bbff"):Freeze(),
+	battlePetAbil = Ellyb.Color:new("#4e96f7"):Freeze(),
+	battlepet = Ellyb.Color:new("#ffd200"):Freeze(),
+	garrmission = Ellyb.Color:new("#ffff00"):Freeze(),
+	transmogillusion = Ellyb.Color:new("#ff80ff"):Freeze(),
+	transmogappearance = Ellyb.Color:new("#ff80ff"):Freeze(),
+	transmogset = Ellyb.Color:new("#ff80ff"):Freeze(),
 }
