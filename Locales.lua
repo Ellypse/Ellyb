@@ -3,7 +3,7 @@ local Ellyb = Ellyb(...);
 
 -- We are using Ellyb.loc here to store the locale table so we get code completion from the IDE
 -- The table will be replaced by the complete Localization system, with metatable lookups for the localization keys
----@class loc : Localization
+---@class loc : Ellyb_Localization
 local loc  = {
 	-- System
 	MODIFIERS_CTRL = "Ctrl",
