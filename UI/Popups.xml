@@ -117,11 +117,6 @@
 				</Scripts>
 			</Button>
 		</Frames>
-		<Scripts>
-			<OnLoad>
-				Ellyb_StaticPopOpenUrl = self
-			</OnLoad>
-		</Scripts>
 	</Frame>
 
 	<Script file="Popups.lua"/>
