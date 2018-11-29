@@ -5,6 +5,7 @@ if Ellyb.Strings then
 	return
 end
 
+---@class Ellyb_Strings
 local Strings = {};
 Ellyb.Strings = Strings;
 
