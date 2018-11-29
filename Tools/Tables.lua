@@ -8,12 +8,6 @@ end
 -- WoW imports
 local tinsert = table.insert;
 local tremove = table.remove;
-local format = string.format;
-local type = type;
-local pairs = pairs;
-local wipe = wipe;
-local next = next;
-local setmetatable = setmetatable;
 
 local Tables = {};
 Ellyb.Tables = Tables;
@@ -27,8 +21,8 @@ end
 
 --- Recursively copy all content from a table to another one.
 --- Argument "destination" must be a non nil table reference.
----@param optional destination table @ The table that will receive the new content
----@param source table @ The table that contains the thing we want to put in the destination
+---@param destination table The table that will receive the new content
+---@param source table The table that contains the thing we want to put in the destination
 ---@overload fun(source:table)
 function Tables.copy(destination, source)
 	Ellyb.Assertions.isType(destination, "table", "destination");
@@ -56,7 +50,7 @@ end
 --- Return the table size.
 --- Less effective than #table but works for hash table as well (#hashtable don't).
 ---@param table table
----@param number tableSize @ The size of the table
+---@return number The size of the table
 function Tables.size(table)
 	Ellyb.Assertions.isType(table, "table", "table");
 	-- We try to use #table first
@@ -72,9 +66,9 @@ end
 
 --- Remove an object from table
 --- Object is search with == operator.
----@param table table @ The table in which we should remove the object
----@param object any @ The object that should be removed
----@return boolean hasBeenRemoved @ Return true if the object is found
+---@param table table The table in which we should remove the object
+---@param object any The object that should be removed
+---@return boolean Return true if the object is found
 function Tables.remove(table, object)
 	Ellyb.Assertions.isType(table, "table", "table");
 	Ellyb.Assertions.isNotNil(object, "object");
@@ -90,7 +84,7 @@ end
 
 ---Returns a new table that contains the keys of the given table
 ---@param table table
----@return table tableKeys @ A new table that contains the keys of the given table
+---@return table A new table that contains the keys of the given table
 function Tables.keys(table)
 	Ellyb.Assertions.isType(table, "table", "table");
 	local keys = {};
@@ -105,8 +99,7 @@ end
 ---@return boolean isEmpty @ Returns true if the table is empty
 function Tables.isEmpty(table)
 	Ellyb.Assertions.isType(table, "table", "table");
-	local isEmpty = not next(table);
-	return isEmpty;
+	return not next(table);
 end
 
 -- Create a weak tables pool.
@@ -125,7 +118,7 @@ function Tables.getTempTable()
 end
 
 --- Release a temp table.
----@param table table
+---@param table
 function Tables.releaseTempTable(table)
 	Ellyb.Assertions.isType(table, "table", "table");
 	TABLE_POOL[table] = true;

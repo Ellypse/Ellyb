@@ -1,11 +1,9 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
 
--- Lua imports
-local pairs = pairs;
-
--- WoW imports
-local GetTimePreciseSec = GetTimePreciseSec;
+if Ellyb.Threads then
+	return
+end
 
 local Threads = {};
 Ellyb.Threads = Threads;
@@ -13,26 +11,23 @@ Ellyb.Threads = Threads;
 local DEFAULT_TICKER = 0.025;
 ---@type Thread[]
 local threads = {};
+local ThreadsFrame = CreateFrame("FRAME");
 
 ---Execute the given function in a separate thread using coroutines.
----Returns a promise that can be used to execute code once the operations are complete
+---The function will receive a Thread and should call Thread:Yield() to pause its execution.
+---The thread will automatically resume 0.025 seconds after being paused.
 ---@param func function
----@return Promise promise
 function Threads.run(func)
-	local promise = Ellyb.Promise();
 	local thread = Ellyb.Thread();
-
+	table.insert(threads, thread);
+	ThreadsFrame:RegisterOnUpdate();
 	thread:Execute(function()
 		func(thread);
 	end)
-
-	return promise;
 end
 
-local ThreadsFrame = CreateFrame("FRAME");
-
 --- Check if the time interval has reached a new tick
----@return boolean hasReachedInterval @ True if a new interval was reached
+---@return boolean True if a new interval was reached
 function ThreadsFrame:CheckInterval()
 	self.elapsed = (self.elapsed or 0) + GetTimePreciseSec();
 	if self.elapsed > DEFAULT_TICKER then
