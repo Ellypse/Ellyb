@@ -1,206 +1,139 @@
 ---@type Ellyb
-local Ellyb = Ellyb(...);
+local Ellyb = Ellyb(...)
 
 if Ellyb.Assertions then
 	return
 end
 
--- WoW imports
-local type = type;
-local format = string.format;
-local next = next;
-local pairs = pairs;
-local concat = table.concat;
-local tostring = tostring;
-
----@class Assertions
 --- Various assertion functions to check if variables are of a certain type, empty, nil etc.
---- These assertions will check if the library is running in DEBUG_MODE and only execute the assertions then.
---- When not in DEBUG_MODE the assertions will be passed and will always return true, suppressing potential overhead
-local Assertions = {};
-Ellyb.Assertions = Assertions;
+--- These assertions will directly raise an error if the test is not met.
+local Assertions = {}
 
--- Error messages
-local DEBUG_NIL_VARIABLE = [[Unexpected nil variable "%s".]];
-local DEBUG_WRONG_VARIABLE_TYPE = [[Invalid variable type "%2$s" for variable "%1$s", expected "%3$s".]];
-local DEBUG_WRONG_WIDGET_TYPE = [[Invalid Widget type "%2$s" for variable "%1$s", expected a "%3$s".]];
-local DEBUG_WRONG_VARIABLE_TYPES = [[Invalid variable type "%2$s" for variable "%1$s", expected one of (%3$s).]];
-local DEBUG_WRONG_WIDGET_TYPES = [[Invalid Widget type "%2$s" for variable "%1$s", expected one of (%3$s).]];
-local DEBUG_EMPTY_VARIABLE = [[Variable "%s" cannot be empty.]];
-local DEBUG_WRONG_CLASS = [[Invalid Class "%2$s" for variable "%1$s", expected "%3$s".]];
-local DEBUG_UNEXPECTED_VALUE = [[Unexpected variable value %2$s for variable "%1$s", expected to be one of (%3$s).]];
-local DEBUG_WRONG_VARIABLE_INTERVAL = [[Invalid variable value "%2$s" for variable "%1$s". Expected the value to be between "%3$s" and "%4$s"]];
+--{{{ Helpers
 
----Check if a variable is of the expected type ("number", "boolean", "string")
----Can also check for Widget type ("Frame", "Button", "Texture")
----@param variable any @ Any kind of variable, to be tested for its type
----@param expectedType string @ Expected type of the variable
----@param variableName string @ The name of the variable being tested, will be visible in the error message
----@return boolean, string isType, errorMessage @ Returns true if the variable was of the expected type, or false with an error message if it wasn't.
+--- Throws an error in the parent's scope
+---@param message string
+local function throw(message)
+	error(message, 3)
+end
+
+---@param variable UIObject
+local function isUIObject(variable)
+	return type(variable) == "table" and type(variable.GetObjectType) == "function"
+end
+
+---@param variable MiddleClass_Class
+local function isAClass(variable)
+	return type(variable) == "table" and type(variable.IsInstanceOf) == "function"
+end
+
+---@param t table
+---@return string
+local function list(t)
+	return table.concat(t, ", ")
+end
+
+--}}}
+
+--- Check if a variable is of the expected type ("number", "boolean", "string")
+--- Can also check for Widget type ("Frame", "Button", "Texture")
+---@param variable any|UIObject Any kind of variable, to be tested for its type
+---@param expectedType string Expected type of the variable
+---@param variableName string The name of the variable being tested, will be visible in the error message
+---@return boolean, string Returns true if the variable was of the expected type, or false with an error message if it wasn't.
 function Assertions.isType(variable, expectedType, variableName)
-	if not Ellyb:IsDebugModeEnabled() then
-		return true
-	end;
-	local variableType = type(variable);
-	local isOfExpectedType = variableType == expectedType;
-	if not isOfExpectedType then
-		-- Special check for frames. If a variable is a table, it could be a Frame.
-		if variableType == "table" and type(variable.IsObjectType) == "function" then
-			if variable:IsObjectType(expectedType) then
-				return true;
-			else
-				return false, format(DEBUG_WRONG_WIDGET_TYPE, variableName, variableType, expectedType);
-			end
-		else
-			return false, format(DEBUG_WRONG_VARIABLE_TYPE, variableName, variableType, expectedType);
-		end
-	else
-		return true;
+	if isUIObject(variable) and not variable:IsObjectType(expectedType) then
+		throw(([[Invalid Widget type "%s" for variable "%s", expected a "%s".]]):format(variable:GetObjectType(), variableName, expectedType))
+	end
+	if type(variable) ~= expectedType then
+		throw(([[Invalid variable type "%s" for variable "%s", expected "%s".]]):format(type(variable), variableName, expectedType))
 	end
 end
 
 ---Check if a variable is of one of the types expected ("number", "boolean", "string")
 ------Can also check for Widget types ("Frame", "Button", "Texture")
----@param variable any @ Any kind of variable, to be tested for its type
----@param expectedTypes string[] @ A list of expected types for the variable
----@param variableName string @ The name of the variable being tested, will be visible in the error message
----@return boolean, string isType, errorMessage @ Returns true if the variable was of the expected type, or false with an error message if it wasn't.
+---@param variable any|UIObject Any kind of variable, to be tested for its type
+---@param expectedTypes string[] A list of expected types for the variable
+---@param variableName string The name of the variable being tested, will be visible in the error message
+---@return boolean, string Returns true if the variable was of the expected type, or false with an error message if it wasn't.
 function Assertions.isOfTypes(variable, expectedTypes, variableName)
-	if not Ellyb:IsDebugModeEnabled() then
-		return true
-	end;
-	local variableType = type(variable);
-	local isOfExpectedType = false;
-	local isUIObject = variableType == "table" and type(variable.IsObjectType) == "function";
-
-	for _, expectedType in pairs(expectedTypes) do
-		if isUIObject then
-			if variable:IsObjectType(expectedType) then
-				isOfExpectedType = true;
-				break;
-			end
-		elseif variableType == expectedType then
-			isOfExpectedType = true;
-			break;
-		end
+	if isUIObject(variable) and not tContains(expectedTypes, variable:GetObjectType()) then
+		throw(([[Invalid Widget type "%s" for variable "%s", expected one of {%s}.]]):format(variable:GetObjectType(), variableName, list(expectedTypes)))
 	end
-
-	if not isOfExpectedType then
-		local expectedTypesString = concat(expectedTypes, "|");
-		if isUIObject then
-			return false, format(DEBUG_WRONG_WIDGET_TYPES, variableName, variableType, expectedTypesString);
-		else
-			return false, format(DEBUG_WRONG_VARIABLE_TYPES, variableName, variableType, expectedTypesString);
-		end
-	else
-		return true;
+	if not tContains(expectedTypes, type(variable)) then
+		throw(([[Invalid variable type "%s" for variable "%s", expected one of {%s}.]]):format(type(variable), variableName, list(expectedTypes)))
 	end
 end
 
 ---Check if a variable is not nil
----@param variable any @ Any kind of variable, will be checked if it is nil
----@param variableName string @ The name of the variable being tested, will be visible in the error message
----@return boolean, string isNotNil, errorMessage @ Returns true if the variable was not nil, or false with an error message if it wasn't.
+---@param variable any Any kind of variable, will be checked if it is nil
+---@param variableName string The name of the variable being tested, will be visible in the error message
+---@return boolean, string Returns true if the variable was not nil, or false with an error message if it wasn't.
 function Assertions.isNotNil(variable, variableName)
-	if not Ellyb:IsDebugModeEnabled() then
-		return true
-	end;
-	local isVariableNil = variable == nil;
-	if isVariableNil then
-		return false, format(DEBUG_NIL_VARIABLE, variableName);
-	else
-		return true;
+	if variable == nil then
+		throw(([[Unexpected nil variable "%s".]]):format(variableName))
 	end
 end
 
 ---Check if a variable is empty
----@param variable any @ Any kind of variable that can be checked to be empty
----@param variableName string @ The name of the variable being tested, will be visible in the error message
----@return boolean, string isNotEmpty, errorMessage @ Returns true if the variable was not empty, or false with an error message if it was.
+---@param variable any Any kind of variable that can be checked to be empty
+---@param variableName string The name of the variable being tested, will be visible in the error message
+---@return boolean, string Returns true if the variable was not empty, or false with an error message if it was.
 function Assertions.isNotEmpty(variable, variableName)
-	if not Ellyb:IsDebugModeEnabled() then
-		return true
-	end;
-	local variableType = type(variable);
-	local isEmpty = false;
-
-	if variableType == "nil" then
-		isEmpty = true;
-	elseif variableType == "table" then
-		-- To check if a table is empty we can just try to get its next field
-		isEmpty = not next(variable);
-	elseif variableType == "string" then
-		-- A string is considered empty if it is equal to empty string ""
-		isEmpty = variable == "";
+	if variable == nil then
+		throw(([[Variable "%s" cannot be empty.]]):format(variableName))
+	end
+	-- To check if a table is empty we can just try to get its next field
+	if type(variable) == "table" and not next(variable) then
+		throw(([[Variable "%s" cannot be an empty table.]]):format(variableName))
 	end
 
-	if isEmpty then
-		return false, format(DEBUG_EMPTY_VARIABLE, variableName);
-	else
-		return true;
+	-- A string is considered empty if it is equal to empty string ""
+	if type(variable) == "string" and variable == "" then
+		throw(([[Variable "%s" cannot be an empty string.]]):format(variableName))
 	end
 end
 
 --- Check if a variable is an instance of a specified class, taking polymorphism into account, so inherited class will pass the test.
----@param variable Object @ The object to test
----@param class string @ The name of the expected class as a string
----@param variableName string @ The name of the variable being tested, will be visible in the error message
+---@param variable MiddleClass_Class The object to test
+---@param class MiddleClass_Class A direct reference to the expected class
+---@param variableName string The name of the variable being tested, will be visible in the error message
 function Assertions.isInstanceOf(variable, class, variableName)
-	if not Ellyb:IsDebugModeEnabled() then
-		return true
-	end;
-	local variableType = type(variable);
-
-	if not variableType == "table" or not variable.IsInstanceOf or not variable.class then
-		-- The variable is not a Class
-		return false, format(DEBUG_WRONG_CLASS, variableName, variableType, tostring(class));
+	if not isAClass(variable) then
+		throw(([[Invalid type "%s" for variable "%s", expected a "%s".]]):format(type(variable), variableName, tostring(class)))
 	end
-
-	-- Check if the variable is an instance of the given class (taking polymorphism into account)
 	if not variable:IsInstanceOf(class) then
-		-- The variable is an instance of a different class
-		return false, format(DEBUG_WRONG_CLASS, variableName, tostring(variable.class), class);
+		throw(([[Invalid Class "%s" for variable "%s", expected "%s".]]):format(tostring(variable.class), variableName, tostring(class)))
 	end
-
-	return true;
 end
 
 
 --- Check if a variable value is one of the possible values.
----@param variable any @ Any kind of variable, will be checked if it's value is in the list of possible values
----@param possibleValues table @ A table of the possible values accepted
----@param variableName string @ The name of the variable being tested, will be visible in the error message
+---@param variable any Any kind of variable, will be checked if it's value is in the list of possible values
+---@param possibleValues table A table of the possible values accepted
+---@param variableName string The name of the variable being tested, will be visible in the error message
 function Assertions.isOneOf(variable, possibleValues, variableName)
-	if not Ellyb:IsDebugModeEnabled() then
-		return true
-	end;
-	for _, possibleValue in pairs(possibleValues) do
-		if variable == possibleValue then
-			return true;
-		end
+	if not tContains(possibleValues, variable) then
+		throw(([[Unexpected variable value %s for variable "%s", expected to be one of {%s}.]]):format(tostring(variable), variableName, list(possibleValues)))
 	end
-	return false, format(DEBUG_UNEXPECTED_VALUE, variableName, tostring(variable), concat(possibleValues, "|"));
 end
 
 --- Check if a variable is a number between a maximum and a minimum
----@param variable number @ A number to check
----@param minimum number @ The minimum value for the number
----@param maximum number @ The maximum value for the number
----@param variableName string @ The name of the variable being tested, will be visible in the error message
+---@param variable number A number to check
+---@param minimum number The minimum value for the number
+---@param maximum number The maximum value for the number
+---@param variableName string The name of the variable being tested, will be visible in the error message
 function Assertions.numberIsBetween(variable, minimum, maximum, variableName)
-	if not Ellyb:IsDebugModeEnabled() then
-		return true
-	end;
-	local variableType = type(variable);
 
 	-- Variable has to be a number to do comparison
-	if variableType ~= "number" then
-		return false, format(DEBUG_WRONG_VARIABLE_TYPE, variableName, variableType, "number");
+	if type(variable) ~= "number" then
+		throw(([[Invalid variable type "%s" for variable "%s", expected "number".]]):format(type(variable), variableName))
 	end
 
 	if variable < minimum or variable > maximum then
-		return false, format(DEBUG_WRONG_VARIABLE_INTERVAL, variableName, variable, minimum, maximum);
+		throw(([[Invalid variable value "%s" for variable "%s". Expected the value to be between "%s" and "%s"]]):format(variable, variableName, minimum, maximum))
 	end
 
-	return true
 end
+
+Ellyb.Assertions = Assertions;

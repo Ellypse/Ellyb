@@ -6,7 +6,6 @@ if Ellyb.Color then
 end
 
 -- Lua imports
-local assert = assert;
 local abs = math.abs;
 local fmod = math.fmod;
 local min = math.min;
@@ -17,10 +16,6 @@ local tostring = tostring;
 local format = string.format;
 local uppercase = string.upper;
 local type = type;
-
--- Ellyb imports
-local isType = Ellyb.Assertions.isType;
-local numberIsBetween = Ellyb.Assertions.numberIsBetween;
 
 ---@class Color : Object
 --- A Color object with various methods used to handle color, color text, etc.
@@ -178,7 +173,7 @@ end
 ---@param red number @ A number between 0 and 1 for the red value
 function Color:SetRed(red)
 	if _private[self].canBeMutated then
-		assert(numberIsBetween(red, 0, 1, "red"));
+		Ellyb.Assertions.numberIsBetween(red, 0, 1, "red");
 		_private[self].red = red;
 	end
 end
@@ -188,7 +183,7 @@ end
 ---@param green number @ A number between 0 and 1 for the green value
 function Color:SetGreen(green)
 	if _private[self].canBeMutated then
-		assert(numberIsBetween(green, 0, 1, "green"));
+		Ellyb.Assertions.numberIsBetween(green, 0, 1, "green");
 		_private[self].green = green;
 	end
 end
@@ -198,7 +193,7 @@ end
 ---@param blue number @ A number between 0 and 1 for the blue value
 function Color:SetBlue(blue)
 	if _private[self].canBeMutated then
-		assert(numberIsBetween(blue, 0, 1, "blue"));
+		Ellyb.Assertions.numberIsBetween(blue, 0, 1, "blue");
 		_private[self].blue = blue;
 	end
 end
@@ -208,7 +203,7 @@ end
 ---@param alpha number @ A number between 0 and 1 for the alpha value
 function Color:SetAlpha(alpha)
 	if _private[self].canBeMutated and alpha then
-		assert(numberIsBetween(alpha, 0, 1, "alpha"));
+		Ellyb.Assertions.numberIsBetween(alpha, 0, 1, "alpha");
 		_private[self].alpha = alpha;
 	end
 end
@@ -322,9 +317,9 @@ end
 ---@param optional alphaIsNotBytes boolean @ Some usage (like color pickers) might want to set the alpha as opacity between 0 and 1.
 ---											 If set to true, alpha will be considered as a value between 0 and 1
 function Color.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotBytes)
-	assert(numberIsBetween(red, 0, 255, "red"));
-	assert(numberIsBetween(green, 0, 255, "green"));
-	assert(numberIsBetween(blue, 0, 255, "blue"));
+	Ellyb.Assertions.numberIsBetween(red, 0, 255, "red");
+	Ellyb.Assertions.numberIsBetween(green, 0, 255, "green");
+	Ellyb.Assertions.numberIsBetween(blue, 0, 255, "blue");
 
 	-- Manually allocate the class, without calling its constructor and initialize its private properties.
 	---@type Color
@@ -337,7 +332,7 @@ function Color.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotBytes)
 	if alpha then
 		-- Alpha is optional, only test if we were given a value
 		if not alphaIsNotBytes then
-			assert(numberIsBetween(alpha, 0, 255, "alpha"));
+			Ellyb.Assertions.numberIsBetween(alpha, 0, 255, "alpha");
 			alpha = alpha / 255;
 		end
 		color:SetAlpha(alpha);
@@ -349,7 +344,7 @@ end
 --- Create a new Color from an hexadecimal code
 ---@param hexadecimalColorCode string @ A valid hexadecimal code
 function Color.CreateFromHexa(hexadecimalColorCode)
-	assert(isType(hexadecimalColorCode, "string", "hexadecimalColorCode"));
+	Ellyb.Assertions.isType(hexadecimalColorCode, "string", "hexadecimalColorCode");
 
 	local red, green, blue, alpha = Ellyb.ColorManager.hexaToNumber(hexadecimalColorCode);
 	return Color.CreateFromRGBA(red, green, blue, alpha);

@@ -5,12 +5,6 @@ if Ellyb.Maths then
 	return
 end
 
--- Lua imports
-local assert = assert;
-
--- Ellyb imports
-local isType = Ellyb.Assertions.isType;
-
 local Maths = {}
 
 --- Increments a given value by the given increments up to a given max.
@@ -19,9 +13,9 @@ local Maths = {}
 ---@param max number @ The maximum for the value. If value + increment is higher than max, max will be used instead
 ---@return number @ The incremented value
 function Maths.incrementValueUntilMax(value, increment, max)
-	assert(isType(value, "number", "value"));
-	assert(isType(increment, "number", "increment"));
-	assert(isType(max, "number", "max"));
+	Ellyb.Assertions.isType(value, "number", "value");
+	Ellyb.Assertions.isType(increment, "number", "increment");
+	Ellyb.Assertions.isType(max, "number", "max");
 
 	if value + increment > max then
 		return max;

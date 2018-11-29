@@ -1,23 +1,16 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
--- Lua imports
-local assert = assert;
-local pairs = pairs;
-
--- Ellyb imports
-local isType = Ellyb.Assertions.isType;
-
 ---@class Locale
 local Locale, _private = Ellyb.Class("Locale");
 
 ---Constructor
 ---@param code string @ The code for the locale, must be one of the game's supported locale code
 ---@param name string @ The name of the locale, as could be displayed to the user
----@param optional content table<string, string> @ Content of the locale, a table with texts indexed with locale keys
+---@param content table<string, string> @ Content of the locale, a table with texts indexed with locale keys
 function Locale:initialize(code, name, content)
-	assert(isType(code, "string", "code"));
-	assert(isType(name, "string", "name"));
+	Ellyb.Assertions.isType(code, "string", "code");
+	Ellyb.Assertions.isType(name, "string", "name");
 
 	_private[self] = {};
 
@@ -55,7 +48,7 @@ end
 ---@param localizationKey string
 ---@return string text
 function Locale:GetText(localizationKey)
-	assert(isType(localizationKey,"string", "localizationKey"));
+	Ellyb.Assertions.isType(localizationKey,"string", "localizationKey");
 
 	return _private[self].content[localizationKey];
 end
@@ -64,8 +57,8 @@ end
 ---@param localizationKey string
 ---@param value string
 function Locale:AddText(localizationKey, value)
-	assert(isType(localizationKey, "string", "localizationKey"));
-	assert(isType(value, "string", "value"));
+	Ellyb.Assertions.isType(localizationKey, "string", "localizationKey");
+	Ellyb.Assertions.isType(value, "string", "value");
 
 	_private[self].content[localizationKey] = value;
 end
@@ -73,7 +66,7 @@ end
 --- Add a table of localization texts to the locale
 ---@param localeTexts table<string, string>
 function Locale:AddTexts(localeTexts)
-	assert(isType(localeTexts, "table", "localeTexts"));
+	Ellyb.Assertions.isType(localeTexts, "table", "localeTexts");
 
 	for localizationKey, value in pairs(localeTexts) do
 		self:AddText(localizationKey, value);
