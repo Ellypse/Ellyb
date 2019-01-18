@@ -44,6 +44,19 @@ function EditBoxes.looseFocusOnEscape(editBox)
 	editBox:HookScript("OnEscapePressed", editBox.ClearFocus);
 end
 
+--- Mixin for edit boxes that will handle serialized data.
+--- This mixin takes care of escaping and un-escaping the text that is set and get.
+---@type EditBox|ScriptObject
+EditBoxes.SerializedDataEditBoxMixin = {};
+
+function EditBoxes.SerializedDataEditBoxMixin:GetText()
+	return EditBox.GetText(self):gsub("||", "|");
+end
+
+function EditBoxes.SerializedDataEditBoxMixin:SetText(text)
+	return EditBox.SetText(self, text:gsub("|", "||"));
+end
+
 ---Setup keyboard navigation using the tab key inside a list of EditBoxes.
 ---Pressing tab will jump to the next EditBox in the list, and shift-tab will go back to the previous one.
 ---@vararg EditBox A list of EditBoxes
