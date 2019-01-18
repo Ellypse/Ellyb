@@ -42,10 +42,11 @@ end
 ---@param variableName string The name of the variable being tested, will be visible in the error message
 ---@return boolean, string Returns true if the variable was of the expected type, or false with an error message if it wasn't.
 function Assertions.isType(variable, expectedType, variableName)
-	if isUIObject(variable) and not variable:IsObjectType(expectedType) then
-		throw(([[Invalid Widget type "%s" for variable "%s", expected a "%s".]]):format(variable:GetObjectType(), variableName, expectedType))
-	end
-	if type(variable) ~= expectedType then
+	if isUIObject(variable) then
+		if not variable:IsObjectType(expectedType) then
+			throw(([[Invalid Widget type "%s" for variable "%s", expected a "%s".]]):format(variable:GetObjectType(), variableName, expectedType))
+		end
+	elseif type(variable) ~= expectedType then
 		throw(([[Invalid variable type "%s" for variable "%s", expected "%s".]]):format(type(variable), variableName, expectedType))
 	end
 end
