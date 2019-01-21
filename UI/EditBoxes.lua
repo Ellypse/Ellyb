@@ -49,6 +49,10 @@ end
 ---@type EditBox|ScriptObject
 EditBoxes.SerializedDataEditBoxMixin = {};
 
+---@type EditBox
+local EditBox = CreateFrame("EditBox");
+EditBox:Hide();
+
 function EditBoxes.SerializedDataEditBoxMixin:GetText()
 	return EditBox.GetText(self):gsub("||", "|");
 end
