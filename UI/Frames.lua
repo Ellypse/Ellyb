@@ -5,22 +5,14 @@ if Ellyb.Frames then
 	return
 end
 
--- Lua imports
-local assert = assert;
-
--- Ellyb imports
-local isType = Ellyb.Assertions.isType;
-
--- WoW imports
-local ValidateFramePosition = ValidateFramePosition;
-
 local Frames = {};
+Ellyb.Frames = Frames;
 
 ---Make a frame movable. The frame's position is not saved.
 ---@param frame Frame|ScriptObject
 ---@param validatePositionOnDragStop boolean
 function Frames.makeMovable(frame, validatePositionOnDragStop)
-	assert(isType(frame, "Frame", "frame"));
+	Ellyb.Assertions.isType(frame, "Frame", "frame");
 	frame:RegisterForDrag("LeftButton");
 	frame:EnableMouse(true);
 	frame:SetMovable(true);
@@ -35,18 +27,23 @@ function Frames.makeMovable(frame, validatePositionOnDragStop)
 	end
 end
 
+--{{{ Mousewheel scroll on frame set slider value
+---@type table<Frame, Slider>
+local slidingFrames = {};
+
 ---@param self Frame
 ---@param delta number
 local function setSliderValueOnMouseScroll(self, delta)
-	if not self._slider then
+	local slider = slidingFrames[self];
+	if not slidingFrames[self] then
 		return
 	end
-	if self._slider :IsEnabled() then
-		local mini, maxi = self._slider:GetMinMaxValues();
-		if delta == 1 and self._slider:GetValue() > mini then
-			self._slider:SetValue(self._slider:GetValue() - 1);
-		elseif delta == -1 and self._slider:GetValue() < maxi then
-			self._slider:SetValue(self._slider:GetValue() + 1);
+	if slider:IsEnabled() then
+		local mini, maxi = slider:GetMinMaxValues();
+		if delta == 1 and slider:GetValue() > mini then
+			slider:SetValue(slider:GetValue() - 1);
+		elseif delta == -1 and slider:GetValue() < maxi then
+			slider:SetValue(slider:GetValue() + 1);
 		end
 	end
 end
@@ -55,12 +52,11 @@ end
 ---@param frame Frame @ The frame that will receive the scroll wheel event
 ---@param slider Slider @ The slider that should see its value changed
 function Frames.handleMouseWheelScroll(frame, slider)
-	assert(isType(frame, "Frame", frame));
-	assert(isType(slider, "Slider", slider));
+	Ellyb.Assertions.isType(frame, "Frame", frame);
+	Ellyb.Assertions.isType(slider, "Slider", slider);
 
-	frame._slider = slider;
+	slidingFrames[frame] = slider
 	frame:SetScript("OnMouseWheel", setSliderValueOnMouseScroll);
 	frame:EnableMouseWheel(1);
 end
-
-Ellyb.Frames = Frames;
+--}}}

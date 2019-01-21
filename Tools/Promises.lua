@@ -1,12 +1,9 @@
 ---@type Ellyb
 local Ellyb = Ellyb:GetInstance(...);
 
--- Lua imports
-local pairs = pairs;
-local insert = table.insert;
-
 --- Helpers to handle one or more promises
 local Promises = {};
+Ellyb.Promises = Promises;
 
 Promises.STATUS = {
 	PENDING = 0, -- The promise hasn't been resolved or rejected yet
@@ -16,7 +13,7 @@ Promises.STATUS = {
 
 --- Create a new promise that will gather all promises
 ---@param promises Promise[]
----@return Promise all
+---@return Promise
 function Promises.all(promises)
 	local allPromise = Ellyb.Promise();
 
@@ -30,9 +27,9 @@ function Promises.all(promises)
 		end);
 
 		promise:Success(function(...)
-			insert(promisesResolutionArgs, { ... });
+			table.insert(promisesResolutionArgs, { ... });
 			local allPromisesHaveBeenFulfilled = true;
-			for _, otherPromise in pairs(promises) do
+			for _, otherPromise in ipairs(promises) do
 				if not otherPromise:HasBeenFulfilled() then
 					allPromisesHaveBeenFulfilled = false;
 				end
@@ -47,5 +44,3 @@ function Promises.all(promises)
 
 	return allPromise;
 end
-
-Ellyb.Promises = Promises;

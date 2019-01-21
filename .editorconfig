@@ -1,0 +1,10 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# For the sake of consistency across the entire project we want:
+[*]
+end_of_line = unset
+charset = utf-8
+indent_style = tab

@@ -8,20 +8,9 @@ end
 -- WoW imports
 local tinsert = table.insert;
 local tremove = table.remove;
-local format = string.format;
-local type = type;
-local pairs = pairs;
-local wipe = wipe;
-local next = next;
-local assert = assert;
-local setmetatable = setmetatable;
 
 local Tables = {};
 Ellyb.Tables = Tables;
-
--- Ellyb imports
-local isType = Ellyb.Assertions.isType;
-local isNotNil = Ellyb.Assertions.isNotNil;
 
 ---Make use of WoW's shiny new table inspector window to inspect a table programatically
 ---@param table table @ The table we want to inspect in WoW's table inspector
@@ -32,18 +21,18 @@ end
 
 --- Recursively copy all content from a table to another one.
 --- Argument "destination" must be a non nil table reference.
----@param optional destination table @ The table that will receive the new content
----@param source table @ The table that contains the thing we want to put in the destination
+---@param destination table The table that will receive the new content
+---@param source table The table that contains the thing we want to put in the destination
 ---@overload fun(source:table)
 function Tables.copy(destination, source)
-	assert(isType(destination, "table", "destination"));
+	Ellyb.Assertions.isType(destination, "table", "destination");
 
 	-- If we are only given one table, the that table is the source a new table is the destination
 	if not source then
 		source = destination;
 		destination = {};
 	else
-		assert(isType(source, "table", "source"));
+		Ellyb.Assertions.isType(source, "table", "source");
 	end
 
 	for k, v in pairs(source) do
@@ -61,9 +50,9 @@ end
 --- Return the table size.
 --- Less effective than #table but works for hash table as well (#hashtable don't).
 ---@param table table
----@param number tableSize @ The size of the table
+---@return number The size of the table
 function Tables.size(table)
-	assert(isType(table, "table", "table"));
+	Ellyb.Assertions.isType(table, "table", "table");
 	-- We try to use #table first
 	local tableSize = #table;
 	if tableSize == 0 then
@@ -77,12 +66,12 @@ end
 
 --- Remove an object from table
 --- Object is search with == operator.
----@param table table @ The table in which we should remove the object
----@param object any @ The object that should be removed
----@return boolean hasBeenRemoved @ Return true if the object is found
+---@param table table The table in which we should remove the object
+---@param object any The object that should be removed
+---@return boolean Return true if the object is found
 function Tables.remove(table, object)
-	assert(isType(table, "table", "table"));
-	assert(isNotNil(object, "object"));
+	Ellyb.Assertions.isType(table, "table", "table");
+	Ellyb.Assertions.isNotNil(object, "object");
 
 	for index, value in pairs(table) do
 		if value == object then
@@ -95,9 +84,9 @@ end
 
 ---Returns a new table that contains the keys of the given table
 ---@param table table
----@return table tableKeys @ A new table that contains the keys of the given table
+---@return table A new table that contains the keys of the given table
 function Tables.keys(table)
-	assert(isType(table, "table", "table"));
+	Ellyb.Assertions.isType(table, "table", "table");
 	local keys = {};
 	for key, _ in pairs(table) do
 		tinsert(keys, key);
@@ -109,9 +98,8 @@ end
 ---@param table table @ A table to check
 ---@return boolean isEmpty @ Returns true if the table is empty
 function Tables.isEmpty(table)
-	assert(isType(table, "table", "table"));
-	local isEmpty = not next(table);
-	return isEmpty;
+	Ellyb.Assertions.isType(table, "table", "table");
+	return not next(table);
 end
 
 -- Create a weak tables pool.
@@ -130,9 +118,9 @@ function Tables.getTempTable()
 end
 
 --- Release a temp table.
----@param table table
+---@param table
 function Tables.releaseTempTable(table)
-	assert(isType(table, "table", "table"));
+	Ellyb.Assertions.isType(table, "table", "table");
 	TABLE_POOL[table] = true;
 end
 
@@ -145,7 +133,7 @@ local TABLE_VALUE_TO_STRING = "[%q]=%s,"
 ---@param table table @ A valid table
 ---@return string stringTable @ A string representation of the table in Lua syntax
 function Tables.toString(table)
-	assert(isType(table, "table", "table"));
+	Ellyb.Assertions.isType(table, "table", "table");
 
 	local t = "{";
 	for key, value in pairs(table) do

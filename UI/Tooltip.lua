@@ -1,86 +1,88 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
 
--- Lua imports
-local pairs = pairs;
-local insert = table.insert;
+if Ellyb.Tooltip then
+	return
+end
 
 local GameTooltip = GameTooltip;
 
----@class Tooltip : Object
+---@class Tooltip : MiddleClass_Class
 local Tooltip = Ellyb.Class("TooltipContent");
 Ellyb.Tooltip = Tooltip;
--- Sets a private table used to store private attributes
-local _private = setmetatable({}, { __mode = "k" });
 
-function Tooltip:initialize(parent)
-	_private[self] = {};
-	_private[self].content = {};
-	_private[self].tempContent = {};
-	_private[self].parent = parent;
-	_private[self].onShowCallbacks = {};
+---@type {parent: Frame, title: string, customTitleColor: Ellyb_Color}[]
+local private = Ellyb.getPrivateStorage();
+
+---@param parent Frame
+function Tooltip:new(parent)
+	private[self].content = {};
+	private[self].tempContent = {};
+	private[self].parent = parent;
+	private[self].onShowCallbacks = {};
 end
 
----@param customColor Color
+---@param text string
+---@param customColor Ellyb_Color
 function Tooltip:SetTitle(text, customColor)
-	_private[self].title = text;
-	_private[self].customTitleColor = customColor;
+	private[self].title = text;
+	private[self].customTitleColor = customColor;
 	return self;
 end
 
 function Tooltip:GetTitle()
-	return _private[self].title;
+	return private[self].title;
 end
 
 function Tooltip:SetTitleColor(customColor)
-	_private[self].customTitleColor = customColor;
+	private[self].customTitleColor = customColor;
 	return self;
 end
 
 function Tooltip:GetTitleColor()
-	local r, g, b, a = 1, 1, 1, 1;
-	if _private[self].customTitleColor then
-		r, g, b, a = _private[self].customTitleColor:GetRGBA();
+	if private[self].customTitleColor then
+		return private[self].customTitleColor:GetRGBA();
+	else
+		return 1, 1, 1, 1;
 	end
-	return r, g, b, a;
 end
 
 ---@param anchor string
 function Tooltip:SetAnchor(anchor)
-	_private[self].anchor = anchor;
+	private[self].anchor = anchor;
 	return self;
 end
 
 ---@return string
 function Tooltip:GetAnchor()
-	return "ANCHOR_" .. (_private[self].anchor or "RIGHT");
+	return "ANCHOR_" .. (private[self].anchor or "RIGHT");
 end
 
 ---@param parent Frame
 function Tooltip:SetParent(parent)
-	_private[self].customParent = parent;
+	private[self].customParent = parent;
 	return self;
 end
 
 ---@return Frame
 function Tooltip:GetParent()
-	return _private[self].customParent or _private[self].parent;
+	return private[self].customParent or private[self].parent;
 end
 
 function Tooltip:SetOffset(x, y)
-	_private[self].x = x;
-	_private[self].y = y;
+	private[self].x = x;
+	private[self].y = y;
 	return self;
 end
 
 ---@return number, number
 function Tooltip:GetOffset()
-	return _private[self].x or 0, _private[self].y or 0;
+	return private[self].x or 0, private[self].y or 0;
 end
 
----@param customColor Color
+---@param customColor Ellyb_Color
 function Tooltip:AddLine(text, customColor)
-	insert(_private[self].content, {
+	table.insert(private[self].content, {
 		text = text,
 		customColor = customColor,
 	});
@@ -88,14 +90,14 @@ function Tooltip:AddLine(text, customColor)
 end
 
 function Tooltip:AddEmptyLine()
-	insert(_private[self].content, {
+	table.insert(private[self].content, {
 		text = " ",
 	});
 	return self;
 end
 
 function Tooltip:AddTempLine(text, customColor)
-	insert(_private[self].tempContent, {
+	table.insert(private[self].tempContent, {
 		text = text,
 		customColor = customColor,
 	});
@@ -103,20 +105,20 @@ function Tooltip:AddTempLine(text, customColor)
 end
 
 function Tooltip:GetLines()
-	return _private[self].content;
+	return private[self].content;
 end
 
 function Tooltip:GetTempLines()
-	return _private[self].tempContent;
+	return private[self].tempContent;
 end
 
 function Tooltip:ClearLines()
-	_private[self].content = {};
+	private[self].content = {};
 	return self;
 end
 
 function Tooltip:ClearTempLines()
-	_private[self].tempContent = {};
+	private[self].tempContent = {};
 	return self;
 end
 
@@ -130,7 +132,7 @@ end
 
 ---SetLine
 ---@param text string
----@param customColor Color
+---@param customColor Ellyb_Color
 function Tooltip:SetLine(text, customColor)
 	self:ClearLines();
 	self:AddLine(text, customColor);
@@ -139,23 +141,23 @@ end
 
 ---@param tooltipFrame GameTooltip
 function Tooltip:SetCustomTooltipFrame(tooltipFrame)
-	_private[self].tooltip = tooltipFrame;
+	private[self].tooltip = tooltipFrame;
 	return self;
 end
 
 ---@return GameTooltip
 function Tooltip:GetTooltipFrame()
-	return _private[self].tooltip or GameTooltip;
+	return private[self].tooltip or GameTooltip;
 end
 
 function Tooltip:OnShow(callback)
-	insert(_private[self].onShowCallbacks, callback);
+	table.insert(private[self].onShowCallbacks, callback);
 end
 
 function Tooltip:Show()
 
 	-- Call all the callbacks that have been registered of the OnShow event
-	for _, callback in pairs(_private[self].onShowCallbacks) do
+	for _, callback in pairs(private[self].onShowCallbacks) do
 		-- If one of the callback returns false, it means the tooltip should not be shown, we stop right here
 		if callback(self) == false then
 			return

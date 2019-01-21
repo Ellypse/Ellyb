@@ -1,7 +1,7 @@
 ---@type Ellyb
 local Ellyb = Ellyb(...);
 
--- IDE shortcut to go to module
+-- IDE shortcut to quickly go to related module
 local _ = Ellyb.Assertions;
 
 Ellyb.Documentation:AddDocumentationTable("Ellyb.Assertions", {
@@ -21,11 +21,6 @@ Can also check for Widget type ("Frame", "Button", "Texture")]] },
 				{ Name = "expectedType", Type = "string", Documentation = { "Expected type of the variable" } },
 				{ Name = "variableName", Type = "string", Documentation = { "The name of the variable being tested, will be visible in the error message" } },
 			},
-
-			Returns = {
-				{ Name = "isType", Type = "boolean", Nilable = false, Documentation = { "Returns true if the variable was of the expected type, or false." } },
-				{ Name = "errorMessage", Type = "string", Nilable = true, Documentation = { "Error message if the variable wasn't of the right type." } },
-			},
 		},
 		{
 			Name = "isOfTypes",
@@ -38,11 +33,6 @@ Can also check for Widget types ("Frame", "Button", "Texture")]] },
 				{ Name = "expectedTypes", Type = "table", Documentation = { "A list of expected types for the variable" } },
 				{ Name = "variableName", Type = "string", Documentation = { "The name of the variable being tested, will be visible in the error message" } },
 			},
-
-			Returns = {
-				{ Name = "isType", Type = "boolean", Nilable = false, Documentation = { "Returns true if the variable was of the expected type, or false." } },
-				{ Name = "errorMessage", Type = "string", Nilable = true, Documentation = { "Error message if the variable wasn't of the right type." } },
-			},
 		},
 		{
 			Name = "isNotNil",
@@ -52,11 +42,6 @@ Can also check for Widget types ("Frame", "Button", "Texture")]] },
 			Arguments = {
 				{ Name = "variable", Type = "any", Documentation = { "Any kind of variable, to be tested for its type" } },
 				{ Name = "variableName", Type = "string", Documentation = { "The name of the variable being tested, will be visible in the error message" } },
-			},
-
-			Returns = {
-				{ Name = "isNotNil", Type = "boolean", Nilable = false, Documentation = { "true if the variable was not nil, or false." } },
-				{ Name = "errorMessage", Type = "string", Nilable = true, Documentation = { "Error message if the variable was nil." } },
 			},
 		},
 		{
@@ -69,10 +54,6 @@ Can also check for Widget types ("Frame", "Button", "Texture")]] },
 				{ Name = "variableName", Type = "string", Documentation = { "The name of the variable being tested, will be visible in the error message" } },
 			},
 
-			Returns = {
-				{ Name = "isNotEmpty", Type = "boolean", Nilable = false, Documentation = { "true if the variable was not empty, or false." } },
-				{ Name = "errorMessage", Type = "string", Nilable = true, Documentation = { "Error message if the variable was empty." } },
-			},
 		},
 		{
 			Name = "isInstanceOf",
@@ -81,14 +62,10 @@ Can also check for Widget types ("Frame", "Button", "Texture")]] },
 
 			Arguments = {
 				{ Name = "variable", Type = "any", Documentation = { "Any kind of variable, to be tested for its type" } },
-				{ Name = "class", Type = "string", Documentation = { "The name of the expected class as a string" } },
+				{ Name = "class", Type = "string", Documentation = { "A direct reference to the class definition" } },
 				{ Name = "variableName", Type = "string", Documentation = { "The name of the variable being tested, will be visible in the error message" } },
 			},
 
-			Returns = {
-				{ Name = "isInstance", Type = "boolean", Nilable = false, Documentation = { "true if the variable was an instance of the given class, or false." } },
-				{ Name = "errorMessage", Type = "string", Nilable = true, Documentation = { "Error message if the variable was not an instance of the given class." } },
-			},
 		},
 		{
 			Name = "isOneOf",
@@ -101,10 +78,6 @@ Can also check for Widget types ("Frame", "Button", "Texture")]] },
 				{ Name = "variableName", Type = "string", Documentation = { "The name of the variable being tested, will be visible in the error message" } },
 			},
 
-			Returns = {
-				{ Name = "isValid", Type = "boolean", Nilable = false, Documentation = { "true if the variable was one of the given values, or false." } },
-				{ Name = "errorMessage", Type = "string", Nilable = true, Documentation = { "Error message if the variable was not one of the given values." } },
-			},
 		},
 		{
 			Name = "numberIsBetween",
@@ -118,10 +91,6 @@ Can also check for Widget types ("Frame", "Button", "Texture")]] },
 				{ Name = "variableName", Type = "string", Documentation = { "The name of the variable being tested, will be visible in the error message" } },
 			},
 
-			Returns = {
-				{ Name = "isValid", Type = "boolean", Nilable = false, Documentation = { "true if the variable was a number between the boundaries, or false." } },
-				{ Name = "errorMessage", Type = "string", Nilable = true, Documentation = { "Error message if the variable was not between the boundaries or was not a number." } },
-			},
 		},
 	},
 });

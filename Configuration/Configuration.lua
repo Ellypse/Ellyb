@@ -6,13 +6,9 @@ if Ellyb.Configuration then
 end
 
 -- Lua imports
-local assert = assert;
 local format = format;
 local type = type;
 local pairs = pairs;
-
--- Ellyb imports
-local isType = Ellyb.Assertions.isType;
 
 ---@class Configuration
 local Configuration, _private = Ellyb.Class("Configuration");
@@ -23,7 +19,7 @@ local CONFIGURATION_KEY_ALREADY_EXISTS = [[Configuration key %s has already been
 ---Constructor
 ---@param savedVariablesName string @ The saved variable name, used to access the table from _G
 function Configuration:initialize(savedVariablesName)
-	assert(isType(savedVariablesName, "string", "savedVariablesName"));
+	Ellyb.Assertions.isType(savedVariablesName, "string", "savedVariablesName");
 
 	_private[self] = {};
 	_private[self].savedVariablesName = savedVariablesName;
@@ -41,7 +37,7 @@ end
 ---@param configurationKey string @ A new configuration key
 ---@param defaultValue any @ The default value for this new configuration key
 function Configuration:RegisterConfigKey(configurationKey, defaultValue)
-	assert(isType(configurationKey, "string", "configurationKey"));
+	Ellyb.Assertions.isType(configurationKey, "string", "configurationKey");
 	assert(not self:IsConfigurationKeyRegistered(configurationKey), format(CONFIGURATION_KEY_ALREADY_EXISTS, configurationKey));
 
 	_private[self].defaultValues[configurationKey] = defaultValue;
@@ -55,7 +51,7 @@ end
 ---@param configurationKey string @ A valid configuration key
 ---@return boolean isRegistered @ True if the configuration has already been registered
 function Configuration:IsConfigurationKeyRegistered(configurationKey)
-	assert(isType(configurationKey, "string", "configurationKey"));
+	Ellyb.Assertions.isType(configurationKey, "string", "configurationKey");
 	return _private[self].defaultValues[configurationKey] ~= nil;
 end
 
@@ -69,7 +65,7 @@ end
 ---@param configurationKey string @ A valid configuration key that has previously been registered
 ---@param value any @ The new value for the configuration key
 function Configuration:SetValue(configurationKey, value)
-	assert(isType(configurationKey, "string", "configurationKey"));
+	Ellyb.Assertions.isType(configurationKey, "string", "configurationKey");
 	assert(self:IsConfigurationKeyRegistered(configurationKey), format(UNKNOWN_CONFIGURATION_KEY, configurationKey));
 
 	local savedVariables = _G[_private[self].savedVariablesName];
@@ -82,7 +78,7 @@ end
 --- Reset the value of a configuration key to its default value
 ---@param configurationKey string @ A valid configuration key that has previously been registered
 function Configuration:ResetValue(configurationKey)
-	assert(isType(configurationKey, "string", "configurationKey"));
+	Ellyb.Assertions.isType(configurationKey, "string", "configurationKey");
 	assert(self:IsConfigurationKeyRegistered(configurationKey), format(UNKNOWN_CONFIGURATION_KEY, configurationKey));
 
 	self:SetValue(configurationKey, _private[self].defaultValues[configurationKey]);

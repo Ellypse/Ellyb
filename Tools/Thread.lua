@@ -1,19 +1,26 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
 
----@class Thread : Object
-local Thread, _private = Ellyb.Class("Thread");
-
-function Thread:initialize()
-	_private[self] = {};
+if Ellyb.Thread then
+	return
 end
 
+---@class Thread : MiddleClass_Class
+local Thread = Ellyb.Class("Thread");
+Ellyb.Thread = Thread;
+
+---@type {thread: thread}[]
+local private = Ellyb.getPrivateStorage();
+
+--- Execute the given function inside the thread.
+--- The given function should use `Thread:Yield()` to pause its execution
+---@param func function
 function Thread:Execute(func)
-	_private[self].thread = coroutine.create(func);
+	private[self].thread = coroutine.create(func);
 end
 
 function Thread:GetStatus()
-	return coroutine.status(_private[self].thread);
+	return coroutine.status(private[self].thread);
 end
 
 function Thread:IsRunning()
@@ -28,12 +35,12 @@ function Thread:HasFinished()
 	return self:GetStatus() == "dead";
 end
 
+--- Pause the current thread execution
 function Thread:Yield()
 	coroutine.yield();
 end
 
+--- Resume the thread execution
 function Thread:Resume()
-	coroutine.resume(_private[self].thread);
+	coroutine.resume(private[self].thread);
 end
-
-Ellyb.Thread = Thread;

@@ -19,7 +19,7 @@ local sort = sort;
 local pairs = pairs;
 local format = format;
 
----@type Color
+---@type Ellyb_Color
 local PURPLE = Ellyb.ColorManager.PURPLE;
 
 local GOLDEN_SUPPORTERS = {

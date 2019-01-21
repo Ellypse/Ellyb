@@ -1,5 +1,9 @@
 ---@type Ellyb
-local Ellyb = Ellyb:GetInstance(...);
+local Ellyb = Ellyb(...);
+
+if Ellyb.Tooltips then
+	return
+end
 
 local Tooltips = {};
 Ellyb.Tooltips = Tooltips;
@@ -41,7 +45,7 @@ end
 ---@return Tooltip
 function Tooltips.getTooltip(frame)
 	if not frame.Tooltip then
-		frame.Tooltip = Ellyb.Tooltip(frame);
+		frame.Tooltip = Ellyb.Tooltip:new(frame);
 		frame:HookScript("OnEnter", showFrameTooltip)
 		frame:HookScript("OnLeave", hideFrameTooltip)
 	end
