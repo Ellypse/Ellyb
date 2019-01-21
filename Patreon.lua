@@ -25,17 +25,17 @@ local PURPLE = Ellyb.ColorManager.PURPLE;
 local GOLDEN_SUPPORTERS = {
 	"Connor Macleod",
 	"Andiss Aaren",
+	"Adam M",
 	"Vlad",
 }
 
 local PATREON_SUPPORTERS = {
-	"Adam M",
-	"Valnoressa",
 	"Solanya",
 	"Ripperley",
 	"Keyboardturner",
 	"Petr Cihelka",
 	"Syccor",
+	"Donnie Bellorniere",
 }
 
 sort(GOLDEN_SUPPORTERS);
