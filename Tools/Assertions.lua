@@ -49,6 +49,7 @@ function Assertions.isType(variable, expectedType, variableName)
 	elseif type(variable) ~= expectedType then
 		throw(([[Invalid variable type "%s" for variable "%s", expected "%s".]]):format(type(variable), variableName, expectedType))
 	end
+	return true
 end
 
 ---Check if a variable is of one of the types expected ("number", "boolean", "string")
@@ -64,6 +65,7 @@ function Assertions.isOfTypes(variable, expectedTypes, variableName)
 	if not tContains(expectedTypes, type(variable)) then
 		throw(([[Invalid variable type "%s" for variable "%s", expected one of {%s}.]]):format(type(variable), variableName, list(expectedTypes)))
 	end
+	return true
 end
 
 ---Check if a variable is not nil
@@ -74,6 +76,7 @@ function Assertions.isNotNil(variable, variableName)
 	if variable == nil then
 		throw(([[Unexpected nil variable "%s".]]):format(variableName))
 	end
+	return true
 end
 
 ---Check if a variable is empty
@@ -93,6 +96,7 @@ function Assertions.isNotEmpty(variable, variableName)
 	if type(variable) == "string" and variable == "" then
 		throw(([[Variable "%s" cannot be an empty string.]]):format(variableName))
 	end
+	return true
 end
 
 --- Check if a variable is an instance of a specified class, taking polymorphism into account, so inherited class will pass the test.
@@ -106,6 +110,7 @@ function Assertions.isInstanceOf(variable, class, variableName)
 	if not variable:IsInstanceOf(class) then
 		throw(([[Invalid Class "%s" for variable "%s", expected "%s".]]):format(tostring(variable.class), variableName, tostring(class)))
 	end
+	return true
 end
 
 
@@ -117,6 +122,7 @@ function Assertions.isOneOf(variable, possibleValues, variableName)
 	if not tContains(possibleValues, variable) then
 		throw(([[Unexpected variable value %s for variable "%s", expected to be one of {%s}.]]):format(tostring(variable), variableName, list(possibleValues)))
 	end
+	return true
 end
 
 --- Check if a variable is a number between a maximum and a minimum
@@ -135,6 +141,7 @@ function Assertions.numberIsBetween(variable, minimum, maximum, variableName)
 		throw(([[Invalid variable value "%s" for variable "%s". Expected the value to be between "%s" and "%s"]]):format(variable, variableName, minimum, maximum))
 	end
 
+	return true
 end
 
 Ellyb.Assertions = Assertions;
