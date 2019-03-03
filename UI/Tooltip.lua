@@ -15,7 +15,7 @@ Ellyb.Tooltip = Tooltip;
 local private = Ellyb.getPrivateStorage();
 
 ---@param parent Frame
-function Tooltip:new(parent)
+function Tooltip:initialize(parent)
 	private[self].content = {};
 	private[self].tempContent = {};
 	private[self].parent = parent;

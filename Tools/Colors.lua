@@ -29,7 +29,7 @@ end
 ---@overload fun(hexadecimalColorCode:string):Ellyb_Color
 ---@overload fun(tableColor:table):Ellyb_Color
 ---@overload fun(red:number, green:number, blue:number):Ellyb_Color
-function Color:new(red, green, blue, alpha)
+function Color:initialize(red, green, blue, alpha)
 	_privateInit(self)
 	if type(red) == "table" then
 		local colorTable = red;
@@ -44,6 +44,9 @@ function Color:new(red, green, blue, alpha)
 	if red > 1 or green > 1 or blue > 1 or (alpha and alpha > 1) then
 		red, green, blue, alpha = Ellyb.ColorManager.convertColorBytesToBits(red, green, blue, alpha);
 	end
+
+	-- If the alpha isn't given we should probably be sensible and default it.
+	alpha = alpha or 1;
 
 	self:SetRed(red);
 	self:SetGreen(green);
@@ -297,7 +300,7 @@ end
 ---@param alpha number The alpha value of the Color between 0 and 1
 ---@return Ellyb_Color color
 ---@overload fun(red:number, green:number, blue:number):Ellyb_Color
-function Color.CreateFromRGBA(red, green, blue, alpha)
+function Color.static.CreateFromRGBA(red, green, blue, alpha)
 	-- Manually allocate the class, without calling its constructor and initialize its private properties.
 	---@type Ellyb_Color
 	local color = Color:allocate();
@@ -317,7 +320,7 @@ end
 ---@param alphaIsNotBytes boolean Some usage (like color pickers) might want to set the alpha as opacity between 0 and 1. If set to true, alpha will be considered as a value between 0 and 1
 ---@overload fun(red:number, green:number, blue:number, alpha: number):Ellyb_Color
 ------@overload fun(red:number, green:number, blue:number):Ellyb_Color
-function Color.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotBytes)
+function Color.static.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotBytes)
 	Ellyb.Assertions.numberIsBetween(red, 0, 255, "red");
 	Ellyb.Assertions.numberIsBetween(green, 0, 255, "green");
 	Ellyb.Assertions.numberIsBetween(blue, 0, 255, "blue");
@@ -327,25 +330,26 @@ function Color.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotBytes)
 	local color = Color:allocate();
 	_privateInit(color)
 
-	-- Set the values
-	color:SetRGBA(red / 255, green / 255, blue / 255);
-
 	if alpha then
 		-- Alpha is optional, only test if we were given a value
 		if not alphaIsNotBytes then
 			Ellyb.Assertions.numberIsBetween(alpha, 0, 255, "alpha");
 			alpha = alpha / 255;
 		end
-		color:SetAlpha(alpha);
+	else
+		-- Default the alpha sensibly.
+		alpha = 1
 	end
 
+	-- Set the values
+	color:SetRGBA(red, green, blue, alpha);
 	return color;
 end
 
 --- Create a new Color from an hexadecimal code
 ---@param hexadecimalColorCode string A valid hexadecimal code
 ---@return Ellyb_Color
-function Color.CreateFromHexa(hexadecimalColorCode)
+function Color.static.CreateFromHexa(hexadecimalColorCode)
 	Ellyb.Assertions.isType(hexadecimalColorCode, "string", "hexadecimalColorCode");
 
 	local red, green, blue, alpha = Ellyb.ColorManager.hexaToNumber(hexadecimalColorCode);
