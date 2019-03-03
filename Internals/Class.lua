@@ -13,9 +13,9 @@ end
 --- > `privateStore[myClassInstance].privateProperty = someValue`
 ---@type table
 local privateStorage = setmetatable({},{
-	__index = function(class, instance) -- Remove need to initialize the private table for each instance, we lazy instantiate it
-		class[instance] = {}
-		return class[instance]
+	__index = function(store, instance) -- Remove need to initialize the private table for each instance, we lazy instantiate it
+		store[instance] = {}
+		return store[instance]
 	end,
 	__mode = "k", -- Weak table keys: allow stored instances to be garbage collected
 	__metatable = "You are not allowed to access the metatable of this private storage",
