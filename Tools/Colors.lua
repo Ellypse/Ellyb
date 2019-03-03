@@ -30,6 +30,7 @@ end
 ---@overload fun(tableColor:table):Ellyb_Color
 ---@overload fun(red:number, green:number, blue:number):Ellyb_Color
 function Color:new(red, green, blue, alpha)
+	_privateInit(self)
 	if type(red) == "table" then
 		local colorTable = red;
 		red = colorTable.red or colorTable.r;
