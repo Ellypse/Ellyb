@@ -16,7 +16,7 @@ local private = Ellyb.getPrivateStorage()
 
 Localization.DEFAULT_LOCALE_CODE = DEFAULT_LOCALE_CODE;
 
-function Localization:new(defaultLocaleContent)
+function Localization:initialize(defaultLocaleContent)
 	private[self].locales = {};
 	self:RegisterNewLocale(DEFAULT_LOCALE_CODE, "Default", defaultLocaleContent);
 	private[self].currentLocaleCode = DEFAULT_LOCALE_CODE;

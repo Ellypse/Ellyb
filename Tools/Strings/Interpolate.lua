@@ -27,7 +27,7 @@ local replacementCache = setmetatable({}, {
 local Interpolator = Ellyb.Class("Interpolator");
 Interpolator:include(Ellyb.PooledObjectMixin);
 
-function Interpolator:new()
+function Interpolator:initialize()
 	-- Ensure the replacements and offset are reset on each re-init.
 	self.replacements = nil;
 	self.offset = 1;

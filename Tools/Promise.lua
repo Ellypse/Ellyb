@@ -8,7 +8,7 @@ Promise:include(Ellyb.PooledObjectMixin);
 ---@type {status: number, onSuccessCallbacks: function[], onFailCallbacks: function[], onAlwaysCallbacks: function[], resolutionArgs: any[] }[]
 local private = Ellyb.getPrivateStorage();
 
-function Promise:new()
+function Promise:initialize()
 	private[self].status = Ellyb.Promises.STATUS.PENDING;
 
 	private[self].onSuccessCallbacks = {};

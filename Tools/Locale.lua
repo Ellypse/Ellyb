@@ -12,7 +12,7 @@ local private = Ellyb.getPrivateStorage();
 ---@param code string The code for the locale, must be one of the game's supported locale code
 ---@param name string The name of the locale, as could be displayed to the user
 ---@param content table<string, string> Content of the locale, a table with texts indexed with locale keys
-function Locale:new(code, name, content)
+function Locale:initialize(code, name, content)
 	Ellyb.Assertions.isType(code, "string", "code");
 	Ellyb.Assertions.isType(name, "string", "name");
 
