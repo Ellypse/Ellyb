@@ -13,6 +13,13 @@ Ellyb.Color = Color;
 ---@type {red: number, green: number, blue: number, alpha: number}[]
 local private = Ellyb.getPrivateStorage()
 
+--- Initialize the Color instance's private properties.
+--- Since we have multiple constructor, they will all call this function to initialize the properties.
+---@param instance Color
+local function _privateInit(instance)
+	private[instance].canBeMutated = true;
+end
+
 ---Constructor
 ---@param red number
 ---@param green number
@@ -22,7 +29,8 @@ local private = Ellyb.getPrivateStorage()
 ---@overload fun(hexadecimalColorCode:string):Ellyb_Color
 ---@overload fun(tableColor:table):Ellyb_Color
 ---@overload fun(red:number, green:number, blue:number):Ellyb_Color
-function Color:new(red, green, blue, alpha)
+function Color:initialize(red, green, blue, alpha)
+	_privateInit(self)
 	if type(red) == "table" then
 		local colorTable = red;
 		red = colorTable.red or colorTable.r;
@@ -36,6 +44,9 @@ function Color:new(red, green, blue, alpha)
 	if red > 1 or green > 1 or blue > 1 or (alpha and alpha > 1) then
 		red, green, blue, alpha = Ellyb.ColorManager.convertColorBytesToBits(red, green, blue, alpha);
 	end
+
+	-- If the alpha isn't given we should probably be sensible and default it.
+	alpha = alpha or 1;
 
 	self:SetRed(red);
 	self:SetGreen(green);
@@ -163,7 +174,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param red number A number between 0 and 1 for the red value
 function Color:SetRed(red)
-	if not AddOn_Lib_Middleclass.isProtected(self) then
+	if private[self].canBeMutated then
 		Ellyb.Assertions.numberIsBetween(red, 0, 1, "red")
 		private[self].red = red;
 	end
@@ -173,7 +184,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param green number A number between 0 and 1 for the green value
 function Color:SetGreen(green)
-	if not AddOn_Lib_Middleclass.isProtected(self) then
+	if private[self].canBeMutated then
 		Ellyb.Assertions.numberIsBetween(green, 0, 1, "green");
 		private[self].green = green;
 	end
@@ -183,7 +194,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param blue number A number between 0 and 1 for the blue value
 function Color:SetBlue(blue)
-	if not AddOn_Lib_Middleclass.isProtected(self) then
+	if private[self].canBeMutated then
 		Ellyb.Assertions.numberIsBetween(blue, 0, 1, "blue");
 		private[self].blue = blue;
 	end
@@ -193,7 +204,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param alpha number A number between 0 and 1 for the alpha value
 function Color:SetAlpha(alpha)
-	if not AddOn_Lib_Middleclass.isProtected(self) and alpha then
+	if private[self].canBeMutated then
 		Ellyb.Assertions.numberIsBetween(alpha, 0, 1, "alpha");
 		private[self].alpha = alpha;
 	end
@@ -240,7 +251,7 @@ end
 --- `local white = Color("#FFFFFF"):Freeze();`
 ---@return Ellyb_Color Returns itself, so it can be used during the instantiation
 function Color:Freeze()
-	AddOn_Lib_Middleclass.protected(self)
+	private[self].canBeMutated = false
 	return self;
 end
 
@@ -289,10 +300,11 @@ end
 ---@param alpha number The alpha value of the Color between 0 and 1
 ---@return Ellyb_Color color
 ---@overload fun(red:number, green:number, blue:number):Ellyb_Color
-function Color.CreateFromRGBA(red, green, blue, alpha)
+function Color.static.CreateFromRGBA(red, green, blue, alpha)
 	-- Manually allocate the class, without calling its constructor and initialize its private properties.
 	---@type Ellyb_Color
 	local color = Color:allocate();
+	_privateInit(color)
 
 	-- Set the values
 	color:SetRGBA(red, green, blue, alpha);
@@ -308,7 +320,7 @@ end
 ---@param alphaIsNotBytes boolean Some usage (like color pickers) might want to set the alpha as opacity between 0 and 1. If set to true, alpha will be considered as a value between 0 and 1
 ---@overload fun(red:number, green:number, blue:number, alpha: number):Ellyb_Color
 ------@overload fun(red:number, green:number, blue:number):Ellyb_Color
-function Color.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotBytes)
+function Color.static.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotBytes)
 	Ellyb.Assertions.numberIsBetween(red, 0, 255, "red");
 	Ellyb.Assertions.numberIsBetween(green, 0, 255, "green");
 	Ellyb.Assertions.numberIsBetween(blue, 0, 255, "blue");
@@ -316,9 +328,7 @@ function Color.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotBytes)
 	-- Manually allocate the class, without calling its constructor and initialize its private properties.
 	---@type Ellyb_Color
 	local color = Color:allocate();
-
-	-- Set the values
-	color:SetRGBA(red / 255, green / 255, blue / 255);
+	_privateInit(color)
 
 	if alpha then
 		-- Alpha is optional, only test if we were given a value
@@ -326,16 +336,20 @@ function Color.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotBytes)
 			Ellyb.Assertions.numberIsBetween(alpha, 0, 255, "alpha");
 			alpha = alpha / 255;
 		end
-		color:SetAlpha(alpha);
+	else
+		-- Default the alpha sensibly.
+		alpha = 1
 	end
 
+	-- Set the values
+	color:SetRGBA(red, green, blue, alpha);
 	return color;
 end
 
 --- Create a new Color from an hexadecimal code
 ---@param hexadecimalColorCode string A valid hexadecimal code
 ---@return Ellyb_Color
-function Color.CreateFromHexa(hexadecimalColorCode)
+function Color.static.CreateFromHexa(hexadecimalColorCode)
 	Ellyb.Assertions.isType(hexadecimalColorCode, "string", "hexadecimalColorCode");
 
 	local red, green, blue, alpha = Ellyb.ColorManager.hexaToNumber(hexadecimalColorCode);

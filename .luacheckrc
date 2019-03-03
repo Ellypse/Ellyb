@@ -32,7 +32,6 @@ read_globals = {
 	"GetTimePreciseSec",
     "GetFileIDFromPath",
     "NUM_CHAT_WINDOWS",
-    "AddOn_Lib_Middleclass",
     "APIDocumentation",
 	"CreateFromMixins",
 	"CallbackRegistryBaseMixin",
