@@ -170,7 +170,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param red number A number between 0 and 1 for the red value
 function Color:SetRed(red)
-	if _private[self].canBeMutated then
+	if private[self].canBeMutated then
 		Ellyb.Assertions.numberIsBetween(red, 0, 1, "red")
 		private[self].red = red;
 	end
@@ -180,7 +180,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param green number A number between 0 and 1 for the green value
 function Color:SetGreen(green)
-	if _private[self].canBeMutated then
+	if private[self].canBeMutated then
 		Ellyb.Assertions.numberIsBetween(green, 0, 1, "green");
 		private[self].green = green;
 	end
@@ -190,7 +190,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param blue number A number between 0 and 1 for the blue value
 function Color:SetBlue(blue)
-	if _private[self].canBeMutated then
+	if private[self].canBeMutated then
 		Ellyb.Assertions.numberIsBetween(blue, 0, 1, "blue");
 		private[self].blue = blue;
 	end
@@ -200,7 +200,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param alpha number A number between 0 and 1 for the alpha value
 function Color:SetAlpha(alpha)
-	if _private[self].canBeMutated then
+	if private[self].canBeMutated then
 		Ellyb.Assertions.numberIsBetween(alpha, 0, 1, "alpha");
 		private[self].alpha = alpha;
 	end
