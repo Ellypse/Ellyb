@@ -13,6 +13,13 @@ Ellyb.Color = Color;
 ---@type {red: number, green: number, blue: number, alpha: number}[]
 local private = Ellyb.getPrivateStorage()
 
+--- Initialize the Color instance's private properties.
+--- Since we have multiple constructor, they will all call this function to initialize the properties.
+---@param instance Color
+local function _privateInit(instance)
+	private[instance].canBeMutated = true;
+end
+
 ---Constructor
 ---@param red number
 ---@param green number
@@ -163,7 +170,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param red number A number between 0 and 1 for the red value
 function Color:SetRed(red)
-	if not AddOn_Lib_Middleclass.isProtected(self) then
+	if _private[self].canBeMutated then
 		Ellyb.Assertions.numberIsBetween(red, 0, 1, "red")
 		private[self].red = red;
 	end
@@ -173,7 +180,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param green number A number between 0 and 1 for the green value
 function Color:SetGreen(green)
-	if not AddOn_Lib_Middleclass.isProtected(self) then
+	if _private[self].canBeMutated then
 		Ellyb.Assertions.numberIsBetween(green, 0, 1, "green");
 		private[self].green = green;
 	end
@@ -183,7 +190,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param blue number A number between 0 and 1 for the blue value
 function Color:SetBlue(blue)
-	if not AddOn_Lib_Middleclass.isProtected(self) then
+	if _private[self].canBeMutated then
 		Ellyb.Assertions.numberIsBetween(blue, 0, 1, "blue");
 		private[self].blue = blue;
 	end
@@ -193,7 +200,7 @@ end
 --- If the color was :Freeze() it will silently fail.
 ---@param alpha number A number between 0 and 1 for the alpha value
 function Color:SetAlpha(alpha)
-	if not AddOn_Lib_Middleclass.isProtected(self) and alpha then
+	if _private[self].canBeMutated then
 		Ellyb.Assertions.numberIsBetween(alpha, 0, 1, "alpha");
 		private[self].alpha = alpha;
 	end
@@ -240,7 +247,7 @@ end
 --- `local white = Color("#FFFFFF"):Freeze();`
 ---@return Ellyb_Color Returns itself, so it can be used during the instantiation
 function Color:Freeze()
-	AddOn_Lib_Middleclass.protected(self)
+	private[self].canBeMutated = false
 	return self;
 end
 
@@ -293,6 +300,7 @@ function Color.CreateFromRGBA(red, green, blue, alpha)
 	-- Manually allocate the class, without calling its constructor and initialize its private properties.
 	---@type Ellyb_Color
 	local color = Color:allocate();
+	_privateInit(color)
 
 	-- Set the values
 	color:SetRGBA(red, green, blue, alpha);
@@ -316,6 +324,7 @@ function Color.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotBytes)
 	-- Manually allocate the class, without calling its constructor and initialize its private properties.
 	---@type Ellyb_Color
 	local color = Color:allocate();
+	_privateInit(color)
 
 	-- Set the values
 	color:SetRGBA(red / 255, green / 255, blue / 255);
