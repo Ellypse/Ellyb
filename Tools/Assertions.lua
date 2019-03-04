@@ -24,7 +24,7 @@ end
 
 ---@param variable MiddleClass_Class
 local function isAClass(variable)
-	return type(variable) == "table" and type(variable.IsInstanceOf) == "function"
+	return type(variable) == "table" and type(variable.isInstanceOf) == "function"
 end
 
 ---@param t table
@@ -107,7 +107,7 @@ function Assertions.isInstanceOf(variable, class, variableName)
 	if not isAClass(variable) then
 		throw(([[Invalid type "%s" for variable "%s", expected a "%s".]]):format(type(variable), variableName, tostring(class)))
 	end
-	if not variable:IsInstanceOf(class) then
+	if not variable:isInstanceOf(class) then
 		throw(([[Invalid Class "%s" for variable "%s", expected "%s".]]):format(tostring(variable.class), variableName, tostring(class)))
 	end
 	return true
