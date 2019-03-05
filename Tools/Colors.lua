@@ -342,7 +342,7 @@ function Color.static.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotB
 	end
 
 	-- Set the values
-	color:SetRGBA(red, green, blue, alpha);
+	color:SetRGBA(red / 255, green / 255, blue / 255, alpha);
 	return color;
 end
 
