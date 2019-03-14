@@ -8,7 +8,6 @@ end
 
 -- Lua imports
 local format = string.format;
-local insert = table.insert;
 local date = date;
 local print = print;
 
@@ -44,7 +43,6 @@ end
 function Logger:initialize(moduleName)
 	_private[self] = {};
 	_private[self].moduleName = moduleName;
-	_private[self].logs = {};
 
 	Ellyb.LogsManager:RegisterLogger(self);
 	self:Info("Logger " .. moduleName .. " initialized.");
@@ -62,26 +60,26 @@ function Logger:GetLogHeader(logLevel)
 end
 
 function Logger:Log(level, ...)
+	if not Ellyb:IsDebugModeEnabled() then
+		return;
+	end
+
+	local ChatFrame;
+	for i = 0, NUM_CHAT_WINDOWS do
+		if GetChatWindowInfo(i) == "Logs" then
+			ChatFrame = _G["ChatFrame"..i]
+		end
+	end
+
 	local log = Log(level, ...);
-	insert(_private[self].logs, log);
-
-	if Ellyb:IsDebugModeEnabled() then
-
-		local ChatFrame;
-		for i = 0, NUM_CHAT_WINDOWS do
-			if GetChatWindowInfo(i) == "Logs" then
-				ChatFrame = _G["ChatFrame"..i]
-			end
-		end
-		local logText = log:GetText();
-		local logHeader = self:GetLogHeader(log:GetLevel());
-		local timestamp = format("[%s]", date("%X", log:GetTimestamp()));
-		local message = Ellyb.ColorManager.GREY(timestamp) .. logHeader .. logText;
-		if ChatFrame and log:GetLevel() ~= self.LEVELS.WARNING and log:GetLevel() ~= self.LEVELS.SEVERE then
-			ChatFrame:AddMessage(message)
-		else
-			print(message)
-		end
+	local logText = log:GetText();
+	local logHeader = self:GetLogHeader(log:GetLevel());
+	local timestamp = format("[%s]", date("%X", log:GetTimestamp()));
+	local message = Ellyb.ColorManager.GREY(timestamp) .. logHeader .. logText;
+	if ChatFrame and log:GetLevel() ~= self.LEVELS.WARNING and log:GetLevel() ~= self.LEVELS.SEVERE then
+		ChatFrame:AddMessage(message)
+	else
+		print(message)
 	end
 end
 

@@ -13,15 +13,15 @@ Ellyb.System = System;
 
 ---@return boolean isMac @ Returns true if the client is running on a Mac
 function System:IsMac()
-	return IsMacClient;
+	return IsMacClient();
 end
 
 function System:IsTestBuild()
-	return IsTestBuild;
+	return IsTestBuild();
 end
 
 function System:IsTrialAccount()
-	return IsTrialAccount;
+	return IsTrialAccount();
 end
 
 local SHORTCUT_SEPARATOR = System:IsMac() and "-" or " + ";
