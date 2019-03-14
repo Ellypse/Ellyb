@@ -74,7 +74,6 @@ function EventsDispatcher:TriggerEvent(event, ...)
 	if registry then
 		for handlerID, callback in pairs(registry) do
 			callback(...);
-			Logger:Info(LOG_EVENT_FIRED_CALLBACK_FOR_EVENT:format(handlerID, event), ...);
 		end
 	end
 end
