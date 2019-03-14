@@ -8,7 +8,6 @@ end
 
 -- Lua imports
 local format = string.format;
-local insert = table.insert;
 local date = date;
 local print = print;
 
