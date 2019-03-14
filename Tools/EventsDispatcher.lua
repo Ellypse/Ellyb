@@ -17,8 +17,6 @@ local private = Ellyb.getPrivateStorage();
 
 local LOG_EVENT_REGISTERED = [[Registered new callback for event "%s" with handler ID "%s".]];
 local LOG_EVENT_UNREGISTERED = [[Registered event callback with handler ID "%s" for event "%s".]];
-local LOG_EVENT_FIRED_CALLBACK_FOR_EVENT = [[Fired event callback with handler ID "%s" for event "%s".
-Parameters:]];
 
 function EventsDispatcher:initialize()
 	private[self].callbackRegistry = {};
@@ -72,9 +70,8 @@ function EventsDispatcher:TriggerEvent(event, ...)
 	Ellyb.Assertions.isType(event, "string", "event")
 	local registry = private[self].callbackRegistry[event];
 	if registry then
-		for handlerID, callback in pairs(registry) do
+		for _, callback in pairs(registry) do
 			callback(...);
-			Logger:Info(LOG_EVENT_FIRED_CALLBACK_FOR_EVENT:format(handlerID, event), ...);
 		end
 	end
 end
