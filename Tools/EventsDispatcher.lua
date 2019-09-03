@@ -71,7 +71,7 @@ function EventsDispatcher:TriggerEvent(event, ...)
 	local registry = private[self].callbackRegistry[event];
 	if registry then
 		for _, callback in pairs(registry) do
-			callback(...);
+			xpcall(callback, CallErrorHandler, ...);
 		end
 	end
 end
