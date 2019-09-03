@@ -15,6 +15,8 @@ read_globals = {
 	"bit",
 
 	-- FrameXML misc
+	"WOW_PROJECT_ID",
+	"WOW_PROJECT_CLASSIC",
 	"PowerBarColor",
     "ChatTypeInfo",
     "tInvert",
