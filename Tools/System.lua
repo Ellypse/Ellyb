@@ -24,6 +24,10 @@ function System:IsTrialAccount()
 	return IsTrialAccount();
 end
 
+function System:IsClassic()
+	return WOW_PROJECT_ID == WOW_PROJECT_CLASSIC;
+end
+
 local SHORTCUT_SEPARATOR = System:IsMac() and "-" or " + ";
 
 System.MODIFIERS = {
