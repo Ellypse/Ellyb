@@ -24,6 +24,14 @@ function System:IsTrialAccount()
 	return IsTrialAccount();
 end
 
+function System:IsClassic()
+	return WOW_PROJECT_ID == Ellyb.Enum.GAME_CLIENT_TYPES.CLASSIC;
+end
+
+function System:IsRetail()
+	return WOW_PROJECT_ID == Ellyb.Enum.GAME_CLIENT_TYPES.RETAIL;
+end
+
 local SHORTCUT_SEPARATOR = System:IsMac() and "-" or " + ";
 
 System.MODIFIERS = {
