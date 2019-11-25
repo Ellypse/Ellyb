@@ -5,4 +5,4 @@
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
 
-Ellyb.xml
+Builds/Ellyb.lua

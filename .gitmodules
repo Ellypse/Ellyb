@@ -1,0 +1,3 @@
+[submodule "Scripts/lua-amalg"]
+	path = Scripts/lua-amalg
+	url = https://github.com/Ellypse/lua-amalg
