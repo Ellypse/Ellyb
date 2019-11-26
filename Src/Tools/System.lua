@@ -4,27 +4,27 @@ local loc = require "Ellyb.Localization"
 local System = {}
 
 ---@return boolean isMac @ Returns true if the client is running on a Mac
-function System:IsMac()
+function System.isMac()
 	return IsMacClient()
 end
 
-function System:IsTestBuild()
+function System.isTestBuild()
 	return IsTestBuild()
 end
 
-function System:IsTrialAccount()
+function System.isTrialAccount()
 	return IsTrialAccount()
 end
 
-function System:IsClassic()
+function System.isClassic()
 	return WOW_PROJECT_ID == GameClients.CLASSIC
 end
 
-function System:IsRetail()
+function System.isRetail()
 	return WOW_PROJECT_ID == GameClients.RETAIL
 end
 
-local SHORTCUT_SEPARATOR = System:IsMac() and "-" or " + "
+local SHORTCUT_SEPARATOR = System.isMac() and "-" or " + "
 
 System.MODIFIERS = {
 	CTRL = loc.MODIFIERS_CTRL,
@@ -41,7 +41,7 @@ local MAC_SHORT_EQUIVALENCE = {
 --- Format a keyboard shortcut with the appropriate separators according to the user operating system
 ---@vararg string
 ---@return string
-function System:FormatKeyboardShortcut(...)
+function System.formatKeyboardShortcut(...)
 	local shortcutComponents = { ... }
 
 	return table.concat(shortcutComponents, SHORTCUT_SEPARATOR)
@@ -51,7 +51,7 @@ end
 --- Will also convert Ctrl into Command and Alt into Option for Mac users.
 ---@vararg string
 ---@return string
-function System:FormatSystemKeyboardShortcut(...)
+function System.formatSystemKeyboardShortcut(...)
 	local shortcutComponents = { ... }
 
 	if IsMacClient() then
@@ -67,8 +67,8 @@ function System:FormatSystemKeyboardShortcut(...)
 end
 
 System.SHORTCUTS = {
-	COPY = System:FormatSystemKeyboardShortcut(System.MODIFIERS.CTRL, "C"),
-	PASTE = System:FormatSystemKeyboardShortcut(System.MODIFIERS.CTRL, "V"),
+	COPY = System.formatSystemKeyboardShortcut(System.MODIFIERS.CTRL, "C"),
+	PASTE = System.formatSystemKeyboardShortcut(System.MODIFIERS.CTRL, "V"),
 }
 
 System.CLICKS = {

@@ -1,17 +1,15 @@
 local Class = require "Libraries.middleclass"
 local Frame = require "UI.Widgets.Frame"
-local Colors = require "Enums.Colors"
+local CloseButton = require "UI.Buttons.CloseButton"
 
----@class Ellyb_Popup: Ellyb_Frame
+---@class Ellyb_Popup: Frame
 local Popup = Class("Popup", Frame)
 
 function Popup:initialize()
-
-	self.color = Colors.BLACK
-
+	self:Hide()
 	self:SetParent(UIParent)
-	self:SetPoint("CENTER", 0, UIParent:GetHeight() / 4)
-	self:SetSize(360, 160)
+	self:SetPoint("CENTER", UIParent, "CENTER")
+	self:SetSize(360, 80)
 	self:SetBackdrop({
 		bgFile = "Interface/DialogFrame/UI-DialogBox-Background",
 		edgeFile = "Interface/DialogFrame/UI-DialogBox-Border",
@@ -21,6 +19,20 @@ function Popup:initialize()
 		edgeSize = 32,
 		insets = { left = 11, right = 12, top = 12, bottom = 11 }
 	})
+
+
+	self.text = self:CreateFontString(nil, nil, "GameFontHighlight")
+	self.text:SetPoint("TOP", self, "TOP", 0, -40)
+	self.text:SetPoint("LEFT", self, "LEFT", 35, 0)
+	self.text:SetPoint("RIGHT", self, "RIGHT", -35, 0)
+	self.text:SetText("Sample text")
+
+	local closeButton = CloseButton(self)
+	closeButton:SetPoint("TOPRIGHT", self, "TOPRIGHT", -3, -3)
+end
+
+function Popup:SetText(text)
+	self.text:SetText(text)
 end
 
 return Popup
