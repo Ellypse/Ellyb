@@ -1,7 +1,7 @@
 local Class = require "Libraries.middleclass"
 local private = require "Internals.PrivateStorage"
 
----@class Thread : MiddleClass_Class
+---@class Ellyb_Thread : MiddleClass_Class
 local Thread = Class("Thread")
 
 --- Execute the given function inside the thread.

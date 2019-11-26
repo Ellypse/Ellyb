@@ -1,7 +1,7 @@
 local Class = require "Libraries.middleclass"
 local Texture = require "Tools.Textures.Texture"
 
----@class Icon : Ellyb_Texture
+---@class Ellyb_Icon : Ellyb_Texture
 local Icon = Class("Icon", Texture)
 
 local ICONS_FILE_PATH = [[Interface\ICONS\]]

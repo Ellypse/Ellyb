@@ -2,16 +2,16 @@ local Class = require "Libraries.middleclass"
 local private = require "Internals.PrivateStorage"
 local Easings = require "Libraries.easings"
 
----@class Animator : Object
+---@class Ellyb_Animator : MiddleClass
 local Animator = Class("Animator")
 
----@type Animator[]
-local transitionators = {}
+---@type Ellyb_Animator[]
+local animators = {}
 
 local AnimatorsFrame = CreateFrame("FRAME")
 
 AnimatorsFrame:SetScript("OnUpdate", function()
-	for _, transitionator in pairs(transitionators) do
+	for _, transitionator in pairs(animators) do
 		if transitionator:ShouldBeUpdated() then
 			transitionator:Tick()
 		end
@@ -24,7 +24,7 @@ function Animator:initialize()
 	private[self].value = 0
 	private[self].shouldBeUpdated = false
 
-	table.insert(transitionators, self)
+	table.insert(animators, self)
 end
 
 function Animator:ShouldBeUpdated()

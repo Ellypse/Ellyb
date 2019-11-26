@@ -3,7 +3,7 @@ local Thread = require "Tools.Threads.Thread"
 local Threads = {}
 
 local DEFAULT_TICKER = 0.025
----@type Thread[]
+---@type Ellyb_Thread[]
 local threads = {}
 local ThreadsFrame = CreateFrame("FRAME")
 

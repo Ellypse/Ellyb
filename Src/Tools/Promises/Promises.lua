@@ -4,8 +4,8 @@ local Promise = require "Tools.Promises.Promise"
 local Promises = {}
 
 --- Create a new promise that will gather all promises
----@vararg Promise
----@return Promise
+---@vararg Ellyb_Promise
+---@return Ellyb_Promise
 function Promises.all(...)
 	local promises = { ... }
 	local allPromise = Promise()

@@ -25,7 +25,7 @@ local function pooledAllocator(class)
 	return instance
 end
 
---- @class PooledObjectMixin
+--- @class Ellyb_PooledObjectMixin
 --- Mixin that, when applied to a class, allows it to allocate instances from a reusable pool.
 --- Instances can be returned to the pool via an attached method.
 ---

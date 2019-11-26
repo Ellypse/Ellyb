@@ -3,7 +3,7 @@ local private = require "Internals.PrivateStorage"
 local PooledObjectMixin = require "Internals.PooledObjectMixin"
 local PromisesStatus = require "Tools.Promises.PromisesStatus"
 
----@class Promise : MiddleClass_Class
+---@class Ellyb_Promise : MiddleClass_Class
 local Promise= Class("Promise")
 Promise:include(PooledObjectMixin)
 
