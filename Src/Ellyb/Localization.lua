@@ -19,9 +19,10 @@ local loc  = {
 	DOUBLE_CLICK = "Double-Click",
 
 	-- Popups
-	COPY_URL_POPUP_TEXT = [[
-You can copy this link by using the %s keyboard shortcut and then paste the link inside your browser using the %s shortcut.
+	COPY_POPUP_TEXT = [[
+You can copy this text by using the %s keyboard shortcut.
 ]],
+	TEXT_COPIED = "Text copied"
 }
 
 loc = Localization(loc)
@@ -43,9 +44,10 @@ loc:RegisterNewLocale(Locales.FRENCH, "Français", {
 	DOUBLE_CLICK = "Double clic",
 
 	-- Popups
-	COPY_URL_POPUP_TEXT = [[
-Vous pouvez copier ce lien en utilisant le raccourci clavier %s pour ensuite le coller dans votre navigateur web avec le raccourci clavier %s.
+	COPY_POPUP_TEXT = [[
+Vous pouvez copier ce lien en utilisant le raccourci clavier %s.
 ]],
+	TEXT_COPIED = "Texte copié"
 })
 
 loc:SetCurrentLocale(GetLocale(), true)

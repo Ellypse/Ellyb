@@ -54,6 +54,7 @@ function ColorManager.createFromHexa(hexadecimalColorCode)
 	return ColorManager.createFromRGBA(red, green, blue, alpha)
 end
 
+---@return Ellyb_Color
 function ColorManager.createFromTable(table)
 	Assertions.isType(table, "table", "table")
 
