@@ -1,30 +1,30 @@
 local GameClients = require "Enums.GameClientTypes"
 local loc = require "Ellyb.Localization"
 
-local System = {};
+local System = {}
 
 ---@return boolean isMac @ Returns true if the client is running on a Mac
 function System:IsMac()
-	return IsMacClient();
+	return IsMacClient()
 end
 
 function System:IsTestBuild()
-	return IsTestBuild();
+	return IsTestBuild()
 end
 
 function System:IsTrialAccount()
-	return IsTrialAccount();
+	return IsTrialAccount()
 end
 
 function System:IsClassic()
-	return WOW_PROJECT_ID == GameClients.CLASSIC;
+	return WOW_PROJECT_ID == GameClients.CLASSIC
 end
 
 function System:IsRetail()
-	return WOW_PROJECT_ID == GameClients.RETAIL;
+	return WOW_PROJECT_ID == GameClients.RETAIL
 end
 
-local SHORTCUT_SEPARATOR = System:IsMac() and "-" or " + ";
+local SHORTCUT_SEPARATOR = System:IsMac() and "-" or " + "
 
 System.MODIFIERS = {
 	CTRL = loc.MODIFIERS_CTRL,
@@ -42,9 +42,9 @@ local MAC_SHORT_EQUIVALENCE = {
 ---@vararg string
 ---@return string
 function System:FormatKeyboardShortcut(...)
-	local shortcutComponents = { ... };
+	local shortcutComponents = { ... }
 
-	return table.concat(shortcutComponents, SHORTCUT_SEPARATOR);
+	return table.concat(shortcutComponents, SHORTCUT_SEPARATOR)
 end
 
 --- Format a keyboard shortcut with the appropriate separators according to the user operating system
@@ -52,24 +52,24 @@ end
 ---@vararg string
 ---@return string
 function System:FormatSystemKeyboardShortcut(...)
-	local shortcutComponents = { ... };
+	local shortcutComponents = { ... }
 
 	if IsMacClient() then
 		-- Replace shortcut components
 		for index, component in pairs(shortcutComponents) do
 			if MAC_SHORT_EQUIVALENCE[component] then
-				shortcutComponents[index] = MAC_SHORT_EQUIVALENCE[component];
+				shortcutComponents[index] = MAC_SHORT_EQUIVALENCE[component]
 			end
 		end
 	end
 
-	return table.concat(shortcutComponents, SHORTCUT_SEPARATOR);
+	return table.concat(shortcutComponents, SHORTCUT_SEPARATOR)
 end
 
 System.SHORTCUTS = {
 	COPY = System:FormatSystemKeyboardShortcut(System.MODIFIERS.CTRL, "C"),
 	PASTE = System:FormatSystemKeyboardShortcut(System.MODIFIERS.CTRL, "V"),
-};
+}
 
 System.CLICKS = {
 	CLICK = loc.CLICK ,
@@ -77,6 +77,6 @@ System.CLICKS = {
 	LEFT_CLICK = loc.LEFT_CLICK,
 	MIDDLE_CLICK = loc.MIDDLE_CLICK,
 	DOUBLE_CLICK = loc.DOUBLE_CLICK,
-};
+}
 
 return System

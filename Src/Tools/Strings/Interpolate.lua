@@ -19,7 +19,7 @@ local replacementCache = setmetatable({}, {
 ---
 --- This class should be treated as an implementation detail and not exported.
 local Interpolator = Class("Interpolator")
-Interpolator:include(PooledObjectMixin);
+Interpolator:include(PooledObjectMixin)
 
 function Interpolator:initialize()
 	-- Ensure the replacements and offset are reset on each re-init.

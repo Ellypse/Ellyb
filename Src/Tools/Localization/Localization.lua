@@ -3,35 +3,35 @@ local private = require "Internals.PrivateStorage"
 local Assertions = require "Tools.Assertions"
 local Locale = require "Tools.Localization.Locale"
 
-local DEFAULT_LOCALE_CODE = "default";
+local DEFAULT_LOCALE_CODE = "default"
 
 ---@class Ellyb_Localization
 --- My own take on a localization system.
 --- The main goal here was to achieve easy localization key completion in the code editor (loc.KEY)
-local Localization = Class("Localization");
+local Localization = Class("Localization")
 
-Localization.DEFAULT_LOCALE_CODE = DEFAULT_LOCALE_CODE;
+Localization.DEFAULT_LOCALE_CODE = DEFAULT_LOCALE_CODE
 
 function Localization:initialize(defaultLocaleContent)
-	private[self].locales = {};
-	self:RegisterNewLocale(DEFAULT_LOCALE_CODE, "Default", defaultLocaleContent);
-	private[self].currentLocaleCode = DEFAULT_LOCALE_CODE;
+	private[self].locales = {}
+	self:RegisterNewLocale(DEFAULT_LOCALE_CODE, "Default", defaultLocaleContent)
+	private[self].currentLocaleCode = DEFAULT_LOCALE_CODE
 end
 
 -- Flavour syntax: we can get the value for a key in the current locale using Localization.LOCALIZATION_KEY
 function Localization:__index(localeKey)
-	return self:GetText(localeKey);
+	return self:GetText(localeKey)
 end
 
 -- Flavour syntax: we can add a value to the default locale using Localization.LOCALIZATION_KEY = "value"
 function Localization:__newindex(key, value)
 	if value then
-		self:AddTextToDefaultLocale(key, value);
+		self:AddTextToDefaultLocale(key, value)
 	end
 end
 
 function Localization:AddTextToDefaultLocale(key, value)
-	self:GetLocale(DEFAULT_LOCALE_CODE):AddText(key, value);
+	self:GetLocale(DEFAULT_LOCALE_CODE):AddText(key, value)
 end
 
 --- We can also "call" the table itself with either the key as a string (.ie Localization("GEN_VERSION")
@@ -41,14 +41,14 @@ end
 ---
 --- We can even add more arguments to automatically apply a format (ie. Localization(Localization.GEN_VERSION, genVersion, genNumber))
 function Localization:__call(localeKey, ...)
-	local localeText = self:GetText(localeKey);
+	local localeText = self:GetText(localeKey)
 
 	-- If we were given more arguments, we want to format the value
 	if #{ ... } > 0 then
-		localeText = localeText:format(...);
+		localeText = localeText:format(...)
 	end
 
-	return localeText;
+	return localeText
 end
 
 ---Register a new locale into the localization system
@@ -60,12 +60,12 @@ end
 function Localization:RegisterNewLocale(code, name, content)
 	Assertions.isType(code, "string", "code")
 	Assertions.isType(name, "string", "name")
-	assert(not private[self].locales[code], ("A localization for %s has already been registered."):format(code));
+	assert(not private[self].locales[code], ("A localization for %s has already been registered."):format(code))
 
-	local locale = Locale(code, name, content);
-	private[self].locales[code] = locale;
+	local locale = Locale(code, name, content)
+	private[self].locales[code] = locale
 
-	return private[self].locales[code];
+	return private[self].locales[code]
 end
 
 ---getLocale
@@ -73,61 +73,61 @@ end
 ---@return Ellyb_Locale locale
 function Localization:GetLocale(code)
 	Assertions.isType(code, "string", "code")
-	assert(private[self].locales[code], ("Unknown locale %s."):format(code));
+	assert(private[self].locales[code], ("Unknown locale %s."):format(code))
 
-	return private[self].locales[code];
+	return private[self].locales[code]
 end
 
 ---@param withoutDefaultLocale boolean Do not include the default localization in the result
 ---@return Ellyb_Locale[] The list of currently registered locales
 function Localization:GetLocales(withoutDefaultLocale)
-	local locales = {};
+	local locales = {}
 
 	for localeCode, locale in pairs(private[self].locales) do
 		if not (withoutDefaultLocale and  localeCode == DEFAULT_LOCALE_CODE) then
-			locales[localeCode] = locale;
+			locales[localeCode] = locale
 		end
 	end
 
-	return locales;
+	return locales
 end
 
 ---@return Ellyb_Locale
 function Localization:GetActiveLocale()
-	return self:GetLocale(private[self].currentLocaleCode);
+	return self:GetLocale(private[self].currentLocaleCode)
 end
 
 ---@param code string
 ---@param fallbackToDefault boolean If the specified locale doesn't exist, silently fail and fallback to default locale
 function Localization:SetCurrentLocale(code, fallbackToDefault)
-	Assertions.isType(code, "string", "code");
+	Assertions.isType(code, "string", "code")
 	if not fallbackToDefault then
-		assert(private[self].locales[code], format("Unknown locale %s.", code));
+		assert(private[self].locales[code], format("Unknown locale %s.", code))
 	end
 
 	if private[self].locales[code] then
-		private[self].currentLocaleCode = code;
+		private[self].currentLocaleCode = code
 	else
-		self:SetCurrentLocale(self:GetDefaultLocale():GetCode(), false);
+		self:SetCurrentLocale(self:GetDefaultLocale():GetCode(), false)
 	end
 end
 
 ---@return Ellyb_Locale
 function Localization:GetDefaultLocale()
-	return self:GetLocale(DEFAULT_LOCALE_CODE);
+	return self:GetLocale(DEFAULT_LOCALE_CODE)
 end
 
 ---@return string
 function Localization:GetDefaultLocaleCode()
-	return DEFAULT_LOCALE_CODE;
+	return DEFAULT_LOCALE_CODE
 end
 
 --- Check if the locale has a value for a localization key
 ---@param localizationKey string
 ---@return boolean
 function Localization:KeyExists(localizationKey)
-	Assertions.isType(localizationKey, "string", "localizationKey");
-	return self:GetDefaultLocale():GetText(localizationKey) ~= nil;
+	Assertions.isType(localizationKey, "string", "localizationKey")
+	return self:GetDefaultLocale():GetText(localizationKey) ~= nil
 end
 
 --- Get the value of a localization key.
@@ -138,7 +138,7 @@ function Localization:GetText(localizationKey)
 	return self:GetActiveLocale():GetText(localizationKey) or -- Look in the currently active locale
 		(self:GetLocale(DEFAULT_LOCALE_CODE) and self:GetLocale(DEFAULT_LOCALE_CODE):GetText(localizationKey)) or -- Look in the English locale from Curse
 		self:GetDefaultLocale():GetText(localizationKey) or -- Look in the default locale
-		localizationKey; -- As a last resort, to avoid nil strings, return the key itself
+		localizationKey -- As a last resort, to avoid nil strings, return the key itself
 end
 
 return Localization

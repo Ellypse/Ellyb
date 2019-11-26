@@ -1,4 +1,4 @@
-local Functions = {};
+local Functions = {}
 
 --- Binds a given function to a value, returning a closure will call the
 --- original function with the given value as the first argument, and
@@ -10,7 +10,7 @@ local Functions = {};
 --- @param fn function The function to wrap.
 --- @param value any The value to be supplied to fn as the first argument.
 function Functions.bind(fn, value)
-	return function(...) return fn(value, ...); end
+	return function(...) return fn(value, ...) end
 end
 
 return Functions

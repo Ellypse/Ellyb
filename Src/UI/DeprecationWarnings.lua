@@ -3,11 +3,11 @@ local Colors = require "Enums.Colors"
 local Logger = require "Logs.Logger"
 
 -- Ellyb imports
-local ORANGE, GREEN, GREY = Colors.ORANGE, Colors.GREEN, Colors.GREY;
+local ORANGE, GREEN, GREY = Colors.ORANGE, Colors.GREEN, Colors.GREY
 
 local DeprecationWarnings = {}
 
-local logger = Logger("Deprecation warnings");
+local logger = Logger("Deprecation warnings")
 
 --- Wraps an old API table so it throws deprecation warning when accessed.
 --- It will indicate the name of the new API and map the method calls to the new API.
@@ -26,14 +26,14 @@ function DeprecationWarnings.wrapAPI(newAPITable, oldAPIName, newAPIName, oldAPI
 		__index = function(_, key)
 			logger:Warning(([[DEPRECATED USAGE OF API %s.
 Please use %s instead.
-Stack: %s]]):format(ORANGE(oldAPIName), GREEN(newAPIName), GREY(debugstack(2, 3, 0))));
-			return newAPITable[key];
+Stack: %s]]):format(ORANGE(oldAPIName), GREEN(newAPIName), GREY(debugstack(2, 3, 0))))
+			return newAPITable[key]
 		end,
 		__newindex = function(_, key, value)
 			logger:Warning(([[DEPRECATED USAGE OF API %s.
 Please use %s instead.
-Stack: %s]]):format(ORANGE(oldAPIName), GREEN(newAPIName), GREY(debugstack(2, 3, 0))));
-			newAPITable[key] = value;
+Stack: %s]]):format(ORANGE(oldAPIName), GREEN(newAPIName), GREY(debugstack(2, 3, 0))))
+			newAPITable[key] = value
 		end
 	})
 end
@@ -52,8 +52,8 @@ function DeprecationWarnings.wrapFunction(newFunction, oldFunctionName, newFunct
 	return function(...)
 		logger:Warning(([[DEPRECATED USAGE OF FUNCTION %s.
 Please use %s instead.
-Stack: %s]]):format(ORANGE(oldFunctionName), GREEN(newFunctionName), GREY(debugstack(2, 3, 0))));
-		return newFunction(...);
+Stack: %s]]):format(ORANGE(oldFunctionName), GREEN(newFunctionName), GREY(debugstack(2, 3, 0))))
+		return newFunction(...)
 	end
 end
 
@@ -62,7 +62,7 @@ function DeprecationWarnings.warn(customWarning)
 	Assertions.isType(customWarning, "string", "customWarning")
 
 	logger:Warning(([[%s
-Stack: %s]]):format(customWarning, debugstack(2, 3, 0)));
+Stack: %s]]):format(customWarning, debugstack(2, 3, 0)))
 end
 
 return DeprecationWarnings

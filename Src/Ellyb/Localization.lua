@@ -22,18 +22,11 @@ local loc  = {
 	COPY_URL_POPUP_TEXT = [[
 You can copy this link by using the %s keyboard shortcut and then paste the link inside your browser using the %s shortcut.
 ]],
+}
 
-	-- Patreon supporters
-	---@language HTML
-	PATREON_SUPPORTERS = [[This is add-on is being maintained and updated thanks to the help of <a href="ellypse_patreon">|cfff96854Ellype's Patreon supporters|r</a>:
+loc = Localization(loc)
 
-%s
-]],
-};
-
-loc = Localization(loc);
-
-loc:RegisterNewLocale(Locales.ENGLISH, "English", {});
+loc:RegisterNewLocale(Locales.ENGLISH, "English", {})
 
 loc:RegisterNewLocale(Locales.FRENCH, "Français", {
 	-- System
@@ -53,15 +46,8 @@ loc:RegisterNewLocale(Locales.FRENCH, "Français", {
 	COPY_URL_POPUP_TEXT = [[
 Vous pouvez copier ce lien en utilisant le raccourci clavier %s pour ensuite le coller dans votre navigateur web avec le raccourci clavier %s.
 ]],
-
-	-- Patreon supporters
-	---@language HTML
-	PATREON_SUPPORTERS = [[Cet add-on est maintenu et mis-à-jour grâce au soutien des <a href="ellypse_patreon">|cfff96854supporters du Patreon de Ellypse|r</a>:
-
-%s
-]],
 })
 
-loc:SetCurrentLocale(GetLocale(), true);
+loc:SetCurrentLocale(GetLocale(), true)
 
 return loc

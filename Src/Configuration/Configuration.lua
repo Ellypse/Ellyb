@@ -5,23 +5,23 @@ local Assertions = require "Tools.Assertions"
 ---@class Ellyb_Configuration
 local Configuration = Class("Configuration")
 
-local UNKNOWN_CONFIGURATION_KEY = [[Unknown configuration key %s.]];
-local CONFIGURATION_KEY_ALREADY_EXISTS = [[Configuration key %s has already been registered.]];
+local UNKNOWN_CONFIGURATION_KEY = [[Unknown configuration key %s.]]
+local CONFIGURATION_KEY_ALREADY_EXISTS = [[Configuration key %s has already been registered.]]
 
 ---Constructor
 ---@param savedVariablesName string @ The saved variable name, used to access the table from _G
 function Configuration:initialize(savedVariablesName)
-	Assertions.isType(savedVariablesName, "string", "savedVariablesName");
+	Assertions.isType(savedVariablesName, "string", "savedVariablesName")
 
-	private[self] = {};
-	private[self].savedVariablesName = savedVariablesName;
-	private[self].configCallbackRegistry = CreateFromMixins(CallbackRegistryBaseMixin);
-	private[self].configCallbackRegistry:OnLoad();
-	private[self].defaultValues = {};
+	private[self] = {}
+	private[self].savedVariablesName = savedVariablesName
+	private[self].configCallbackRegistry = CreateFromMixins(CallbackRegistryBaseMixin)
+	private[self].configCallbackRegistry:OnLoad()
+	private[self].defaultValues = {}
 
 	-- Initialize the saved variables global table if it has never been initialized before
 	if not _G[savedVariablesName] then
-		_G[savedVariablesName] = {};
+		_G[savedVariablesName] = {}
 	end
 end
 
@@ -43,13 +43,13 @@ end
 ---@param configurationKey string @ A new configuration key
 ---@param defaultValue any @ The default value for this new configuration key
 function Configuration:RegisterConfigKey(configurationKey, defaultValue)
-	Assertions.isType(configurationKey, "string", "configurationKey");
-	assert(not self:IsConfigurationKeyRegistered(configurationKey), format(CONFIGURATION_KEY_ALREADY_EXISTS, configurationKey));
+	Assertions.isType(configurationKey, "string", "configurationKey")
+	assert(not self:IsConfigurationKeyRegistered(configurationKey), format(CONFIGURATION_KEY_ALREADY_EXISTS, configurationKey))
 
-	private[self].defaultValues[configurationKey] = defaultValue;
+	private[self].defaultValues[configurationKey] = defaultValue
 
 	if self:GetValue(configurationKey) == nil then
-		self:SetValue(configurationKey, defaultValue);
+		self:SetValue(configurationKey, defaultValue)
 	end
 end
 
@@ -57,37 +57,37 @@ end
 ---@param configurationKey string @ A valid configuration key
 ---@return boolean isRegistered @ True if the configuration has already been registered
 function Configuration:IsConfigurationKeyRegistered(configurationKey)
-	Assertions.isType(configurationKey, "string", "configurationKey");
-	return private[self].defaultValues[configurationKey] ~= nil;
+	Assertions.isType(configurationKey, "string", "configurationKey")
+	return private[self].defaultValues[configurationKey] ~= nil
 end
 
 --- Get the value of a configuration key
 ---@param configurationKey string @ A valid configuration key, previously registered
 function Configuration:GetValue(configurationKey)
-	return _G[private[self].savedVariablesName][configurationKey];
+	return _G[private[self].savedVariablesName][configurationKey]
 end
 
 --- Set the value of a configuration key
 ---@param configurationKey string @ A valid configuration key that has previously been registered
 ---@param value any @ The new value for the configuration key
 function Configuration:SetValue(configurationKey, value)
-	Assertions.isType(configurationKey, "string", "configurationKey");
-	assert(self:IsConfigurationKeyRegistered(configurationKey), format(UNKNOWN_CONFIGURATION_KEY, configurationKey));
+	Assertions.isType(configurationKey, "string", "configurationKey")
+	assert(self:IsConfigurationKeyRegistered(configurationKey), format(UNKNOWN_CONFIGURATION_KEY, configurationKey))
 
-	local savedVariables = _G[private[self].savedVariablesName];
+	local savedVariables = _G[private[self].savedVariablesName]
 	if savedVariables[configurationKey] ~= value then
-		savedVariables[configurationKey] = value;
-		private[self].configCallbackRegistry:TriggerEvent(configurationKey, value);
+		savedVariables[configurationKey] = value
+		private[self].configCallbackRegistry:TriggerEvent(configurationKey, value)
 	end
 end
 
 --- Reset the value of a configuration key to its default value
 ---@param configurationKey string @ A valid configuration key that has previously been registered
 function Configuration:ResetValue(configurationKey)
-	Assertions.isType(configurationKey, "string", "configurationKey");
-	assert(self:IsConfigurationKeyRegistered(configurationKey), format(UNKNOWN_CONFIGURATION_KEY, configurationKey));
+	Assertions.isType(configurationKey, "string", "configurationKey")
+	assert(self:IsConfigurationKeyRegistered(configurationKey), format(UNKNOWN_CONFIGURATION_KEY, configurationKey))
 
-	self:SetValue(configurationKey, private[self].defaultValues[configurationKey]);
+	self:SetValue(configurationKey, private[self].defaultValues[configurationKey])
 end
 
 ---OnChange
@@ -96,10 +96,10 @@ end
 function Configuration:OnChange(key, callback)
 	if type(key) == "table" then
 		for _, k in pairs(key) do
-			self:OnChange(k, callback);
+			self:OnChange(k, callback)
 		end
 	else
-		private[self].configCallbackRegistry:RegisterCallback(key, callback);
+		private[self].configCallbackRegistry:RegisterCallback(key, callback)
 	end
 end
 
