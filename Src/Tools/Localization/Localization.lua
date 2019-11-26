@@ -1,7 +1,7 @@
 local Class = require "Libraries.middleclass"
 local private = require "Internals.PrivateStorage"
 local Assertions = require "Tools.Assertions"
-local Locale = require "Tools.Locale"
+local Locale = require "Tools.Localization.Locale"
 
 local DEFAULT_LOCALE_CODE = "default";
 

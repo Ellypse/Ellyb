@@ -1,34 +1,10 @@
 local Assertions = require "Tools.Assertions"
-local Tables = require "Tools.Tables"
-local ColorManager = require "Tools.ColorManager"
+local Colors = require "Enums.Colors"
 local Locales = require "Enums.Locales"
 local SpecialCharacters = require "Enums.SpecialCharacters"
 local Maths = require "Tools.Maths"
 
 local Strings = {};
-
----@param tableToConvert table A table of element
----@param customSeparator string A custom separator to use to when concatenating the table (default is " ").
----@overload fun(table: table):string
----@return string
-function Strings.convertTableToString(tableToConvert, customSeparator)
-	Assertions.isType(tableToConvert, "table", "table");
-	-- If the table is empty we will just return empty string
-	if Tables.size(tableToConvert) < 1 then
-		return ""
-	end
-	-- If no custom separator was indicated we use " " as default
-	if not customSeparator or type(customSeparator) ~= "string" then
-		customSeparator = " ";
-	end
-	-- Create a table of string values
-	local toStringedMessages = {};
-	for _, v in pairs(tableToConvert) do
-		table.insert(toStringedMessages, tostring(v));
-	end
-	-- Concat the table of string values with the separator
-	return table.concat(toStringedMessages, customSeparator);
-end
 
 -- Only used for French related stuff, it's okay if non-latin characters are not here
 -- Note: We have a list of lowercase and uppercase letters here, because string.lower doesn't
@@ -201,7 +177,7 @@ end
 ---@param text string
 ---@return string
 function Strings.clickInstruction(click, text)
-	return ColorManager.YELLOW("[" .. click .. "]") .. ": " .. ColorManager.WHITE(text);
+	return Colors.YELLOW("[" .. click .. "]") .. ": " .. Colors.WHITE(text);
 end
 
 local BYTES_MULTIPLES = { "byte", "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
@@ -249,6 +225,30 @@ function Strings.split(text, separator)
 		table.insert(t, cap)
 	end
 	return t
+end
+
+--- Formats the given format string against the given table of replacements.
+---
+---  The format string can contain standard format specifiers as well as WoW
+---  ones ("%s", "%1$s") as well as named replacements in the similar form
+---  of "%KEY_NAME$s".
+---
+---  If the key segment of the specifier can be converted to a number, it
+---  will be. The key can otherwise only contain characters that would form a
+---  valid Lua identifier.
+---
+---  Positional replacements (%s) are looked up in the array part of the table
+---  and, for each match, an offset incremented. That is to say, the behavior
+---  between this and string.format() is be identical.
+---
+---  @param formatString string The template string to format.
+---  @param replacements string[] Table of replacements to make.
+function Strings.interpolate(formatString, replacements)
+	local Interpolator = require "Tools.Strings.Interpolate"
+	local replacer = Interpolator()
+	local formatted = replacer:Format(formatString, replacements)
+	replacer:ReleasePooledObject()
+	return formatted
 end
 
 return Strings

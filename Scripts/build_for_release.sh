@@ -11,5 +11,5 @@ for i in $files; do
       fileNames="${fileNames} ${fileName}"
     fi
 done
-lua ../Scripts/lua-amalg/src/amalg.lua -o ../Builds/Ellyb.lua -s Main.lua ${fileNames}
+lua ../Scripts/lua-amalg/src/amalg.lua -o ../Ellyb.lua -s Main.lua ${fileNames}
 

@@ -1,8 +1,8 @@
-## Interface: 80100
+## Interface: 80205
 ## Title: Ellyb
-## Author: Ellypse & Telkostrasz
+## Author: Ellypse
 ## Version: @project-version@
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
 
-Builds/Ellyb.lua
+Ellyb.lua

@@ -420,17 +420,7 @@ local function outInBounce(t, b, c, d)
 	end
 end
 
-------------------------------------------------------------------------------------------------------------------------
---- Ellypse's modifications to make easings available to Ellyb
-------------------------------------------------------------------------------------------------------------------------
----@type Ellyb
-local Ellyb = Ellyb(...);
-
-if Ellyb.Easings then
-	return
-end
-
-Ellyb.Easings = {
+return {
 	linear = linear,
 	inQuad = inQuad,
 	outQuad = outQuad,
@@ -472,8 +462,4 @@ Ellyb.Easings = {
 	outBounce = outBounce,
 	inOutBounce = inOutBounce,
 	outInBounce = outInBounce,
-};
-
-------------------------------------------------------------------------------------------------------------------------
---- End of Ellypse's modifications
-------------------------------------------------------------------------------------------------------------------------
+}

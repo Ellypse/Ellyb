@@ -1,9 +1,9 @@
 local Assertions = require "Tools.Assertions"
-local ColorManager = require "Tools.ColorManager"
+local Colors = require "Enums.Colors"
 local Logger = require "Logs.Logger"
 
 -- Ellyb imports
-local ORANGE, GREEN, GREY = ColorManager.ORANGE, ColorManager.GREEN, ColorManager.GREY;
+local ORANGE, GREEN, GREY = Colors.ORANGE, Colors.GREEN, Colors.GREY;
 
 local DeprecationWarnings = {}
 

@@ -14,7 +14,7 @@ git:
 
 install: luarocks install --local luacheck
 
-script: /home/travis/.luarocks/bin/luacheck .
+script: /home/travis/.luarocks/bin/luacheck Src
 
 after_failure:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh

@@ -1,12 +1,4 @@
----@type Ellyb
-local Ellyb = Ellyb(...);
-
-if Ellyb.Functions then
-	return
-end
-
 local Functions = {};
-Ellyb.Functions = Functions;
 
 --- Binds a given function to a value, returning a closure will call the
 --- original function with the given value as the first argument, and
@@ -20,3 +12,5 @@ Ellyb.Functions = Functions;
 function Functions.bind(fn, value)
 	return function(...) return fn(value, ...); end
 end
+
+return Functions

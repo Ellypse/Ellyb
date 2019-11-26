@@ -2,7 +2,7 @@ local Class = require "Libraries.middleclass"
 local private = require "Internals.PrivateStorage"
 local Assertions = require "Tools.Assertions"
 
----@class Configuration
+---@class Ellyb_Configuration
 local Configuration = Class("Configuration")
 
 local UNKNOWN_CONFIGURATION_KEY = [[Unknown configuration key %s.]];

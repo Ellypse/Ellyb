@@ -1,7 +1,7 @@
 local Class = require "Libraries.middleclass"
 local private = require "Internals.PrivateStorage"
 local Assertions = require "Tools.Assertions"
-local ColorTools = require "Tools.ColorTools"
+local ColorTools = require "Tools.Colors.ColorTools"
 local Maths = require "Tools.Maths"
 local UiEscapeSequences = require "Enums.UiEscapeSequences"
 
@@ -9,38 +9,13 @@ local UiEscapeSequences = require "Enums.UiEscapeSequences"
 --- A Color object with various methods used to handle color, color text, etc.
 local Color = Class("Color");
 
---- Initialize the Color instance's private properties.
---- Since we have multiple constructor, they will all call this function to initialize the properties.
----@param instance Ellyb_Color
-local function _privateInit(instance)
-	private[instance].canBeMutated = true;
-end
-
 ---Constructor
 ---@param red number
 ---@param green number
 ---@param blue number
 ---@param alpha number
----@return Ellyb_Color
----@overload fun(hexadecimalColorCode:string):Ellyb_Color
----@overload fun(tableColor:table):Ellyb_Color
----@overload fun(red:number, green:number, blue:number):Ellyb_Color
 function Color:initialize(red, green, blue, alpha)
-	_privateInit(self)
-	if type(red) == "table" then
-		local colorTable = red;
-		red = colorTable.red or colorTable.r;
-		green = colorTable.green or colorTable.g;
-		blue = colorTable.blue or colorTable.b;
-		alpha = colorTable.alpha or colorTable.a;
-	elseif type(red) == "string" then
-		local hexadecimalColorCode = red;
-		red, green, blue, alpha = ColorTools.hexaToNumber(hexadecimalColorCode);
-	end
-	if red > 1 or green > 1 or blue > 1 or (alpha and alpha > 1) then
-		red, green, blue, alpha = ColorTools.convertColorBytesToBits(red, green, blue, alpha);
-	end
-
+	private[self].canBeMutated = true;
 	-- If the alpha isn't given we should probably be sensible and default it.
 	alpha = alpha or 1;
 
@@ -84,14 +59,6 @@ function Color:__eq(colorB)
 		and greenA == greenB
 		and blueA == blueB
 		and alphaA == alphaB;
-end
-
---- Check if a given Color is the same as the current Color
----@param colorB Ellyb_Color The Color to check
----@return boolean isEqual Returns true if the color are the same
-function Color:IsEqualTo(colorB)
-	Ellyb.DeprecationWarnings.warn("Color:IsEqualTo(otherColor) is deprecated. You should do a simple comparison colorA == colorB")
-	return self == colorB
 end
 
 ---@return number The red value of the Color between 0 and 1
@@ -287,69 +254,6 @@ end
 ---@return string coloredText A colored representation of the given text
 function Color:WrapTextInColorCode(text)
 	return self:GetColorCodeStartSequence() .. tostring(text) .. UiEscapeSequences.CLOSE;
-end
-
---- Create a new Color from RGBA values, between 0 and 1.
----@param red number The red value of the Color between 0 and 1
----@param green number The green value of the Color between 0 and 1
----@param blue number The blue value of the Color between 0 and 1
----@param alpha number The alpha value of the Color between 0 and 1
----@return Ellyb_Color color
----@overload fun(red:number, green:number, blue:number):Ellyb_Color
-function Color.static.CreateFromRGBA(red, green, blue, alpha)
-	-- Manually allocate the class, without calling its constructor and initialize its private properties.
-	---@type Ellyb_Color
-	local color = Color:allocate();
-	_privateInit(color)
-
-	-- Set the values
-	color:SetRGBA(red, green, blue, alpha);
-
-	return color;
-end
-
---- Create a new Color from RGBA values, between 0 and 255.
----@param red number The red value of the Color between 0 and 255
----@param green number The green value of the Color between 0 and 255
----@param blue number The blue value of the Color between 0 and 255
----@param alpha number The alpha value of the Color between 0 and 255, or 0 and 1 (see alphaIsNotBytes parameter)
----@param alphaIsNotBytes boolean Some usage (like color pickers) might want to set the alpha as opacity between 0 and 1. If set to true, alpha will be considered as a value between 0 and 1
----@overload fun(red:number, green:number, blue:number, alpha: number):Ellyb_Color
-------@overload fun(red:number, green:number, blue:number):Ellyb_Color
-function Color.static.CreateFromRGBAAsBytes(red, green, blue, alpha, alphaIsNotBytes)
-	Assertions.numberIsBetween(red, 0, 255, "red");
-	Assertions.numberIsBetween(green, 0, 255, "green");
-	Assertions.numberIsBetween(blue, 0, 255, "blue");
-
-	-- Manually allocate the class, without calling its constructor and initialize its private properties.
-	---@type Ellyb_Color
-	local color = Color:allocate();
-	_privateInit(color)
-
-	if alpha then
-		-- Alpha is optional, only test if we were given a value
-		if not alphaIsNotBytes then
-			Assertions.numberIsBetween(alpha, 0, 255, "alpha");
-			alpha = alpha / 255;
-		end
-	else
-		-- Default the alpha sensibly.
-		alpha = 1
-	end
-
-	-- Set the values
-	color:SetRGBA(red / 255, green / 255, blue / 255, alpha);
-	return color;
-end
-
---- Create a new Color from an hexadecimal code
----@param hexadecimalColorCode string A valid hexadecimal code
----@return Ellyb_Color
-function Color.static.CreateFromHexa(hexadecimalColorCode)
-	Assertions.isType(hexadecimalColorCode, "string", "hexadecimalColorCode");
-
-	local red, green, blue, alpha = ColorTools.hexaToNumber(hexadecimalColorCode);
-	return Color.CreateFromRGBA(red, green, blue, alpha);
 end
 
 --- Applies a color to a FontString UI widget

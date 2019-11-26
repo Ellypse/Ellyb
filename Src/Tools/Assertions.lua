@@ -15,7 +15,7 @@ local function isUIObject(variable)
 	return type(variable) == "table" and type(variable.GetObjectType) == "function"
 end
 
----@param variable MiddleClass_Class
+---@param variable MiddleClass
 local function isAClass(variable)
 	return type(variable) == "table" and type(variable.isInstanceOf) == "function"
 end
@@ -93,8 +93,9 @@ function Assertions.isNotEmpty(variable, variableName)
 end
 
 --- Check if a variable is an instance of a specified class, taking polymorphism into account, so inherited class will pass the test.
----@param variable MiddleClass_Class The object to test
----@param class MiddleClass_Class A direct reference to the expected class
+---@generic T:MiddleClass
+---@param variable T The object to test
+---@param class MiddleClass A direct reference to the expected class
 ---@param variableName string The name of the variable being tested, will be visible in the error message
 function Assertions.isInstanceOf(variable, class, variableName)
 	if not isAClass(variable) then
@@ -132,6 +133,17 @@ function Assertions.numberIsBetween(variable, minimum, maximum, variableName)
 
 	if variable < minimum or variable > maximum then
 		throw(([[Invalid variable value "%s" for variable "%s". Expected the value to be between "%s" and "%s"]]):format(variable, variableName, minimum, maximum))
+	end
+
+	return true
+end
+
+function Assertions.hasAtLeast(numberOfVarArgs, varArgTable, varArgName)
+	Assertions.isType(numberOfVarArgs, "number", "numberOfVarArgs")
+	Assertions.isType(varArgTable, "table", "varArgTable")
+
+	if #varArgTable < numberOfVarArgs then
+		throw(([[At least %d %s is required, %d provided.]]):format(numberOfVarArgs, varArgName, #varArgTable))
 	end
 
 	return true

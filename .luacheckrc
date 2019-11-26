@@ -1,20 +1,21 @@
 std = "lua51"
 max_line_length = false
 exclude_files = {
-    "Libraries"
+    "Src/Libraries"
 }
 ignore = {
     -- Ignore unused self. This would popup for Mixins and Objects
     "212/self",
 }
 globals = {
-    "Ellyb",
     "_G"
 }
 read_globals = {
 	"bit",
 
 	-- FrameXML misc
+	"C_ClassColor",
+	"PlayerFrame",
 	"WOW_PROJECT_ID",
 	"WOW_PROJECT_CLASSIC",
 	"WOW_PROJECT_MAINLINE",

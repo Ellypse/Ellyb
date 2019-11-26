@@ -1,5 +1,5 @@
 local Class = require "Libraries.middleclass"
-local Texture = require "Tools.Texture"
+local Texture = require "Tools.Textures.Texture"
 
 ---@class Icon : Ellyb_Texture
 local Icon = Class("Icon", Texture);

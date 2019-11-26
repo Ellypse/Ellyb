@@ -1,5 +1,5 @@
 local GameClients = require "Enums.GameClientTypes"
-local loc = require "Localization"
+local loc = require "Ellyb.Localization"
 
 local System = {};
 

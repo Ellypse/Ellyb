@@ -1,4 +1,4 @@
-local Localization = require "Tools.Localization"
+local Localization = require "Tools.Localization.Localization"
 local Locales = require "Enums.Locales"
 
 -- We are using Ellyb.loc here to store the locale table so we get code completion from the IDE

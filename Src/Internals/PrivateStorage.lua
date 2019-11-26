@@ -1,9 +1,9 @@
 --- Private storage table, used to store private properties by indexing the table per instance of a class.
 --- The table has weak indexes which means it will not prevent the objects from being garbage collected.
 --- Example:
---- > `local privateStore = Ellyb.getPrivateStorage()`
+--- > `local private = require "Internals.PrivateStorage"`
 --- > `local myClassInstance = MyClass()`
---- > `privateStore[myClassInstance].privateProperty = someValue`
+--- > `private[myClassInstance].privateProperty = someValue`
 ---@type table
 local privateStorage = setmetatable({},{
 	__index = function(store, instance) -- Remove need to initialize the private table for each instance, we lazy instantiate it
