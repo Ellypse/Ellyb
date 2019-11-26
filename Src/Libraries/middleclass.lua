@@ -193,7 +193,7 @@ function middleclass.classifyUIWidget(name, factory)
 			return dict[key]
 		elseif self.widget and type(self.widget[key]) == "function" then
 			return function(_, ...)
-				self.widget[key](self.widget, ...)
+				return self.widget[key](self.widget, ...)
 			end
 		elseif self.widget then
 			return self.widget[key]
