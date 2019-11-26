@@ -28,6 +28,7 @@ function Popup:initialize()
 	self.text:SetText("Sample text")
 
 	local closeButton = CloseButton(self)
+	closeButton:SetParent(self)
 	closeButton:SetPoint("TOPRIGHT", self, "TOPRIGHT", -3, -3)
 end
 

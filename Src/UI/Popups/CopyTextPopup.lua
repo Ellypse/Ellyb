@@ -3,7 +3,7 @@ local private = require "Internals.PrivateStorage"
 local Popup = require "UI.Popups.Popup"
 local loc = require "Ellyb.Localization"
 local System = require "Tools.System"
-local EditBox = require "UI.Widgets.EditBox"
+local SingleLineEditBox = require "UI.EditBoxes.SingleLineEditBox"
 local EditBoxes = require "UI.EditBoxes"
 
 ---@class Ellyb_CopyTextPopup: Ellyb_Popup
@@ -14,7 +14,8 @@ function CopyTextPopup:initialize()
 	self:SetText(loc.COPY_URL_POPUP_TEXT:format(System.SHORTCUTS.COPY, System.SHORTCUTS.PASTE))
 	self:SetHeight(160)
 
-	local textField = EditBox(self)
+	local textField = SingleLineEditBox()
+	textField:SetParent(self)
 	textField:SetPoint("TOP", self.text, "BOTTOM", 0, -10)
 	textField:SetPoint("LEFT", self, "LEFT", 35, 0)
 	textField:SetPoint("RIGHT", self, "RIGHT", -35, 0)
