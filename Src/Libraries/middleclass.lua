@@ -181,4 +181,55 @@ end
 
 setmetatable(middleclass, { __call = function(_, ...) return middleclass.class(...) end })
 
+-- Ellypse addition
+
+--- Create a class that wraps a UI widget
+---@generic T
+---@param factory fun():T
+function middleclass.classifyUIWidget(name, factory)
+	local dict = {}
+	dict.__index = function(self, key)
+		if dict[key] then
+			return dict[key]
+		elseif self.widget and type(self.widget[key]) == "function" then
+			return function(_, ...)
+				self.widget[key](self.widget, ...)
+			end
+		elseif self.widget then
+			return self.widget[key]
+		end
+	end
+
+	local aClass = {
+		name = name,
+		super = nil,
+		static = {},
+		__instanceDict = dict,
+		__declaredMethods = {},
+		subclasses = setmetatable({}, {__mode='k'})
+	}
+
+	setmetatable(aClass.static, { __index = function(_,k) return rawget(dict,k) end })
+
+	setmetatable(aClass, {
+		__index = aClass.static,
+		__tostring = _tostring,
+		__call = _call,
+		__newindex = _declareInstanceMethod }
+	)
+
+	_includeMixin(aClass, DefaultMixin)
+
+	aClass.static.new = function(self, ...)
+		local widget = factory()
+		local instance = self:allocate()
+		instance.widget = widget
+		instance:initialize(...)
+
+		return instance
+	end
+
+	return aClass
+end
+
 return middleclass
