@@ -1,0 +1,4 @@
+return {
+	VISIBLE = "VISIBLE",
+	HIDDEN = "HIDDEN"
+}

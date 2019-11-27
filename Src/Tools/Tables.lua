@@ -15,8 +15,10 @@ end
 
 --- Recursively copy all content from a table to another one.
 --- Argument "destination" must be a non nil table reference.
----@param destination table The table that will receive the new content
----@param source table The table that contains the thing we want to put in the destination
+---@generic T
+---@param destination T The table that will receive the new content
+---@param source T The table that contains the thing we want to put in the destination
+---return T
 ---@overload fun(source:table)
 function Tables.copy(destination, source)
 	Assertions.isType(destination, "table", "destination")
@@ -132,9 +134,9 @@ function Tables.toString(table)
 	local t = "{"
 	for key, value in pairs(table) do
 		if type(value) == "table" then
-			t = t .. format(TABLE_VALUE_TO_STRING, key, Tables.toString(value))
+			t = t .. TABLE_VALUE_TO_STRING:format(key, Tables.toString(value))
 		else
-			t = t .. format(VALUE_TO_STRING, key, value)
+			t = t .. VALUE_TO_STRING:format(key, value)
 		end
 	end
 	t = t .. "}"

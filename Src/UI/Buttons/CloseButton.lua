@@ -14,8 +14,4 @@ function CloseButton:initialize()
 	self:SetHighlightTexture("Interface/Buttons/UI-Panel-MinimizeButton-Highlight", "ADD")
 end
 
-function CloseButton:OnClick()
-	self:GetParent():Hide()
-end
-
 return CloseButton

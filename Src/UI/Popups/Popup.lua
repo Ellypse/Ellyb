@@ -1,8 +1,9 @@
 local Class = require "Libraries.middleclass"
 local Frame = require "UI.Widgets.Frame"
 local CloseButton = require "UI.Buttons.CloseButton"
+local Visibility = require "Enums.Visibility"
 
----@class Ellyb_Popup: Frame
+---@class Ellyb_Popup: Ellyb_Frame
 local Popup = Class("Popup", Frame)
 
 function Popup:initialize()
@@ -20,16 +21,17 @@ function Popup:initialize()
 		insets = { left = 11, right = 12, top = 12, bottom = 11 }
 	})
 
-
 	self.text = self:CreateFontString(nil, nil, "GameFontHighlight")
 	self.text:SetPoint("TOP", self, "TOP", 0, -40)
 	self.text:SetPoint("LEFT", self, "LEFT", 35, 0)
 	self.text:SetPoint("RIGHT", self, "RIGHT", -35, 0)
-	self.text:SetText("Sample text")
 
-	local closeButton = CloseButton(self)
+	local closeButton = CloseButton()
 	closeButton:SetParent(self)
 	closeButton:SetPoint("TOPRIGHT", self, "TOPRIGHT", -3, -3)
+	closeButton.rx.OnClick
+		:map(function() return Visibility.HIDDEN end)
+		:bindTo(self.rx.visibility)
 end
 
 function Popup:SetText(text)

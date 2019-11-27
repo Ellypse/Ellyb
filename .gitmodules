@@ -1,3 +1,6 @@
 [submodule "Scripts/lua-amalg"]
 	path = Scripts/lua-amalg
 	url = https://github.com/Ellypse/lua-amalg
+[submodule "Src/Libraries/RxLua"]
+	path = Src/Libraries/RxLua
+	url = https://github.com/Ellypse/RxLua

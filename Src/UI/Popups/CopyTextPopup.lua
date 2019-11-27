@@ -29,9 +29,10 @@ function CopyTextPopup:initialize()
 	EditBoxes.selectAllTextOnFocus(textField)
 	EditBoxes.makeReadOnly(textField)
 
-	self:HookScript("OnShow", function()
-		textField:SetFocus()
-	end)
+	self.rx.OnShow:bindTo(textField.rx.SetFocus)
+
+	textField.rx.OnKeyDown
+		:filter(function(key) return key == "C" and IsControlKeyDown() end)
 
 	textField:HookScript("OnKeyDown", function(_, key)
 		if key == "C" and IsControlKeyDown() then

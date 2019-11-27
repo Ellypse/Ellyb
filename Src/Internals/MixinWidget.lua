@@ -4,7 +4,7 @@ local function MixinWidget(frameType, class)
 	local metatable = {}
 
 	metatable.__index = function(_, key)
-		return class[key] or widgetMethods[key] or nil
+		return class[key] or (widgetMethods and widgetMethods[key]) or nil
 	end
 
 	class.static.allocate = function(self)
