@@ -13,7 +13,6 @@ local ButtonSetters = {
 	SetEnabled = t,
 	SetPushedTextOffset = t,
 	SetDisabledTexture = t,
-	SetText = t,
 	SetFormattedText = t,
 	SetDisabledFontObject = t,
 	SetButtonState = t,

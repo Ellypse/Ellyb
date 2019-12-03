@@ -1,4 +1,3 @@
-local Class = require "Libraries.middleclass"
 local private = require "Internals.PrivateStorage"
 local Rx = require "Libraries/RxLua/rx"
 local Tables = require "Tools.Tables"
