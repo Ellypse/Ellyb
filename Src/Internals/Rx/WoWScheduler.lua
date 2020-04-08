@@ -16,7 +16,7 @@ end
 --- @param action fun():void The action to run.
 --- @arg delay number The delay, in milliseconds.
 --- @return Subscription
-function WoWScheduler:schedule(action, delay, ...)
+function WoWScheduler:schedule(action, delay)
 	local timer
 	timer = C_Timer.NewTicker(delay, function()
 		timer:Cancel()
