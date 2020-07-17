@@ -1,4 +1,5 @@
-local Rx = require "Libraries/RxLua/rx"
+local Rx = require "Libraries.RxLua.rx"
+local GameEvents = require "Events.GameEvents"
 
 local RxUtils = {}
 
@@ -21,6 +22,19 @@ function RxUtils.createSubjectFromWidgetScript(widgetScriptName, widget)
 		end
 		return subjectsCache[widget][widgetScriptName]
 	end
+end
+
+---@param gameEventName string The game event name that will generate the subject
+---@return Subject
+function RxUtils.createSubjectFromGameEvent(gameEventName)
+	if not subjectsCache[gameEventName] then
+		local subject = Rx.Subject.create()
+		subjectsCache[gameEventName] = subject
+		GameEvents.registerCallback(gameEventName, function(...)
+			subject:onNext(...)
+		end)
+	end
+	return subjectsCache[gameEventName]
 end
 
 return RxUtils

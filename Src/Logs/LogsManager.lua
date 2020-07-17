@@ -6,7 +6,7 @@ local logs = {}
 ---@param logger Ellyb_Logger
 function LogsManager:RegisterLogger(logger)
 	local ID = logger:GetModuleName()
-	assert(not logs[ID], "A Logger for " .. ID .. " has already been registered")
+	-- assert(not logs[ID], "A Logger for " .. ID .. " has already been registered")
 	logs[ID] = logger
 end
 

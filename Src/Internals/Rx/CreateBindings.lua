@@ -4,11 +4,6 @@ local Tables = require "Tools.Tables"
 local ScriptObjectScripts = require "Enums.WidgetsScripts.ScriptObject"
 local Visibility = require "Enums.Visibility"
 
----@class CustomBindings
-local customBindings = {
-	visibility = Rx.Subject.create()
-}
-
 ---@generic T
 ---@generic U
 ---@param self UIObject
@@ -18,6 +13,10 @@ local customBindings = {
 local function CreateBindings(self, validScripts, validSetters)
 	private[self].subjectsCache = {}
 
+	---@class CustomBindings
+	local customBindings = {
+		visibility = Rx.Subject.create()
+	}
 	local rx = setmetatable(customBindings, {
 		--- This __index metatable method will allow for lazy creation of the subject when something
 		--- is trying to access a key named after a valid script of this widget
