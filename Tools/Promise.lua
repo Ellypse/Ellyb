@@ -77,12 +77,6 @@ function Promise:Always(callback)
 end
 
 function Promise:Resolve(...)
-	if self:GetStatus() == Ellyb.Promises.STATUS.FULFILLED then
-		return error("Trying to resolve a Promise that has already been resolved.");
-	elseif self:GetStatus() == Ellyb.Promises.STATUS.REJECTED then
-		return error("Trying to resolve a Promise that has already been rejected.");
-	end
-
 	private[self].status = Ellyb.Promises.STATUS.FULFILLED;
 	private[self].resolutionArgs = { ...};
 

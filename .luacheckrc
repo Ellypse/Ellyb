@@ -15,6 +15,9 @@ read_globals = {
 	"bit",
 
 	-- FrameXML misc
+	"WOW_PROJECT_ID",
+	"WOW_PROJECT_CLASSIC",
+	"WOW_PROJECT_MAINLINE",
 	"PowerBarColor",
     "ChatTypeInfo",
     "tInvert",
@@ -3857,6 +3860,7 @@ read_globals = {
 	"ButtonInventorySlot",
 	"CRFFlowFilterFunc",
 	"CRFGroupFilterFunc",
+	"CallErrorHandler",
 	"CallRestrictedClosure",
 	"CanCooperateWithToon",
 	"CanCreateFilters",
