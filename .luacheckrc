@@ -74,6 +74,7 @@ read_globals = {
 	"RED_FONT_COLOR_CODE",
 	"STANDARD_TEXT_FONT",
 	"ChatFontNormal",
+	"Enum",
 
 	-- ENUMS
 	"UPPER_RIGHT_VERTEX",
@@ -952,6 +953,8 @@ read_globals = {
 	"C_TaskQuest.GetQuestsForPlayerByMapID",
 	"C_TaskQuest.IsActive",
 	"C_TaskQuest.RequestPreloadRewardData",
+	"C_Texture",
+	"C_Texture.GetAtlasInfo",
 	"C_Timer",
 	"C_Timer.After",
 	"C_ToyBox",
