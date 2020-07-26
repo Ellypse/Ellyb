@@ -151,17 +151,17 @@ ColorManager.BATTLE_NET = Ellyb.Color:new(FRIENDS_BNET_NAME_COLOR):Freeze();
 
 -- Item colors
 -- ITEM QUALITY
--- BAG_ITEM_QUALITY_COLORS[LE_ITEM_QUALITY_COMMON] is actually the POOR (grey) color.
+-- BAG_ITEM_QUALITY_COLORS[Enum.ItemQuality.Common or Enum.ItemQuality.Standard] is actually the POOR (grey) color.
 -- There is no common quality color in BAG_ITEM_QUALITY_COLORS. Bravo Blizzard 👏
-ColorManager.ITEM_POOR = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.COMMON]):Freeze();
+ColorManager.ITEM_POOR = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Enum.ItemQuality.Common or Enum.ItemQuality.Standard]):Freeze();
 ColorManager.ITEM_COMMON = Ellyb.Color:new(0.95, 0.95, 0.95):Freeze(); -- Common quality is a slightly faded white
-ColorManager.ITEM_UNCOMMON = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.UNCOMMON]):Freeze();
-ColorManager.ITEM_RARE = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.RARE]):Freeze();
-ColorManager.ITEM_EPIC = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.EPIC]):Freeze();
-ColorManager.ITEM_LEGENDARY = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.LEGENDARY]):Freeze();
-ColorManager.ITEM_ARTIFACT = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.ARTIFACT]):Freeze();
-ColorManager.ITEM_HEIRLOOM = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.HEIRLOOM]):Freeze();
-ColorManager.ITEM_WOW_TOKEN = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Ellyb.Enum.ITEM_QUALITY.WOW_TOKEN]):Freeze();
+ColorManager.ITEM_UNCOMMON = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Enum.ItemQuality.Uncommon or Enum.ItemQuality.Good]):Freeze();
+ColorManager.ITEM_RARE = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Enum.ItemQuality.Rare or Enum.ItemQuality.Superior]):Freeze();
+ColorManager.ITEM_EPIC = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Enum.ItemQuality.Epic]):Freeze();
+ColorManager.ITEM_LEGENDARY = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Enum.ItemQuality.Legendary]):Freeze();
+ColorManager.ITEM_ARTIFACT = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Enum.ItemQuality.Artifact]):Freeze();
+ColorManager.ITEM_HEIRLOOM = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Enum.ItemQuality.Heirloom]):Freeze();
+ColorManager.ITEM_WOW_TOKEN = Ellyb.Color:new(BAG_ITEM_QUALITY_COLORS[Enum.ItemQuality.WoWToken]):Freeze();
 
 -- FACTIONS
 ColorManager.ALLIANCE = Ellyb.Color:new(PLAYER_FACTION_COLORS[1]):Freeze();
