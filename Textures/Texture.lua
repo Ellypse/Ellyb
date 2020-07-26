@@ -162,7 +162,16 @@ function Texture:GenerateString(width, height)
 end
 
 function Texture.CreateFromAtlas(atlasName)
-	local filename, width, height, txLeft, txRight, txTop, txBottom = GetAtlasInfo(atlasName);
+	local filename, width, height, txLeft, txRight, txTop, txBottom;
+	if C_Texture then
+		local atlasInfo = C_Texture.GetAtlasInfo(atlasName);
+		if atlasInfo then
+			filename, width, height, txLeft, txRight, txTop, txBottom = atlasInfo.filename or atlasInfo.file, atlasInfo.width, atlasInfo.height, atlasInfo.leftTexCoord, atlasInfo.rightTexCoord, atlasInfo.topTexCoord, atlasInfo.bottomTexCoord;
+		end
+	else
+		filename, width, height, txLeft, txRight, txTop, txBottom = GetAtlasInfo(atlasName);
+	end
+
 	local texture = Texture(filename);
 	texture:SetCoordinates(width, height, txLeft, txRight, txTop, txBottom)
 	return texture;
