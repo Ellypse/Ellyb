@@ -5,17 +5,6 @@
 			<Anchor point="CENTER" y="30" />
 		</Anchors>
 		<Size x="360" y="160" />
-		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-			<BackgroundInsets>
-				<AbsInset left="11" right="12" top="12" bottom="11" />
-			</BackgroundInsets>
-			<TileSize>
-				<AbsValue val="32" />
-			</TileSize>
-			<EdgeSize>
-				<AbsValue val="32" />
-			</EdgeSize>
-		</Backdrop>
 		<Layers>
 			<Layer>
 				<FontString parentKey="Text" inherits="GameFontHighlight">
@@ -117,6 +106,30 @@
 				</Scripts>
 			</Button>
 		</Frames>
+		<Scripts>
+			<OnLoad>
+				-- 9.x: Set backdrop at load time as the XML Backdrop element
+				--      is no longer supported. A mixin could be used, but
+				--      this is the simplest case for now that should work
+				--      on all clients.
+
+				if BackdropTemplateMixin then
+					Mixin(self, BackdropTemplateMixin);
+					self:SetScript("OnSizeChanged", self.OnBackdropSizeChanged);
+					BackdropTemplateMixin.OnBackdropLoaded(self);
+				end
+
+				self:SetBackdrop(BACKDROP_DIALOG_32_32 or {
+					bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+					edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+					tile = true,
+					tileEdge = true,
+					tileSize = 32,
+					edgeSize = 32,
+					insets = { left = 11, right = 12, top = 12, bottom = 11 },
+				});
+			</OnLoad>
+		</Scripts>
 	</Frame>
 
 	<Script file="Popups.lua"/>
